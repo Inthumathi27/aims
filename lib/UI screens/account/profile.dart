@@ -1,13 +1,10 @@
-import 'dart:async';
-import 'dart:io';
-
 import 'package:aims/utils/constant.dart';
 import 'package:aims/utils/strings.dart';
 import 'package:aims/widgets/smalltext.dart';
+import 'package:aims/widgets/textfieldshow.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -17,10 +14,10 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-
   @override
   Widget build(BuildContext context) {
-
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: bgColor,
       appBar: AppBar(
@@ -125,25 +122,67 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             height: 20,
                           ),
                           widthspace,
-                          SmallText(text: MyStrings.personal_Information,size: 17,fontWeight: FontWeight.w500,),
+                          SmallText(
+                            text: MyStrings.personal_Information,
+                            size: 17,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ],
                       ),
                       heightspace,
-                      Container(color: textGreyColor.withOpacity(0.2),
-                      width: MediaQuery.of(context).size.width,
-                      height: 1,),
+                      Container(
+                        color: textGreyColor.withOpacity(0.2),
+                        width: MediaQuery.of(context).size.width,
+                        height: 1,
+                      ),
                       heightspace,
-                      SmallText(text: MyStrings.Personal_details,size: 16,fontStyle: FontStyle.italic,color: bluegreyColor,fontWeight: FontWeight.w600,),
+                      SmallText(
+                        text: MyStrings.Personal_details,
+                        size: 16,
+                        fontStyle: FontStyle.italic,
+                        color: bluegreyColor,
+                        fontWeight: FontWeight.w600,
+                      ),
                       heightspace,
-                      Wrap(
+                      heightspace,
+                      Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          SmallText(text: MyStrings.employeeId)
+                          Flexible(child: SmallText(text: MyStrings.employeeId)),
+                          const Flexible(
+                            flex: 2,
+                            fit: FlexFit.loose,
+                            child: OutputTextfield(
+                              text: MyStrings.employeeId,
+                            ),
+                          ),
                         ],
                       ),
-
-
-
-
+                      heightspace,
+                      Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Flexible(child: SmallText(text: MyStrings.last_Name)),
+                          const Flexible(
+                            flex: 2,
+                            fit: FlexFit.loose,
+                            child: OutputTextfield(
+                              text: MyStrings.employeeId,
+                            ),
+                          ),
+                        ],
+                      ),
+                      heightspace,
+                      Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Flexible(child: SmallText(text: MyStrings.first_name)),
+                          const Flexible(
+                            flex: 2,
+                            fit: FlexFit.loose,
+                            child: OutputTextfield(
+                              text: MyStrings.employeeId,
+                            ),
+                          ),
+                        ],
+                      ),
                       // Row(
                       //   children: [
                       //     Image.asset(

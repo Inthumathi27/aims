@@ -23,6 +23,8 @@ class _LoginScreenState extends State<LoginScreen>
   bool isPasswordVisible = true;
   double? _scale;
   AnimationController? _controller;
+  TextEditingController employeeId = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
 
   @override
   void initState() {
@@ -47,8 +49,8 @@ class _LoginScreenState extends State<LoginScreen>
   @override
   Widget build(BuildContext context) {
     _scale = 1 - _controller!.value;
-    int _currentIndex=0;
-    List cardList=[
+    int _currentIndex = 0;
+    List cardList = [
       Item1(),
       Item2(),
       Item3(),
@@ -84,12 +86,10 @@ class _LoginScreenState extends State<LoginScreen>
                           });
                         },
                       ),
-                      items: cardList.map((card){
-                        return Builder(
-                            builder:(BuildContext context){
-                              return card;
-                            }
-                        );
+                      items: cardList.map((card) {
+                        return Builder(builder: (BuildContext context) {
+                          return card;
+                        });
                       }).toList(),
                     ),
                   ),
@@ -109,16 +109,36 @@ class _LoginScreenState extends State<LoginScreen>
                           SizedBox(
                             height: 45,
                           ),
+                          // TextField(
+                          //   controller:employeeId,
+                          //   decoration: InputDecoration(
+                          //     filled: true,
+                          //     fillColor: TextFieldBgColor,
+                          //     border: OutlineInputBorder(
+                          //       borderRadius: BorderRadius.circular(10),
+                          //       borderSide: BorderSide.none,
+                          //     ),
+                          //     hintText:MyStrings.employeeId,
+                          //     suffixIcon:Icon(
+                          //       Icons.person,
+                          //       color: primaryColor,
+                          //     ),
+                          //   ),
+                          // ),
                           InputTextfield(
-                              text: MyStrings.employeeId,
-                              icon: Icon(
-                                Icons.person,
-                                color: primaryColor,
-                              )),
+                            text: MyStrings.employeeId,
+                            controller: employeeId,
+                            fillColor: TextFieldBgColor,
+                            icon: Icon(
+                              Icons.person,
+                              color: primaryColor,
+                            ),
+                          ),
                           heightspace,
                           heightspace,
                           TextField(
                             obscureText: isPasswordVisible,
+                            controller: passwordController,
                             decoration: InputDecoration(
                               filled: true,
                               fillColor: TextFieldBgColor,
@@ -146,7 +166,7 @@ class _LoginScreenState extends State<LoginScreen>
                           heightspace,
                           heightspace,
                           InkWell(
-                            onTap: (){
+                            onTap: () {
                               Navigator.push(
                                   context,
                                   PageTransition(
@@ -216,7 +236,7 @@ class Item1 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  Center(
+    return Center(
       child: Container(
         width: MediaQuery.of(context).size.width / 1.1,
         height: MediaQuery.of(context).size.height / 4.5,
@@ -225,7 +245,7 @@ class Item1 extends StatelessWidget {
         margin: EdgeInsets.only(top: 90),
         decoration: BoxDecoration(
           shape: BoxShape.rectangle,
-          color:whiteColor.withOpacity(0.9),
+          color: whiteColor.withOpacity(0.9),
           borderRadius: BorderRadius.circular(20),
         ),
         child: Padding(
@@ -234,17 +254,20 @@ class Item1 extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Row(
-                mainAxisAlignment:
-                MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Column(
-                    crossAxisAlignment:
-                    CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      SmallText(text: "AM034",size: 15,),
+                      SmallText(
+                        text: "AM034",
+                        size: 15,
+                      ),
                       heightspace,
-                      SizedBox(height: 5,),
+                      SizedBox(
+                        height: 5,
+                      ),
                       GradientText(
                         'Faina Josephine',
                         style: font18.copyWith(fontWeight: FontWeight.w600),
@@ -253,10 +276,15 @@ class Item1 extends StatelessWidget {
                           primaryColor,
                         ]),
                       ),
-
-                      SizedBox(height: 5,),
+                      SizedBox(
+                        height: 5,
+                      ),
                       SmallText(
-                        text: MyStrings.department, size: 14,color: bluegreyColor,fontStyle: FontStyle.italic,),
+                        text: MyStrings.department,
+                        size: 14,
+                        color: bluegreyColor,
+                        fontStyle: FontStyle.italic,
+                      ),
                     ],
                   ),
                   Image.asset(
@@ -270,10 +298,9 @@ class Item1 extends StatelessWidget {
                 padding: const EdgeInsets.only(right: 12.0),
                 child: SmallText(
                   text: "Best Starter of the Month",
-                  size:20,
+                  size: 20,
                   textAlign: TextAlign.center,
                   fontWeight: FontWeight.w600,
-
                 ),
               ),
             ],
@@ -289,72 +316,78 @@ class Item2 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return
-      Center(
-        child: Container(
-          width: MediaQuery.of(context).size.width / 1.1,
-          height: MediaQuery.of(context).size.height / 4.5,
-          // padding: EdgeInsets.only(
-          //     left: 0, top: 40 + 20, right: 0, bottom: 20),
-          margin: EdgeInsets.only(top: 90),
-          decoration: BoxDecoration(
-            shape: BoxShape.rectangle,
-            color:whiteColor.withOpacity(0.9),
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.only(left: 12.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Row(
-                  mainAxisAlignment:
-                  MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Column(
-                      crossAxisAlignment:
-                      CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SmallText(text: "AM034",size: 15,),
-                        heightspace,
-                        SizedBox(height: 5,),
-                        GradientText(
-                          'Faina Josephine',
-                          style: font18.copyWith(fontWeight: FontWeight.w600),
-                          gradient: LinearGradient(colors: [
-                            buttonColor,
-                            primaryColor,
-                          ]),
-                        ),
-
-                        SizedBox(height: 5,),
-                        SmallText(
-                          text:MyStrings.department, size: 14,color: bluegreyColor,fontStyle: FontStyle.italic,),
-                      ],
-                    ),
-                    Image.asset(
-                      'assets/login/EM-01.png',
-                      width: 130,
-                      height: 130,
-                    ),
-                  ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(right: 12.0),
-                  child: SmallText(
-                    text: "Best Starter of the Month",
-                    size:20,
-                    textAlign: TextAlign.center,
-                    fontWeight: FontWeight.w600,
-
+    return Center(
+      child: Container(
+        width: MediaQuery.of(context).size.width / 1.1,
+        height: MediaQuery.of(context).size.height / 4.5,
+        // padding: EdgeInsets.only(
+        //     left: 0, top: 40 + 20, right: 0, bottom: 20),
+        margin: EdgeInsets.only(top: 90),
+        decoration: BoxDecoration(
+          shape: BoxShape.rectangle,
+          color: whiteColor.withOpacity(0.9),
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.only(left: 12.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SmallText(
+                        text: "AM034",
+                        size: 15,
+                      ),
+                      heightspace,
+                      SizedBox(
+                        height: 5,
+                      ),
+                      GradientText(
+                        'Faina Josephine',
+                        style: font18.copyWith(fontWeight: FontWeight.w600),
+                        gradient: LinearGradient(colors: [
+                          buttonColor,
+                          primaryColor,
+                        ]),
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      SmallText(
+                        text: MyStrings.department,
+                        size: 14,
+                        color: bluegreyColor,
+                        fontStyle: FontStyle.italic,
+                      ),
+                    ],
                   ),
+                  Image.asset(
+                    'assets/login/EM-01.png',
+                    width: 130,
+                    height: 130,
+                  ),
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.only(right: 12.0),
+                child: SmallText(
+                  text: "Best Starter of the Month",
+                  size: 20,
+                  textAlign: TextAlign.center,
+                  fontWeight: FontWeight.w600,
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
-      );
+      ),
+    );
   }
 }
 
@@ -365,7 +398,6 @@ class Item3 extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: <Widget>[
-
         Center(
           child: Container(
             width: MediaQuery.of(context).size.width / 1.1,
@@ -375,7 +407,7 @@ class Item3 extends StatelessWidget {
             margin: EdgeInsets.only(top: 90),
             decoration: BoxDecoration(
               shape: BoxShape.rectangle,
-              color:whiteColor.withOpacity(0.9),
+              color: whiteColor.withOpacity(0.9),
               borderRadius: BorderRadius.circular(20),
             ),
             child: Padding(
@@ -384,17 +416,20 @@ class Item3 extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Row(
-                    mainAxisAlignment:
-                    MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Column(
-                        crossAxisAlignment:
-                        CrossAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          SmallText(text: "AM034",size: 15,),
+                          SmallText(
+                            text: "AM034",
+                            size: 15,
+                          ),
                           heightspace,
-                          SizedBox(height: 5,),
+                          SizedBox(
+                            height: 5,
+                          ),
                           GradientText(
                             'Faina Josephine',
                             style: font18.copyWith(fontWeight: FontWeight.w600),
@@ -403,10 +438,15 @@ class Item3 extends StatelessWidget {
                               primaryColor,
                             ]),
                           ),
-
-                          SizedBox(height: 5,),
+                          SizedBox(
+                            height: 5,
+                          ),
                           SmallText(
-                            text: MyStrings.department, size: 14,color: bluegreyColor,fontStyle: FontStyle.italic,),
+                            text: MyStrings.department,
+                            size: 14,
+                            color: bluegreyColor,
+                            fontStyle: FontStyle.italic,
+                          ),
                         ],
                       ),
                       Image.asset(
@@ -420,10 +460,9 @@ class Item3 extends StatelessWidget {
                     padding: const EdgeInsets.only(right: 12.0),
                     child: SmallText(
                       text: "Best Starter of the Month",
-                      size:20,
+                      size: 20,
                       textAlign: TextAlign.center,
                       fontWeight: FontWeight.w600,
-
                     ),
                   ),
                 ],

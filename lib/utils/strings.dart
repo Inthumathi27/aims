@@ -30,4 +30,6 @@ class MyStrings{
   static const Help_desk ="Help desk";
   static const logout ="Logout";
   static const Personal_details ="Personal details";
+  static const last_Name ="Last Name";
+  static const first_name ="First Name";
 }
