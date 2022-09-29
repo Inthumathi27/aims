@@ -4,6 +4,7 @@ import 'package:aims/utils/api_constants.dart';
 import 'package:aims/utils/constant.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 class Resource<T> {
@@ -21,7 +22,7 @@ class Webservice {
     Map data = {
       'emp_id': emp_id,
       'password': password,
-      'token':1234567890,
+      'token':"1a32e71a46317b9cc6feb7388238c95d",
     };
     //encode Map to JSON
     var body = json.encode(data);
@@ -38,6 +39,7 @@ class Webservice {
     );
     print(response.statusCode);
     print(response.body);
+
     // if (response.statusCode == 200) {
     //   final res = json.decode(response.body);
     //   // final Map<String, dynamic>? loginWithPasswordResultMap = json.decode(res);
@@ -59,6 +61,8 @@ class Webservice {
     //   return errorResult;
     // }
     if (response.statusCode == 200) {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setString("loginResponse",response.body.toString());
       // If the server did return a 200 OK response,
       // then parse the JSON.
       return LoginResponse.fromJson(jsonDecode(response.body));

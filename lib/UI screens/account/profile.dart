@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:aims/model/login.dart';
 import 'package:aims/utils/constant.dart';
 import 'package:aims/utils/strings.dart';
 import 'package:aims/widgets/smalltext.dart';
@@ -5,6 +8,7 @@ import 'package:aims/widgets/textfieldshow.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -14,6 +18,34 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+
+   LoginResponse? loginResponse;
+   // late SharedPreferences prefs;
+   String name="";
+   String emp="";
+   String logData="";
+   bool isloading = false;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getdat();
+    // loginResponse =LoginResponse.fromJson(jsonDecode(name));
+  }
+  getdat()async{
+    setState(() {
+      isloading = true;
+    });
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    logData = prefs.getString("loginResponse").toString();
+    name = prefs.getString("username").toString();
+    emp = prefs.getString("empID").toString();
+    loginResponse = LoginResponse.fromJson(jsonDecode(logData));
+    setState(() {
+      isloading = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -28,7 +60,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         child: SingleChildScrollView(
           child: Container(
             height: MediaQuery.of(context).size.height,
-            child: Stack(
+            child:isloading?Center(child: CircularProgressIndicator(),): Stack(
               children: [
                 Container(
                   color: loginColor,
@@ -61,6 +93,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         color: whiteColor,
                         fontStyle: FontStyle.italic,
                       ),
+
                     ],
                   ),
                 ),
@@ -129,48 +162,48 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                         ],
                       ),
-                      heightspace,
-                      Container(
-                        color: textGreyColor.withOpacity(0.2),
-                        width: MediaQuery.of(context).size.width,
-                        height: 1,
-                      ),
-                      heightspace,
-                      SmallText(
-                        text: MyStrings.Personal_details,
-                        size: 16,
-                        fontStyle: FontStyle.italic,
-                        color: bluegreyColor,
-                        fontWeight: FontWeight.w600,
-                      ),
-                      heightspace,
-                      heightspace,
-                      Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Flexible(child: SmallText(text: MyStrings.employeeId)),
-                          const Flexible(
-                            flex: 2,
-                            fit: FlexFit.loose,
-                            child: OutputTextfield(
-                              text: MyStrings.employeeId,
-                            ),
-                          ),
-                        ],
-                      ),
-                      heightspace,
-                      Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Flexible(child: SmallText(text: MyStrings.last_Name)),
-                          const Flexible(
-                            flex: 2,
-                            fit: FlexFit.loose,
-                            child: OutputTextfield(
-                              text: MyStrings.employeeId,
-                            ),
-                          ),
-                        ],
-                      ),
-                      heightspace,
+                      // heightspace,
+                      // Container(
+                      //   color: textGreyColor.withOpacity(0.2),
+                      //   width: MediaQuery.of(context).size.width,
+                      //   height: 1,
+                      // ),
+                      // heightspace,
+                      // SmallText(
+                      //   text: MyStrings.Personal_details,
+                      //   size: 16,
+                      //   fontStyle: FontStyle.italic,
+                      //   color: bluegreyColor,
+                      //   fontWeight: FontWeight.w600,
+                      // ),
+                      // heightspace,
+                      // heightspace,
+                      // Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //   children: [
+                      //     Flexible(child: SmallText(text: MyStrings.employeeId)),
+                      //     const Flexible(
+                      //       flex: 2,
+                      //       fit: FlexFit.loose,
+                      //       child: OutputTextfield(
+                      //         text: MyStrings.employeeId,
+                      //       ),
+                      //     ),
+                      //   ],
+                      // ),
+                      // heightspace,
+                      // Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //   children: [
+                      //     Flexible(child: SmallText(text: MyStrings.last_Name)),
+                      //     const Flexible(
+                      //       flex: 2,
+                      //       fit: FlexFit.loose,
+                      //       child: OutputTextfield(
+                      //         text: MyStrings.employeeId,
+                      //       ),
+                      //     ),
+                      //   ],
+                      // ),
+                      // heightspace,
                       Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Flexible(child: SmallText(text: MyStrings.first_name)),
@@ -183,6 +216,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                         ],
                       ),
+                      Text(loginResponse!.value!.userInfo!.userName.toString(),style: font16.copyWith(color: Colors.red),)
                       // Row(
                       //   children: [
                       //     Image.asset(

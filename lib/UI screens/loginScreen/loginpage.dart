@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:aims/UI%20screens/homepage/homescreen.dart';
 import 'package:aims/UI%20screens/loginScreen/forgotpassword.dart';
 import 'package:aims/model/login.dart';
@@ -13,6 +15,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -29,7 +32,7 @@ class _LoginScreenState extends State<LoginScreen>
   TextEditingController employeeId = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   late LoginResponse loginResponse;
-
+  // SharedPreferences? prefs;
 
   @override
   void initState() {
@@ -239,18 +242,24 @@ class _LoginScreenState extends State<LoginScreen>
         Webservice()
             .callLoginWithPasswordService(
              password: password, emp_id: emp_id)
-            .then((onResponse) {
+            .then((onResponse) async {
           // if (onResponse![SUCCESS] == TRUE) {
             print(onResponse);
             loginResponse = onResponse;
             print(loginResponse.message);
             if(loginResponse.message=="success"){
+              SharedPreferences prefs = await SharedPreferences.getInstance();
+              // var log = jsonEncode(loginResponse.toJson());
+              // print(loginResponse.value!.userInfo!.userName.toString());
+              prefs.setString("username",loginResponse.value!.userInfo!.userName.toString());
+              prefs.setString("empID",loginResponse.value!.userInfo!.empId.toString());
               Navigator.push(
                   context,
                   PageTransition(
                       type: PageTransitionType.rightToLeft,
                       child: HomeScreen()));
-            } else if(loginResponse.message=="Bad Request")
+            }
+            else if(loginResponse.message=="Bad Request")
               {
                 // _showMyDialog();
                 Fluttertoast.showToast(
@@ -262,33 +271,6 @@ class _LoginScreenState extends State<LoginScreen>
             }
         });
       }
-  Future<void> _showMyDialog() async {
-    return showDialog<void>(
-      context: context,
-      barrierDismissible: false, // user must tap button!
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('AlertDialog Title'),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: const <Widget>[
-                Text('This is a demo alert dialog.'),
-                Text('Would you like to approve of this message?'),
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('Approve'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
 }
 
 class Item1 extends StatelessWidget {
