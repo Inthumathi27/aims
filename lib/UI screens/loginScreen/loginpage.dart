@@ -1,5 +1,7 @@
 import 'package:aims/UI%20screens/homepage/homescreen.dart';
 import 'package:aims/UI%20screens/loginScreen/forgotpassword.dart';
+import 'package:aims/model/login.dart';
+import 'package:aims/service/webservice.dart';
 import 'package:aims/utils/constant.dart';
 import 'package:aims/utils/strings.dart';
 import 'package:aims/widgets/button.dart';
@@ -9,6 +11,7 @@ import 'package:aims/widgets/smalltext.dart';
 import 'package:aims/widgets/textfield.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:page_transition/page_transition.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -25,6 +28,8 @@ class _LoginScreenState extends State<LoginScreen>
   AnimationController? _controller;
   TextEditingController employeeId = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  late LoginResponse loginResponse;
+
 
   @override
   void initState() {
@@ -184,11 +189,8 @@ class _LoginScreenState extends State<LoginScreen>
                           ),
                           InkWell(
                             onTap: () {
-                              Navigator.push(
-                                  context,
-                                  PageTransition(
-                                      type: PageTransitionType.rightToLeft,
-                                      child: HomeScreen()));
+
+                              _loginWithPassword(employeeId.text,passwordController.text);
                             },
                             child: Listener(
                               onPointerDown: (PointerDownEvent event) {
@@ -227,6 +229,64 @@ class _LoginScreenState extends State<LoginScreen>
           ),
         ),
       ),
+    );
+  }
+
+  _loginWithPassword(String emp_id, String password) async {
+   // networkStatus().then((isReachable) {
+     // if (isReachable!) {
+        // showLoaderDialog(context);
+        Webservice()
+            .callLoginWithPasswordService(
+             password: password, emp_id: emp_id)
+            .then((onResponse) {
+          // if (onResponse![SUCCESS] == TRUE) {
+            print(onResponse);
+            loginResponse = onResponse;
+            print(loginResponse.message);
+            if(loginResponse.message=="success"){
+              Navigator.push(
+                  context,
+                  PageTransition(
+                      type: PageTransitionType.rightToLeft,
+                      child: HomeScreen()));
+            } else if(loginResponse.message=="Bad Request")
+              {
+                // _showMyDialog();
+                Fluttertoast.showToast(
+                    msg: MyStrings.valid_Id);
+              print(loginResponse.message);
+              }
+            else{
+              print("500 error");
+            }
+        });
+      }
+  Future<void> _showMyDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('AlertDialog Title'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: const <Widget>[
+                Text('This is a demo alert dialog.'),
+                Text('Would you like to approve of this message?'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Approve'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }

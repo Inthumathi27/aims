@@ -4,12 +4,15 @@ class MyStrings{
   static const FontFamilyRegular ="Poppins-Regular";
   static const FontFamilyMedium ="Poppins-Medium";
 
+
+
   // Login
 
   static const login ="Login";
   static const employeeId ="Employee Id";
   static const password ="Password";
   static const forgot ="Forgot Password?";
+  static const valid_Id ="Please enter the valid Employee Id or Password";
 
   // forgot password
   static const forgotPassword ="Forgot Password";

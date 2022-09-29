@@ -6,6 +6,14 @@ double fixPadding = 10.0;
 SizedBox widthspace = SizedBox(width: 10,);
 SizedBox heightspace = SizedBox(height: 10,);
 
+int TIME_DURATION = 30;
+
+
+String TIME_OUT_MSG = 'Timeout';
+String SUCCESS = 'success';
+String TRUE = 'true';
+String FALSE = 'false';
+String TOKEN = 'token';
 
 TextStyle font11 = const TextStyle(fontSize: 11.0,fontFamily: MyStrings.FontFamilyMedium);
 TextStyle font12 = const TextStyle(fontSize: 12.0,fontFamily: MyStrings.FontFamilyMedium);
