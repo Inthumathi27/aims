@@ -9,6 +9,7 @@ import 'package:aims/utils/strings.dart';
 import 'package:aims/widgets/button.dart';
 import 'package:aims/widgets/custompath.dart';
 import 'package:aims/widgets/gradienttext.dart';
+import 'package:aims/widgets/loder.dart';
 import 'package:aims/widgets/smalltext.dart';
 import 'package:aims/widgets/textfield.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -236,6 +237,7 @@ class _LoginScreenState extends State<LoginScreen>
   }
 
   _loginWithPassword(String emp_id, String password) async {
+    // LoaderScreen();
    // networkStatus().then((isReachable) {
      // if (isReachable!) {
         // showLoaderDialog(context);
@@ -251,8 +253,8 @@ class _LoginScreenState extends State<LoginScreen>
               SharedPreferences prefs = await SharedPreferences.getInstance();
               // var log = jsonEncode(loginResponse.toJson());
               // print(loginResponse.value!.userInfo!.userName.toString());
-              prefs.setString("username",loginResponse.value!.userInfo!.userName.toString());
-              prefs.setString("empID",loginResponse.value!.userInfo!.empId.toString());
+              // prefs.setString("username",loginResponse.value!.userInfo!.userName.toString());
+              // prefs.setString("empID",loginResponse.value!.userInfo!.empId.toString());
               Navigator.push(
                   context,
                   PageTransition(

@@ -103,14 +103,14 @@ class UserInfo {
   String? doj;
   String? releavingReason;
   String? contactNo;
-  String? designation;
+  Designation? designation;
   String? target;
   String? userType;
   String? status;
   String? createdAt;
   String? updatedAt;
   String? deletedAt;
-  Null? dol;
+  String? dol;
   String? practiceClientListMgr;
 
   UserInfo(
@@ -143,7 +143,9 @@ class UserInfo {
     doj = json['doj'];
     releavingReason = json['releaving_reason'];
     contactNo = json['contact_no'];
-    designation = json['designation'];
+    designation = json['designation'] != null
+        ? new Designation.fromJson(json['designation'])
+        : null;
     target = json['target'];
     userType = json['user_type'];
     status = json['status'];
@@ -165,7 +167,9 @@ class UserInfo {
     data['doj'] = this.doj;
     data['releaving_reason'] = this.releavingReason;
     data['contact_no'] = this.contactNo;
-    data['designation'] = this.designation;
+    if (this.designation != null) {
+      data['designation'] = this.designation!.toJson();
+    }
     data['target'] = this.target;
     data['user_type'] = this.userType;
     data['status'] = this.status;
@@ -174,6 +178,43 @@ class UserInfo {
     data['deleted_at'] = this.deletedAt;
     data['dol'] = this.dol;
     data['practice_client_list_mgr'] = this.practiceClientListMgr;
+    return data;
+  }
+}
+
+class Designation {
+  int? id;
+  String? designation;
+  String? status;
+  String? deletedAt;
+  String? createdAt;
+  String? updatedAt;
+
+  Designation(
+      {this.id,
+        this.designation,
+        this.status,
+        this.deletedAt,
+        this.createdAt,
+        this.updatedAt});
+
+  Designation.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    designation = json['designation'];
+    status = json['status'];
+    deletedAt = json['deleted_at'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['designation'] = this.designation;
+    data['status'] = this.status;
+    data['deleted_at'] = this.deletedAt;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
     return data;
   }
 }
@@ -200,7 +241,7 @@ class UserPersonalInfo {
   String? reportingPerson2;
   int? reportingPerson3;
   String? location;
-  String? department;
+  Department? department;
   String? firstName;
   String? lastName;
   String? initial;
@@ -223,6 +264,7 @@ class UserPersonalInfo {
   String? updatedAt;
   String? deletedAt;
   int? companyId;
+  Bloodgroup? bloodgroup;
 
   UserPersonalInfo(
       {this.id,
@@ -268,7 +310,8 @@ class UserPersonalInfo {
         this.createdAt,
         this.updatedAt,
         this.deletedAt,
-        this.companyId});
+        this.companyId,
+        this.bloodgroup});
 
   UserPersonalInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -292,7 +335,9 @@ class UserPersonalInfo {
     reportingPerson2 = json['reporting_person2'];
     reportingPerson3 = json['reporting_person3'];
     location = json['location'];
-    department = json['department'];
+    department = json['department'] != null
+        ? new Department.fromJson(json['department'])
+        : null;
     firstName = json['first_name'];
     lastName = json['last_name'];
     initial = json['initial'];
@@ -315,6 +360,9 @@ class UserPersonalInfo {
     updatedAt = json['updated_at'];
     deletedAt = json['deleted_at'];
     companyId = json['company_id'];
+    bloodgroup = json['bloodgroup'] != null
+        ? new Bloodgroup.fromJson(json['bloodgroup'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -340,7 +388,9 @@ class UserPersonalInfo {
     data['reporting_person2'] = this.reportingPerson2;
     data['reporting_person3'] = this.reportingPerson3;
     data['location'] = this.location;
-    data['department'] = this.department;
+    if (this.department != null) {
+      data['department'] = this.department!.toJson();
+    }
     data['first_name'] = this.firstName;
     data['last_name'] = this.lastName;
     data['initial'] = this.initial;
@@ -363,6 +413,75 @@ class UserPersonalInfo {
     data['updated_at'] = this.updatedAt;
     data['deleted_at'] = this.deletedAt;
     data['company_id'] = this.companyId;
+    if (this.bloodgroup != null) {
+      data['bloodgroup'] = this.bloodgroup!.toJson();
+    }
+    return data;
+  }
+}
+
+class Department {
+  int? id;
+  String? name;
+  String? createdAt;
+  String? updatedAt;
+  String? deletedAt;
+
+  Department(
+      {this.id, this.name, this.createdAt, this.updatedAt, this.deletedAt});
+
+  Department.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    deletedAt = json['deleted_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
+    data['deleted_at'] = this.deletedAt;
+    return data;
+  }
+}
+
+class Bloodgroup {
+  int? id;
+  String? bloodGroupName;
+  String? status;
+  String? deletedAt;
+  String? createdAt;
+  String? updatedAt;
+
+  Bloodgroup(
+      {this.id,
+        this.bloodGroupName,
+        this.status,
+        this.deletedAt,
+        this.createdAt,
+        this.updatedAt});
+
+  Bloodgroup.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    bloodGroupName = json['blood_group_name'];
+    status = json['status'];
+    deletedAt = json['deleted_at'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['blood_group_name'] = this.bloodGroupName;
+    data['status'] = this.status;
+    data['deleted_at'] = this.deletedAt;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
     return data;
   }
 }

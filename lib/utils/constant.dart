@@ -49,4 +49,7 @@ Color buttonColor1 = Color(0xFF0cadb9);
 Color bgColor = Color(0xFFf0f0f0);
 Color scaffoldBgColor = Color(0xFFBFC5C4);
 Color textGreyColor = Color(0xFF80808F);
+Color profiletextColor = Color(0xFF5c5c5c);
+Color containertextGreyColor = Color(0xff6e6d72);
+Color containerGreyColor = Color(0xffdedee0);
 

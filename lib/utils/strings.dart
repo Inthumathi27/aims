@@ -35,4 +35,20 @@ class MyStrings{
   static const Personal_details ="Personal details";
   static const last_Name ="Last Name";
   static const first_name ="First Name";
+  static const initial ="Initial";
+  static const date_of_Birth ="Date of Birth";
+  static const gender ="Gender";
+  static const mobile ="Mobile No";
+  static const fatherName ="Father's Name";
+  static const spouseName ="Spouse Name";
+  static const emergencyContact ="Emergency Contact";
+  static const emergencyPhone ="Emergency Phone";
+  static const maritalStatus ="Marital Status";
+  static const bloodGroup ="Blood Group";
+  static const permanentAddress ="Permanent Address";
+  static const address ="Address";
+  static const temporaryAddress ="Address forCommunication";
+  static const educationQualification ="Education Qualification";
+  static const support ="Support";
+  static const contactno ="Contact no";
 }

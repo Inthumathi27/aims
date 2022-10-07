@@ -9,8 +9,9 @@ class SmallText extends StatelessWidget {
   int? maxline;
   FontStyle? fontStyle;
   TextAlign? textAlign;
+  double?height;
 
-   SmallText({Key? key, required this.text, this.color,this.size=16,this.fontWeight,this.maxline,this.overflow,this.fontStyle,this.textAlign}) : super(key: key);
+   SmallText({Key? key, required this.text, this.color,this.size=16,this.fontWeight,this.maxline,this.overflow,this.fontStyle,this.textAlign,this.height}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +19,7 @@ class SmallText extends StatelessWidget {
       text,overflow: overflow,
       maxLines: maxline,
       textAlign: textAlign,
-      style: TextStyle( color:color,fontSize: size,fontWeight: fontWeight,fontStyle:fontStyle,),
+      style: TextStyle( color:color,fontSize: size,fontWeight: fontWeight,fontStyle:fontStyle,height: height),
     );
   }
 }
