@@ -49,6 +49,6 @@ class MyStrings{
   static const address ="Address";
   static const temporaryAddress ="Address forCommunication";
   static const educationQualification ="Education Qualification";
-  static const support ="Support";
+  static const support ="Contact Support";
   static const contactno ="Contact no";
 }

@@ -1,5 +1,6 @@
 import 'dart:convert';
-import 'package:aims/model/login.dart';
+import 'package:aims/model/login/awardbanner.dart';
+import 'package:aims/model/login/login.dart';
 import 'package:aims/utils/api_constants.dart';
 import 'package:aims/utils/constant.dart';
 import 'package:http/http.dart' as http;
@@ -72,4 +73,5 @@ class Webservice {
       throw Exception('Failed to load album');
     }
   }
+
 }

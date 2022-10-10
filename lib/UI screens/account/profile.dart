@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:aims/model/login.dart';
+import 'package:aims/model/login/login.dart';
 import 'package:aims/utils/api_constants.dart';
 import 'package:aims/utils/constant.dart';
 import 'package:aims/utils/strings.dart';
@@ -845,137 +845,92 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ),
               ),
-              InkWell(
-                onTap: (){
-                  showModalBottomSheet(
+              Align(
+                alignment: Alignment.centerRight,
+                child: InkWell(
+                  onTap: (){
+                    showModalBottomSheet(
 
-                      backgroundColor: whiteColor,
-                      context: context,
-                      isScrollControlled: true,
-                      builder: (context) => Padding(
-                        padding: const EdgeInsets.symmetric(horizontal:10,vertical: 15 ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
+                        backgroundColor: whiteColor,
+                        context: context,
+                        isScrollControlled: true,
+                        builder: (context) => Padding(
+                          padding: const EdgeInsets.symmetric(horizontal:10,vertical: 15 ),
+                          child: SingleChildScrollView(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
 
-                            Padding(
-                              padding: EdgeInsets.only(
-                                  bottom: MediaQuery.of(context).viewInsets.bottom),
-                              child: TextField(
-                                cursorColor: primaryColor,
-                                maxLines: 3,
-                                decoration: const InputDecoration(
-                                  filled: true,
-                                  border: InputBorder.none,
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                      bottom: MediaQuery.of(context).viewInsets.bottom),
+                                  child:  Row(
+                                    children: [
+                                      Expanded(
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius: BorderRadius.circular(10.0),
 
-                                  hintText: "Please type if you have any queries",
-                                  hintStyle: TextStyle(fontSize: 14,color: Color(0xffcccccc)),
+                                          ),
+                                          child:  TextField(
+                                            style: TextStyle(fontSize: 14,color: Color(0xff575656)),
+                                            maxLines: null,
+                                            keyboardType: TextInputType.multiline,
+                                            cursorColor: const Color(0xFF0e969c),
+                                            decoration:  InputDecoration(
+                                              filled: true,
+                                              fillColor: const Color(0xffc7c6c6).withOpacity(0.3),
+                                              border: InputBorder.none,
+
+                                              hintText: "Type here",
+                                              hintStyle: const TextStyle(fontSize: 14,color: Color(0xff575656),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(width: 15),
+                                      Container(
+                                        padding: const EdgeInsets.all(10.0),
+                                        decoration: const BoxDecoration(
+                                            color: Color(0xFF00BFA5), shape: BoxShape.circle),
+                                        child: Icon(Icons.send,color: whiteColor,),
+                                      )
+                                    ],
+                                  ),
+
+
                                 ),
-                              ),
-                            ),
 
-                            SizedBox(height: 10),
-                            Align(
-                              alignment: Alignment.bottomRight,
-                              child:  Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(5),
-                                  color: primaryColor,
-                                ),
-                                width: MediaQuery.of(context).size.width/4,
-                                height: 35,
-                                child: Center(child: Text(MyStrings.submit,
-                                    style: font16.copyWith(color: whiteColor,fontWeight: FontWeight.w600))),
-                              ),
+                              ],
                             ),
-                          ],
-                        ),
-                      ));
-                },
-                child: Card(
-                  elevation: 1,
+                          ),
+                        )
+                    );
+                  },
                   child: Padding(
                     padding: const EdgeInsets.all(15.0),
-                    child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    child: Row(mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        Row(
-                          children: [
-                            Image.asset(
-                              'assets/profile/bubblechat.png',
-                              width: 25,height: 25,
-                            ),
-                            SizedBox(width: 20,),
-                            SmallText(
-                              text: MyStrings.support,
-                              color: primaryColor,
-                              size: 18,
-                            ),
-                          ],
+                        Image.asset(
+                          'assets/profile/bubblechat.png',
+                          width: 25,height: 25,
                         ),
-                        Icon(Icons.keyboard_arrow_up_sharp)
+                        widthspace,
+                        SmallText(
+                          text: MyStrings.support,
+                          color: primaryColor,
+                          size: 14,
+                        ),
+
+
                       ],
                     ),
                   ),
                 ),
               ),
-              // InkWell(
-              //    onTap: (){
-              //      showModalBottomSheet(
-              //
-              //          backgroundColor: whiteColor,
-              //          context: context,
-              //          isScrollControlled: true,
-              //          builder: (context) => Padding(
-              //            padding: const EdgeInsets.symmetric(horizontal:10,vertical: 15 ),
-              //            child: Column(
-              //              crossAxisAlignment: CrossAxisAlignment.start,
-              //              mainAxisSize: MainAxisSize.min,
-              //              children: <Widget>[
-              //
-              //                Padding(
-              //                  padding: EdgeInsets.only(
-              //                      bottom: MediaQuery.of(context).viewInsets.bottom),
-              //                  child: TextField(
-              //                    cursorColor: primaryColor,
-              //                    maxLines: 3,
-              //                    decoration: const InputDecoration(
-              //                      filled: true,
-              //                      border: InputBorder.none,
-              //
-              //                      hintText: "Please type if you have any queries",
-              //                      hintStyle: TextStyle(fontSize: 14,color: Color(0xffcccccc)),
-              //                    ),
-              //                  ),
-              //                ),
-              //
-              //                SizedBox(height: 10),
-              //                Align(
-              //                  alignment: Alignment.bottomRight,
-              //                    child:  Container(
-              //                      decoration: BoxDecoration(
-              //                        borderRadius: BorderRadius.circular(5),
-              //                        color: primaryColor,
-              //                      ),
-              //                      width: MediaQuery.of(context).size.width/4,
-              //                      height: 35,
-              //                      child: Center(child: Text(MyStrings.submit,
-              //                        style: font16.copyWith(color: whiteColor,fontWeight: FontWeight.w600))),
-              //                    ),
-              //                  ),
-              //              ],
-              //            ),
-              //          ));
-              //    },
-              //   child: Padding(
-              //     padding: const EdgeInsets.only(left: 15.0,),
-              //     child: SmallText(
-              //       text: MyStrings.support,
-              //       color: primaryColor,
-              //       size: 20,
-              //     ),
-              //   ),
-              // ),
             ],
           ),
         ),

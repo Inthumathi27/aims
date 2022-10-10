@@ -2,14 +2,14 @@ import 'dart:convert';
 
 import 'package:aims/UI%20screens/homepage/homescreen.dart';
 import 'package:aims/UI%20screens/loginScreen/forgotpassword.dart';
-import 'package:aims/model/login.dart';
+import 'package:aims/model/login/awardbanner.dart';
+import 'package:aims/model/login/login.dart';
 import 'package:aims/service/webservice.dart';
 import 'package:aims/utils/constant.dart';
 import 'package:aims/utils/strings.dart';
 import 'package:aims/widgets/button.dart';
 import 'package:aims/widgets/custompath.dart';
 import 'package:aims/widgets/gradienttext.dart';
-import 'package:aims/widgets/loder.dart';
 import 'package:aims/widgets/smalltext.dart';
 import 'package:aims/widgets/textfield.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -33,6 +33,8 @@ class _LoginScreenState extends State<LoginScreen>
   TextEditingController employeeId = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   late LoginResponse loginResponse;
+  late AwardBanner awardBanner;
+  bool isloading = false;
   // SharedPreferences? prefs;
 
   @override
@@ -273,6 +275,7 @@ class _LoginScreenState extends State<LoginScreen>
             }
         });
       }
+
 }
 
 class Item1 extends StatelessWidget {
