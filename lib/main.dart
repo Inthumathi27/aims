@@ -1,6 +1,8 @@
 import 'package:aims/UI%20screens/Splash%20Screen/splashscreen.dart';
+import 'package:aims/UI%20screens/leave/applyleave.dart';
 import 'package:aims/utils/constant.dart';
 import 'package:flutter/material.dart';
+
 
 void main() {
   runApp(const MyApp());
@@ -21,6 +23,11 @@ class MyApp extends StatelessWidget {
           primaryColor: primaryColor, textSelectionTheme: TextSelectionThemeData(cursorColor: primaryColor),
       ),
       home: SplashScreen(),
+      routes: {
+        '/applyleave': (context) => const ApplyLeave(),
+
+
+      },
     );
   }
 }

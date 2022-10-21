@@ -15,6 +15,8 @@ String TRUE = 'true';
 String FALSE = 'false';
 String TOKEN = 'token';
 
+
+
 TextStyle font11 = const TextStyle(fontSize: 11.0,fontFamily: MyStrings.FontFamilyMedium);
 TextStyle font12 = const TextStyle(fontSize: 12.0,fontFamily: MyStrings.FontFamilyMedium);
 TextStyle font13 = const TextStyle(fontSize: 13.0,fontFamily: MyStrings.FontFamilyMedium);
@@ -52,4 +54,7 @@ Color textGreyColor = Color(0xFF80808F);
 Color profiletextColor = Color(0xFF5c5c5c);
 Color containertextGreyColor = Color(0xff6e6d72);
 Color containerGreyColor = Color(0xffdedee0);
+Color drawerHeadingColor = Color(0xffafa7b6);
+Color drawertextColor = Color(0xff797a8c);
+Color borderColor = Color(0xffb8b6b9);
 

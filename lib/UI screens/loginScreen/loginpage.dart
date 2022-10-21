@@ -33,9 +33,10 @@ class _LoginScreenState extends State<LoginScreen>
   TextEditingController employeeId = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   late LoginResponse loginResponse;
-  late AwardBanner awardBanner;
+  // AwardBanner? awardBanner;
   bool isloading = false;
-  // SharedPreferences? prefs;
+  String awarddata = "";
+
 
   @override
   void initState() {
@@ -49,6 +50,9 @@ class _LoginScreenState extends State<LoginScreen>
     _controller!.addListener(() {
       setState(() {});
     });
+     // awardBanner =AwardBanner.fromJson(jsonDecode(awarddata));
+    // awardBanner=[] as AwardBanner?;
+    // getawarddata();
   }
 
   @override
@@ -56,15 +60,115 @@ class _LoginScreenState extends State<LoginScreen>
     super.dispose();
     _controller!.dispose();
   }
+  // getawarddata() async {
+  //   setState(() {
+  //     isloading = true;
+  //   });
+  //   Webservice().fetchawarddata().then((onResponse)  async {
+  //     SharedPreferences prefs = await SharedPreferences.getInstance();
+  //     awardBanner = onResponse;
+  //     print(awardBanner!.message);
+  //     awarddata = prefs.getString("awardBanner").toString();
+  //     awardBanner = AwardBanner.fromJson(jsonDecode(awarddata));
+  //     // if (onResponse is AwardBanner){
+  //     //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //     //   awarddata = prefs.getString("awardBanner").toString();
+  //     //   awardBanner = AwardBanner.fromJson(jsonDecode(awarddata));
+  //     //   setState(() {
+  //     //     isloading = false;
+  //     //   });
+  //     // }
+  //   });
+  //   setState(() {
+  //     isloading = false;
+  //   });
+  // }
+
 
   @override
   Widget build(BuildContext context) {
     _scale = 1 - _controller!.value;
     int _currentIndex = 0;
     List cardList = [
-      Item1(),
-      Item2(),
-      Item3(),
+    ListView.builder(
+        itemCount: 5,
+        itemBuilder: (BuildContext context, int index) {
+          return Center(
+            child: Container(
+              width: MediaQuery.of(context).size.width / 1.1,
+              height: MediaQuery.of(context).size.height / 4.5,
+// padding: EdgeInsets.only(
+//     left: 0, top: 40 + 20, right: 0, bottom: 20),
+              margin: EdgeInsets.only(top: 90),
+              decoration: BoxDecoration(
+                shape: BoxShape.rectangle,
+                color: whiteColor.withOpacity(0.9),
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.only(left: 12.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SmallText(
+                              text: "AM034",
+                              size: 15,
+                            ),
+                            heightspace,
+                            SizedBox(
+                              height: 5,
+                            ),
+                            GradientText(
+                              "Mytest test",
+                              // awardBanner!.value!.first.awards!.first.userData!.userName.toString(),
+                              style: font18.copyWith(fontWeight: FontWeight.w600),
+                              gradient: LinearGradient(colors: [
+                                buttonColor,
+                                primaryColor,
+                              ]),
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            SmallText(
+                              text: MyStrings.department,
+                              size: 14,
+                              color: bluegreyColor,
+                              fontStyle: FontStyle.italic,
+                            ),
+                          ],
+                        ),
+                        Image.asset(
+                          'assets/login/EM-01.png',
+                          width: 130,
+                          height: 130,
+                        ),
+                      ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 12.0),
+                      child: SmallText(
+                        text: "Best Starter of the Month",
+                        size: 20,
+                        textAlign: TextAlign.center,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
+        }),
+      // Item2(),
+      // Item3(),
     ];
     return Scaffold(
       body: SingleChildScrollView(
@@ -117,7 +221,7 @@ class _LoginScreenState extends State<LoginScreen>
                                 color: primaryColor,
                                 fontWeight: FontWeight.w600),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 45,
                           ),
                           // TextField(
@@ -195,8 +299,12 @@ class _LoginScreenState extends State<LoginScreen>
                           ),
                           InkWell(
                             onTap: () {
-
-                              _loginWithPassword(employeeId.text,passwordController.text);
+                              Navigator.push(
+                                  context,
+                                  PageTransition(
+                                      type: PageTransitionType.rightToLeft,
+                                      child: const HomeScreen()));
+                              // _loginWithPassword(employeeId.text,passwordController.text);
                             },
                             child: Listener(
                               onPointerDown: (PointerDownEvent event) {
@@ -278,260 +386,265 @@ class _LoginScreenState extends State<LoginScreen>
 
 }
 
-class Item1 extends StatelessWidget {
-  const Item1({Key? key}) : super(key: key);
+// class Item1 extends StatelessWidget {
+//   const Item1({Key? key}) : super(key: key);
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return ListView.builder(
+//         itemCount: 5,
+//         itemBuilder: (BuildContext context, int index) {
+//           return Center(
+//             child: Container(
+//               width: MediaQuery.of(context).size.width / 1.1,
+//               height: MediaQuery.of(context).size.height / 4.5,
+// // padding: EdgeInsets.only(
+// //     left: 0, top: 40 + 20, right: 0, bottom: 20),
+//               margin: EdgeInsets.only(top: 90),
+//               decoration: BoxDecoration(
+//                 shape: BoxShape.rectangle,
+//                 color: whiteColor.withOpacity(0.9),
+//                 borderRadius: BorderRadius.circular(20),
+//               ),
+//               child: Padding(
+//                 padding: const EdgeInsets.only(left: 12.0),
+//                 child: Column(
+//                   mainAxisAlignment: MainAxisAlignment.center,
+//                   children: [
+//                     Row(
+//                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                       children: <Widget>[
+//                         Column(
+//                           crossAxisAlignment: CrossAxisAlignment.start,
+//                           mainAxisAlignment: MainAxisAlignment.center,
+//                           children: [
+//                             SmallText(
+//                               text: "AM034",
+//                               size: 15,
+//                             ),
+//                             heightspace,
+//                             SizedBox(
+//                               height: 5,
+//                             ),
+//                             GradientText(
+//                               'Faina Josephine',
+//                               style: font18.copyWith(fontWeight: FontWeight.w600),
+//                               gradient: LinearGradient(colors: [
+//                                 buttonColor,
+//                                 primaryColor,
+//                               ]),
+//                             ),
+//                             SizedBox(
+//                               height: 5,
+//                             ),
+//                             SmallText(
+//                               text: MyStrings.department,
+//                               size: 14,
+//                               color: bluegreyColor,
+//                               fontStyle: FontStyle.italic,
+//                             ),
+//                           ],
+//                         ),
+//                         Image.asset(
+//                           'assets/login/EM-01.png',
+//                           width: 130,
+//                           height: 130,
+//                         ),
+//                       ],
+//                     ),
+//                     Padding(
+//                       padding: const EdgeInsets.only(right: 12.0),
+//                       child: SmallText(
+//                         text: "Best Starter of the Month",
+//                         size: 20,
+//                         textAlign: TextAlign.center,
+//                         fontWeight: FontWeight.w600,
+//                       ),
+//                     ),
+//                   ],
+//                 ),
+//               ),
+//             ),
+//           );
+//         });
+//   }
+// }
 
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Container(
-        width: MediaQuery.of(context).size.width / 1.1,
-        height: MediaQuery.of(context).size.height / 4.5,
-        // padding: EdgeInsets.only(
-        //     left: 0, top: 40 + 20, right: 0, bottom: 20),
-        margin: EdgeInsets.only(top: 90),
-        decoration: BoxDecoration(
-          shape: BoxShape.rectangle,
-          color: whiteColor.withOpacity(0.9),
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.only(left: 12.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SmallText(
-                        text: "AM034",
-                        size: 15,
-                      ),
-                      heightspace,
-                      SizedBox(
-                        height: 5,
-                      ),
-                      GradientText(
-                        'Faina Josephine',
-                        style: font18.copyWith(fontWeight: FontWeight.w600),
-                        gradient: LinearGradient(colors: [
-                          buttonColor,
-                          primaryColor,
-                        ]),
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      SmallText(
-                        text: MyStrings.department,
-                        size: 14,
-                        color: bluegreyColor,
-                        fontStyle: FontStyle.italic,
-                      ),
-                    ],
-                  ),
-                  Image.asset(
-                    'assets/login/EM-01.png',
-                    width: 130,
-                    height: 130,
-                  ),
-                ],
-              ),
-              Padding(
-                padding: const EdgeInsets.only(right: 12.0),
-                child: SmallText(
-                  text: "Best Starter of the Month",
-                  size: 20,
-                  textAlign: TextAlign.center,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class Item2 extends StatelessWidget {
-  const Item2({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Container(
-        width: MediaQuery.of(context).size.width / 1.1,
-        height: MediaQuery.of(context).size.height / 4.5,
-        // padding: EdgeInsets.only(
-        //     left: 0, top: 40 + 20, right: 0, bottom: 20),
-        margin: EdgeInsets.only(top: 90),
-        decoration: BoxDecoration(
-          shape: BoxShape.rectangle,
-          color: whiteColor.withOpacity(0.9),
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.only(left: 12.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SmallText(
-                        text: "AM034",
-                        size: 15,
-                      ),
-                      heightspace,
-                      SizedBox(
-                        height: 5,
-                      ),
-                      GradientText(
-                        'Faina Josephine',
-                        style: font18.copyWith(fontWeight: FontWeight.w600),
-                        gradient: LinearGradient(colors: [
-                          buttonColor,
-                          primaryColor,
-                        ]),
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      SmallText(
-                        text: MyStrings.department,
-                        size: 14,
-                        color: bluegreyColor,
-                        fontStyle: FontStyle.italic,
-                      ),
-                    ],
-                  ),
-                  Image.asset(
-                    'assets/login/EM-01.png',
-                    width: 130,
-                    height: 130,
-                  ),
-                ],
-              ),
-              Padding(
-                padding: const EdgeInsets.only(right: 12.0),
-                child: SmallText(
-                  text: "Best Starter of the Month",
-                  size: 20,
-                  textAlign: TextAlign.center,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class Item3 extends StatelessWidget {
-  const Item3({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: <Widget>[
-        Center(
-          child: Container(
-            width: MediaQuery.of(context).size.width / 1.1,
-            height: MediaQuery.of(context).size.height / 4.5,
-            // padding: EdgeInsets.only(
-            //     left: 0, top: 40 + 20, right: 0, bottom: 20),
-            margin: EdgeInsets.only(top: 90),
-            decoration: BoxDecoration(
-              shape: BoxShape.rectangle,
-              color: whiteColor.withOpacity(0.9),
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.only(left: 12.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SmallText(
-                            text: "AM034",
-                            size: 15,
-                          ),
-                          heightspace,
-                          SizedBox(
-                            height: 5,
-                          ),
-                          GradientText(
-                            'Faina Josephine',
-                            style: font18.copyWith(fontWeight: FontWeight.w600),
-                            gradient: LinearGradient(colors: [
-                              buttonColor,
-                              primaryColor,
-                            ]),
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          SmallText(
-                            text: MyStrings.department,
-                            size: 14,
-                            color: bluegreyColor,
-                            fontStyle: FontStyle.italic,
-                          ),
-                        ],
-                      ),
-                      Image.asset(
-                        'assets/login/EM-01.png',
-                        width: 130,
-                        height: 130,
-                      ),
-                    ],
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 12.0),
-                    child: SmallText(
-                      text: "Best Starter of the Month",
-                      size: 20,
-                      textAlign: TextAlign.center,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-        // Positioned(
-        //   left: 40,
-        //   top: 40,
-        //   right: 50,
-        //   child: CircleAvatar(
-        //     backgroundColor: loginColor,
-        //     minRadius: 58.0,
-        //     child: const CircleAvatar(
-        //         radius: 50.0,
-        //         backgroundImage: AssetImage(
-        //           'assets/dummyimage/image1.jpg',
-        //         )),
-        //   ),
-        // ),
-      ],
-    );
-  }
-}
+//
+// class Item2 extends StatelessWidget {
+//   const Item2({Key? key}) : super(key: key);
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Center(
+//       child: Container(
+//         width: MediaQuery.of(context).size.width / 1.1,
+//         height: MediaQuery.of(context).size.height / 4.5,
+//         // padding: EdgeInsets.only(
+//         //     left: 0, top: 40 + 20, right: 0, bottom: 20),
+//         margin: EdgeInsets.only(top: 90),
+//         decoration: BoxDecoration(
+//           shape: BoxShape.rectangle,
+//           color: whiteColor.withOpacity(0.9),
+//           borderRadius: BorderRadius.circular(20),
+//         ),
+//         child: Padding(
+//           padding: const EdgeInsets.only(left: 12.0),
+//           child: Column(
+//             mainAxisAlignment: MainAxisAlignment.center,
+//             children: [
+//               Row(
+//                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                 children: <Widget>[
+//                   Column(
+//                     crossAxisAlignment: CrossAxisAlignment.start,
+//                     mainAxisAlignment: MainAxisAlignment.center,
+//                     children: [
+//                       SmallText(
+//                         text: "AM034",
+//                         size: 15,
+//                       ),
+//                       heightspace,
+//                       SizedBox(
+//                         height: 5,
+//                       ),
+//                       GradientText(
+//                         'Faina Josephine',
+//                         style: font18.copyWith(fontWeight: FontWeight.w600),
+//                         gradient: LinearGradient(colors: [
+//                           buttonColor,
+//                           primaryColor,
+//                         ]),
+//                       ),
+//                       SizedBox(
+//                         height: 5,
+//                       ),
+//                       SmallText(
+//                         text: MyStrings.department,
+//                         size: 14,
+//                         color: bluegreyColor,
+//                         fontStyle: FontStyle.italic,
+//                       ),
+//                     ],
+//                   ),
+//                   Image.asset(
+//                     'assets/login/EM-01.png',
+//                     width: 130,
+//                     height: 130,
+//                   ),
+//                 ],
+//               ),
+//               Padding(
+//                 padding: const EdgeInsets.only(right: 12.0),
+//                 child: SmallText(
+//                   text: "Best Starter of the Month",
+//                   size: 20,
+//                   textAlign: TextAlign.center,
+//                   fontWeight: FontWeight.w600,
+//                 ),
+//               ),
+//             ],
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
+//
+// class Item3 extends StatelessWidget {
+//   const Item3({Key? key}) : super(key: key);
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Stack(
+//       children: <Widget>[
+//         Center(
+//           child: Container(
+//             width: MediaQuery.of(context).size.width / 1.1,
+//             height: MediaQuery.of(context).size.height / 4.5,
+//             // padding: EdgeInsets.only(
+//             //     left: 0, top: 40 + 20, right: 0, bottom: 20),
+//             margin: EdgeInsets.only(top: 90),
+//             decoration: BoxDecoration(
+//               shape: BoxShape.rectangle,
+//               color: whiteColor.withOpacity(0.9),
+//               borderRadius: BorderRadius.circular(20),
+//             ),
+//             child: Padding(
+//               padding: const EdgeInsets.only(left: 12.0),
+//               child: Column(
+//                 mainAxisAlignment: MainAxisAlignment.center,
+//                 children: [
+//                   Row(
+//                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                     children: <Widget>[
+//                       Column(
+//                         crossAxisAlignment: CrossAxisAlignment.start,
+//                         mainAxisAlignment: MainAxisAlignment.center,
+//                         children: [
+//                           SmallText(
+//                             text: "AM034",
+//                             size: 15,
+//                           ),
+//                           heightspace,
+//                           SizedBox(
+//                             height: 5,
+//                           ),
+//                           GradientText(
+//                             'Faina Josephine',
+//                             style: font18.copyWith(fontWeight: FontWeight.w600),
+//                             gradient: LinearGradient(colors: [
+//                               buttonColor,
+//                               primaryColor,
+//                             ]),
+//                           ),
+//                           SizedBox(
+//                             height: 5,
+//                           ),
+//                           SmallText(
+//                             text: MyStrings.department,
+//                             size: 14,
+//                             color: bluegreyColor,
+//                             fontStyle: FontStyle.italic,
+//                           ),
+//                         ],
+//                       ),
+//                       Image.asset(
+//                         'assets/login/EM-01.png',
+//                         width: 130,
+//                         height: 130,
+//                       ),
+//                     ],
+//                   ),
+//                   Padding(
+//                     padding: const EdgeInsets.only(right: 12.0),
+//                     child: SmallText(
+//                       text: "Best Starter of the Month",
+//                       size: 20,
+//                       textAlign: TextAlign.center,
+//                       fontWeight: FontWeight.w600,
+//                     ),
+//                   ),
+//                 ],
+//               ),
+//             ),
+//           ),
+//         ),
+//         // Positioned(
+//         //   left: 40,
+//         //   top: 40,
+//         //   right: 50,
+//         //   child: CircleAvatar(
+//         //     backgroundColor: loginColor,
+//         //     minRadius: 58.0,
+//         //     child: const CircleAvatar(
+//         //         radius: 50.0,
+//         //         backgroundImage: AssetImage(
+//         //           'assets/dummyimage/image1.jpg',
+//         //         )),
+//         //   ),
+//         // ),
+//       ],
+//     );
+//   }
+// }
