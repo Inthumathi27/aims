@@ -13,10 +13,10 @@ import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
-
-import 'apllyleavedropdown/leavetype.dart';
-import 'apllyleavedropdown/modetype.dart';
-import 'apllyleavedropdown/swipetype.dart';
+import 'package:page_transition/page_transition.dart';
+import 'leavedropdown/leavetype.dart';
+import 'leavedropdown/modetype.dart';
+import 'leavehistory.dart';
 
 // class LeaveSummary extends StatefulWidget {
 //   const LeaveSummary({Key? key}) : super(key: key);
@@ -1609,8 +1609,17 @@ class _LeaveSummaryState extends State<LeaveSummary> {
                                     ),
                                     heightspace,
                                     heightspace,
-                                    Center(
-                                      child: Button(text: "View All History",),
+                                    InkWell(
+                                      onTap: (){
+                                        Navigator.push(
+                                            context,
+                                            PageTransition(
+                                                type: PageTransitionType.rightToLeft,
+                                                child: const leaveHistory()));
+                                      },
+                                      child: Center(
+                                        child: Button(text: "View All History",),
+                                      ),
                                     )
                                   ],
                                 ),
@@ -3363,8 +3372,8 @@ class requestDate extends StatefulWidget {
 
 class _requestDateState extends State<requestDate> {
 
-  DateTime selectedDate = new DateTime.now();
-  DateTime time = new DateTime.now();
+  DateTime selectedDate =  DateTime.now();
+  DateTime time = DateTime.now();
   late DateTime selectedfromDate;
   TextEditingController? fromdate;
   final formKey = GlobalKey<FormState>();
@@ -3464,8 +3473,8 @@ class finishDate extends StatefulWidget {
 
 class _finishDateState extends State<finishDate> {
 
-  DateTime selectedendDate = new DateTime.now();
-  DateTime time = new DateTime.now();
+  DateTime selectedendDate =  DateTime.now();
+  DateTime time =  DateTime.now();
   late DateTime selectedendleaveDate;
   TextEditingController? enddate;
   final formKey1 = GlobalKey<FormState>();

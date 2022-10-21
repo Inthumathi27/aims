@@ -109,4 +109,7 @@ class MyStrings{
 
   // Com off
   static const compOff 	 ="Comp Off ";
+
+  //Leave History
+  // static const leaveHistory 	 ="Leave History ";
 }

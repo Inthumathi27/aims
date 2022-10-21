@@ -57,4 +57,6 @@ Color containerGreyColor = Color(0xffdedee0);
 Color drawerHeadingColor = Color(0xffafa7b6);
 Color drawertextColor = Color(0xff797a8c);
 Color borderColor = Color(0xffb8b6b9);
+Color casualLeaveBorder = Color(0xfff7b500);
+Color sickLeaveBorder = Color(0xff3dd598);
 

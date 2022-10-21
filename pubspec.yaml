@@ -51,6 +51,7 @@ dependencies:
   video_player:
   photo_view: ^0.12.0
   mask_text_input_formatter: ^2.4.0
+  percent_indicator:
 
 
 dev_dependencies:
@@ -83,6 +84,7 @@ flutter:
     - assets/forgot/
     - assets/profile/
     - assets/sidemenu/
+    - assets/leavemanagment/
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
