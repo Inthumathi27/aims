@@ -1100,7 +1100,17 @@ class _LeaveSummaryState extends State<LeaveSummary> {
 
   String? type;
   int? optionId;
+  bool visibilityTableRow = true;
 
+  void _changed() {
+    setState(() {
+      if(visibilityTableRow){
+        visibilityTableRow = false;
+      }else{
+        visibilityTableRow = true;
+      }
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -1439,42 +1449,56 @@ class _LeaveSummaryState extends State<LeaveSummary> {
                                       ],
                                       rows: [
                                         DataRow(
+
                                           cells: <DataCell>[
                                             DataCell(
-                                                SmallText(
-                                              text: MyStrings.casualLeave,
-                                              size: 14,
-                                              color: drawertextColor,
-                                            ),),
-                                            DataCell(
-                                                Center(
+                                                InkWell(
+                                                  onTap: (){
+                                                    showDialog(
+                                                      context: context,
+                                                      builder: (BuildContext context) => _buildPopupDialog(context),
+                                                    );
+                                                  },
+
+                                                  child: SmallText(
+                                                    text: MyStrings.casualLeave,
+                                                    size: 14,
+                                                    color: drawertextColor,
+                                                  ),
+
+                                                ),),
+                                            DataCell(Center(
                                                 child: SmallText(
                                               text: '7',
                                               size: 14,
                                               color: drawertextColor,
                                             ))),
-                                            DataCell(
-                                                Center(
+                                            DataCell(Center(
                                                 child: SmallText(
                                               text: '3.5',
                                               size: 14,
                                               color: drawertextColor,
                                             ))),
-                                            DataCell(
-                                              Center(
+                                            DataCell(Center(
                                                 child: SmallText(
                                               text: '3.5',
                                               size: 14,
                                               color: drawertextColor,
                                             ))),
                                           ],
+
                                         ),
                                         DataRow(
                                           cells: <DataCell>[
-                                            DataCell(SmallText(
-                                              text: MyStrings.sickLeave,
-                                              size: 14,
-                                              color: drawertextColor,
+                                            DataCell(InkWell(
+                                              onTap: (){
+                                                _changed();
+                                              },
+                                              child: SmallText(
+                                                text: MyStrings.sickLeave,
+                                                size: 14,
+                                                color: drawertextColor,
+                                              ),
                                             )),
                                             DataCell(Center(
                                                 child: SmallText(
@@ -2334,7 +2358,27 @@ class _LeaveSummaryState extends State<LeaveSummary> {
       ),
     );
   }
-
+  Widget _buildPopupDialog(BuildContext context) {
+    return new AlertDialog(
+      title: const Text('Popup example'),
+      content: new Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text("Hello"),
+        ],
+      ),
+      actions: <Widget>[
+        new FlatButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          textColor: Theme.of(context).primaryColor,
+          child: const Text('Close'),
+        ),
+      ],
+    );
+  }
   void _applyLeave() {
     showModalBottomSheet(
         context: context,
