@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:math' as math;
 import 'dart:math';
+import 'package:aims/UI%20screens/leave/leaveapplication.dart';
 import 'package:aims/utils/constant.dart';
 import 'package:aims/utils/strings.dart';
 import 'package:aims/widgets/button.dart';
@@ -1083,6 +1084,11 @@ class LeaveSummary extends StatefulWidget {
 
 class _LeaveSummaryState extends State<LeaveSummary> {
   final _selectedColor = Colors.grey.shade200;
+  final int _counter = 0;
+  String radioButtonItem = 'Full day';
+  int id = 1;
+  var selectedItem = '';
+  String? difficulty;
 
   void showMenuSelection(String value) {
     setState(() {
@@ -1092,14 +1098,8 @@ class _LeaveSummaryState extends State<LeaveSummary> {
     Navigator.pushNamed(context, value.toString());
   }
 
-  // radio button
-
-  String radioButtonItem = 'Full day';
-  int id = 1;
-
-  var selectedItem = '';
-
-  String? difficulty;
+  String? type;
+  int? optionId;
 
   @override
   Widget build(BuildContext context) {
@@ -1110,6 +1110,52 @@ class _LeaveSummaryState extends State<LeaveSummary> {
         title: SmallText(
           text: MyStrings.leaveBalance,
         ),
+        actions: [
+          InkWell(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  PageTransition(
+                      type: PageTransitionType.rightToLeft,
+                      child: const LeaveApplication()));
+            },
+            child: Padding(
+              padding: const EdgeInsets.only(top: 12.0, right: 10),
+              child: Stack(
+                children: [
+                  Icon(
+                    Icons.notifications,
+                    color: whiteColor,
+                    size: 30,
+                  ),
+                  Container(
+                    width: 30,
+                    height: 30,
+                    alignment: Alignment.topRight,
+                    margin: EdgeInsets.only(top: 5),
+                    child: Container(
+                      width: 15,
+                      height: 15,
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Color(0xffc32c37),
+                          border: Border.all(color: Colors.white, width: 1)),
+                      child: Padding(
+                        padding: const EdgeInsets.all(0.0),
+                        child: Center(
+                          child: Text(
+                            _counter.toString(),
+                            style: TextStyle(fontSize: 10),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
         // actions: [
         //   PopupMenuButton<String>(
         //     shape: const RoundedRectangleBorder(
@@ -1299,23 +1345,53 @@ class _LeaveSummaryState extends State<LeaveSummary> {
                                     Padding(
                                       padding: const EdgeInsets.all(15.0),
                                       child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
-                                          SmallText(
-                                            text: MyStrings.leaveSummary,
-                                            fontWeight: FontWeight.w400,
-                                            size: 17,
-                                            color: profiletextColor,
+                                          Row(
+                                            children: [
+                                              SmallText(
+                                                text: MyStrings.leaveSummary,
+                                                fontWeight: FontWeight.w400,
+                                                size: 15,
+                                                color: profiletextColor,
+                                              ),
+                                              SizedBox(
+                                                width: 5,
+                                              ),
+                                              SmallText(
+                                                  text: "(2022)",
+                                                  size: 16,
+                                                  fontWeight: FontWeight.w600),
+                                            ],
                                           ),
-                                          SizedBox(
-                                            width: 5,
+                                          InkWell(
+                                            onTap: () {
+                                              // showModalBottomSheet(
+                                              //   context: context,
+                                              //   isScrollControlled: true,
+                                              //   builder: (BuildContext context) {
+                                              //     return FractionallySizedBox(
+                                              //       heightFactor: 0.3,
+                                              //       child: showBottomModal(),
+                                              //     );
+                                              //   },
+                                              // );
+                                            },
+                                            child: Row(
+                                              children: const [
+                                                Icon(Icons.segment),
+                                                SizedBox(
+                                                  width: 5,
+                                                ),
+                                                Text('Filter')
+                                              ],
+                                            ),
                                           ),
-                                          SmallText(
-                                              text: "(2021-2022)",
-                                              size: 16,
-                                              fontWeight: FontWeight.w600),
                                         ],
                                       ),
                                     ),
+
                                     DataTable(
                                       //border: TableBorder.all(width: 0.3, color:prescriptionDivideColor),
                                       headingRowColor:
@@ -1327,9 +1403,9 @@ class _LeaveSummaryState extends State<LeaveSummary> {
                                       horizontalMargin: 10,
                                       dataRowHeight: 50,
                                       columns: [
-                                        DataColumn(
-                                            label: Center(
-                                                child: Padding(
+                                      DataColumn(
+                                      label: Center(
+                                         child: Padding(
                                           padding:
                                               const EdgeInsets.only(left: 20.0),
                                           child: SmallText(
@@ -1339,21 +1415,21 @@ class _LeaveSummaryState extends State<LeaveSummary> {
                                             textAlign: TextAlign.center,
                                           ),
                                         ))),
-                                        DataColumn(
+                                      DataColumn(
                                             label: SmallText(
                                           text: "Consumed\nDays",
                                           color: whiteColor,
                                           size: 14,
                                           textAlign: TextAlign.center,
                                         )),
-                                        DataColumn(
+                                      DataColumn(
                                             label: SmallText(
                                           text: "Credit\nDays",
                                           color: whiteColor,
                                           size: 14,
                                           textAlign: TextAlign.center,
                                         )),
-                                        DataColumn(
+                                      DataColumn(
                                             label: SmallText(
                                           text: "Available\nBalance",
                                           color: whiteColor,
@@ -1364,24 +1440,28 @@ class _LeaveSummaryState extends State<LeaveSummary> {
                                       rows: [
                                         DataRow(
                                           cells: <DataCell>[
-                                            DataCell(SmallText(
+                                            DataCell(
+                                                SmallText(
                                               text: MyStrings.casualLeave,
                                               size: 14,
                                               color: drawertextColor,
-                                            )),
-                                            DataCell(Center(
+                                            ),),
+                                            DataCell(
+                                                Center(
                                                 child: SmallText(
                                               text: '7',
                                               size: 14,
                                               color: drawertextColor,
                                             ))),
-                                            DataCell(Center(
+                                            DataCell(
+                                                Center(
                                                 child: SmallText(
                                               text: '3.5',
                                               size: 14,
                                               color: drawertextColor,
                                             ))),
-                                            DataCell(Center(
+                                            DataCell(
+                                              Center(
                                                 child: SmallText(
                                               text: '3.5',
                                               size: 14,
@@ -1610,15 +1690,18 @@ class _LeaveSummaryState extends State<LeaveSummary> {
                                     heightspace,
                                     heightspace,
                                     InkWell(
-                                      onTap: (){
+                                      onTap: () {
                                         Navigator.push(
                                             context,
                                             PageTransition(
-                                                type: PageTransitionType.rightToLeft,
-                                                child: const leaveHistory()));
+                                                type: PageTransitionType
+                                                    .rightToLeft,
+                                                child: const LeaveHistory()));
                                       },
                                       child: Center(
-                                        child: Button(text: "View All History",),
+                                        child: Button(
+                                          text: "View All History",
+                                        ),
                                       ),
                                     )
                                   ],
@@ -2224,15 +2307,15 @@ class _LeaveSummaryState extends State<LeaveSummary> {
         distance: 75.0,
         children: [
           ActionButton(
-            onPressed: ()=> _applyCompoff(),
-             icon: const Image(
+            onPressed: () => _applyCompoff(),
+            icon: const Image(
               image: AssetImage('assets/sidemenu/compo.png'),
               width: 25,
               height: 25,
             ),
           ),
           ActionButton(
-            onPressed: ()=>_applySwipe(context),
+            onPressed: () => _applySwipe(context),
             icon: const Image(
               image: AssetImage('assets/sidemenu/applyswipe.png'),
               width: 25,
@@ -2259,7 +2342,7 @@ class _LeaveSummaryState extends State<LeaveSummary> {
         backgroundColor: Colors.transparent,
         builder: (BuildContext bc) {
           return Container(
-            height: MediaQuery.of(context).size.height/1.28 ,
+            height: MediaQuery.of(context).size.height / 1.28,
             decoration: BoxDecoration(
               borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(15),
@@ -2294,82 +2377,98 @@ class _LeaveSummaryState extends State<LeaveSummary> {
                   heightspace,
                   StatefulBuilder(
                       builder: (context, StateSetter setModalState) {
-                    return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    return Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Row(
                             children: [
                               Radio(
                                   fillColor: MaterialStateColor.resolveWith(
-                                          (states) => primaryColor),
+                                      (states) => primaryColor),
                                   value: 1,
                                   groupValue: id,
                                   onChanged: (value) {
                                     // set is changed here
                                     setModalState(() {
                                       difficulty = value.toString();
-                                      id=1;
+                                      id = 1;
                                     });
                                   }),
-                              SmallText(text: MyStrings.fullDay,size: 15,)
-
+                              SmallText(
+                                text: MyStrings.fullDay,
+                                size: 15,
+                              )
                             ],
                           ),
                           Row(
                             children: [
-
                               Radio(
                                   fillColor: MaterialStateColor.resolveWith(
-                                          (states) => primaryColor),
+                                      (states) => primaryColor),
                                   value: 2,
                                   groupValue: id,
                                   onChanged: (value) {
                                     // set is changed here
                                     setModalState(() {
                                       difficulty = value.toString();
-                                      id=2;
+                                      id = 2;
                                     });
                                   }),
-                              SmallText(text: MyStrings.firstHalf,size: 15,)
-
+                              SmallText(
+                                text: MyStrings.firstHalf,
+                                size: 15,
+                              )
                             ],
                           ),
                           Row(
                             children: [
                               Radio(
                                   fillColor: MaterialStateColor.resolveWith(
-                                          (states) => primaryColor),
-                                  value:3,
+                                      (states) => primaryColor),
+                                  value: 3,
                                   groupValue: id,
                                   onChanged: (value) {
                                     // set is changed here
                                     setModalState(() {
                                       difficulty = value.toString();
-                                      id=3;
+                                      id = 3;
                                     });
                                   }),
-                              SmallText(text: MyStrings.secondHalf,size: 15,)
+                              SmallText(
+                                text: MyStrings.secondHalf,
+                                size: 15,
+                              )
                             ],
                           )
                         ]);
                   }),
                   heightspace,
-                  const DropDownBox(),
+                  DropDownBox(),
                   heightspace,
                   heightspace,
-                  Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Column(crossAxisAlignment: CrossAxisAlignment.start,
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          SmallText(text: MyStrings.fromDate,color: textGreyColor,
-                            size: 16,),
+                          SmallText(
+                            text: MyStrings.fromDate,
+                            color: textGreyColor,
+                            size: 16,
+                          ),
                           heightspace,
                           startDate(),
                         ],
                       ),
-                      Column(crossAxisAlignment: CrossAxisAlignment.start,
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          SmallText(text: MyStrings.toDate,color: textGreyColor,
-                            size: 16,),
+                          SmallText(
+                            text: MyStrings.toDate,
+                            color: textGreyColor,
+                            size: 16,
+                          ),
                           heightspace,
                           finishDate(),
                         ],
@@ -2397,7 +2496,8 @@ class _LeaveSummaryState extends State<LeaveSummary> {
                   ),
                   heightspace,
                   heightspace,
-                  Column(crossAxisAlignment: CrossAxisAlignment.start,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SmallText(
                         text: MyStrings.attachFile,
@@ -2410,114 +2510,140 @@ class _LeaveSummaryState extends State<LeaveSummary> {
                       heightspace,
                     ],
                   ),
-                  Center(child: Button(text: MyStrings.applyLeave,))
+                  Center(
+                      child: Button(
+                    text: MyStrings.applyLeave,
+                  ))
                 ],
               ),
             ),
           );
         });
   }
+
   TextEditingController _txtTimeController = TextEditingController();
 
   final MaskTextInputFormatter timeMaskFormatter =
-  MaskTextInputFormatter(mask: '##:##', filter: {"#": RegExp(r'[0-9]')});
+      MaskTextInputFormatter(mask: '##:##', filter: {"#": RegExp(r'[0-9]')});
+
   void _applySwipe(BuildContext context) {
-
-
     showModalBottomSheet(
         context: context,
         isScrollControlled: true,
         backgroundColor: Colors.transparent,
         builder: (BuildContext bc) {
-          return
-            StatefulBuilder(
-                builder: (BuildContext context, StateSetter state) {
-                  return  Padding(
-                    padding: EdgeInsets.only(
-                        bottom: MediaQuery.of(context).viewInsets.bottom),
-                    child: Container(
-                      height: MediaQuery.of(context).size.height/1.7 ,
-                      decoration: BoxDecoration(
-                        borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(15),
-                          topRight: Radius.circular(15),
-                        ),
-                        color: whiteColor,
+          return StatefulBuilder(
+              builder: (BuildContext context, StateSetter state) {
+            return Padding(
+              padding: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).viewInsets.bottom),
+              child: Container(
+                height: MediaQuery.of(context).size.height / 1.7,
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(15),
+                    topRight: Radius.circular(15),
+                  ),
+                  color: whiteColor,
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(18, 18, 18, 18),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Center(
+                          child: SmallText(
+                        text: MyStrings.requestSwipe,
+                        size: 18,
+                        fontWeight: FontWeight.w600,
+                      )),
+                      heightspace,
+                      heightspace,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          SmallText(
+                            text: MyStrings.applyDate,
+                            color: textGreyColor,
+                            size: 16,
+                          ),
+                          Text(DateFormat("dd/MM/yyyy").format(DateTime.now()))
+                        ],
                       ),
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(18, 18, 18, 18),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Center(
-                                child: SmallText(
-                                  text: MyStrings.requestSwipe,
-                                  size: 18,
-                                  fontWeight: FontWeight.w600,
-                                )),
-                            heightspace,
-                            heightspace,
-                            Row(
+                      heightspace,
+                      heightspace,
+                      Modedropdown(),
+                      heightspace,
+                      heightspace,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SmallText(
+                                text: MyStrings.fromDate,
+                                color: textGreyColor,
+                                size: 16,
+                              ),
+                              heightspace,
+                              const RequestDate(),
+                            ],
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SmallText(
+                                text: MyStrings.mode,
+                                color: textGreyColor,
+                                size: 16,
+                              ),
+                              heightspace,
+                              createBox(
+                                context,
+                                state,
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
+                      heightspace,
+                      heightspace,
+                      type == "In"
+                          ? Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 SmallText(
-                                  text: MyStrings.applyDate,
+                                  text: "In Time",
                                   color: textGreyColor,
                                   size: 16,
                                 ),
-                                Text(DateFormat("dd/MM/yyyy").format(DateTime.now()))
-                              ],
-                            ),
-                            heightspace,
-                            heightspace,
-                            Modedropdown(),
-                            heightspace,
-                            heightspace,
-                            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Column(crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    SmallText(text: MyStrings.fromDate,color: textGreyColor,
-                                      size: 16,),
-                                    heightspace,
-                                    requestDate(),
-                                  ],
-                                ),
-                                Column(crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    SmallText(text: MyStrings.mode,color: textGreyColor,
-                                      size: 16,),
-                                    heightspace,
-                                    createBox(context,state,)
-                                  ],
-                                ),
-                              ],
-                            ),
-                            heightspace,
-                            heightspace,
-                            type == "In" ?Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                SmallText(text: "In Time", color: textGreyColor,
-                                  size: 16,),
                                 SizedBox(
-                                  height:40,
-                                  width: MediaQuery.of(context).size.width/2.5,
+                                  height: 40,
+                                  width:
+                                      MediaQuery.of(context).size.width / 2.5,
                                   child: TextFormField(
                                     controller: _txtTimeController,
                                     textAlign: TextAlign.justify,
-                                    keyboardType: TextInputType.numberWithOptions(decimal: false),
+                                    keyboardType:
+                                        TextInputType.numberWithOptions(
+                                            decimal: false),
                                     decoration: InputDecoration(
-                                      contentPadding: EdgeInsets.only(top: 12.0,left: 10,right: 5),
-                                      hintText: '00:00',
-                                      border: const OutlineInputBorder(),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(width: 1, color: borderColor),
-                                      ),
-                                      suffixIcon: Padding(
-                                        padding: const EdgeInsets.only(top: 8.0,left: 5),
-                                        child: SmallText(text: "AM",),
-                                      )
-                                    ),
+                                        contentPadding: EdgeInsets.only(
+                                            top: 12.0, left: 10, right: 5),
+                                        hintText: '00:00',
+                                        border: const OutlineInputBorder(),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              width: 1, color: borderColor),
+                                        ),
+                                        suffixIcon: Padding(
+                                          padding: const EdgeInsets.only(
+                                              top: 8.0, left: 5),
+                                          child: SmallText(
+                                            text: "AM",
+                                          ),
+                                        )),
                                     inputFormatters: <TextInputFormatter>[
                                       timeMaskFormatter
                                       // Not sure if it can be done with RegExp or a custom class here instead
@@ -2525,140 +2651,205 @@ class _LeaveSummaryState extends State<LeaveSummary> {
                                   ),
                                 ),
                               ],
-                            ):
-                            type == "Out" ?Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                SmallText(text: "Out Time", color: textGreyColor,
-                                  size: 16,),
-                                SizedBox(
-                                  height:40,
-                                  width: MediaQuery.of(context).size.width/2.5,
-                                  child: TextFormField(
-                                    controller: _txtTimeController,
-                                    textAlign: TextAlign.justify,
-                                    keyboardType: TextInputType.numberWithOptions(decimal: false),
-                                    decoration: InputDecoration(
-                                      contentPadding: EdgeInsets.only(top: 12.0,left: 10,right: 5),
-                                      hintText: '00:00',
-                                      border: const OutlineInputBorder(),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(width: 1, color: borderColor),
-                                      ),
-                                      suffixIcon: Padding(
-                                        padding: const EdgeInsets.only(top: 8.0,left: 5),
-                                        child: SmallText(text: "PM",),
-                                      )
+                            )
+                          : type == "Out"
+                              ? Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    SmallText(
+                                      text: "Out Time",
+                                      color: textGreyColor,
+                                      size: 16,
                                     ),
-                                    inputFormatters: <TextInputFormatter>[
-                                      timeMaskFormatter
-                                      // Not sure if it can be done with RegExp or a custom class here instead
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ): type == "Both" ?Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Column(crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  SmallText(text: "In Time", color: textGreyColor,
-                                    size: 16,),
-                                  SizedBox(
-                                    height:40,
-                                    width: MediaQuery.of(context).size.width/2.5,
-                                    child: TextFormField(
-                                      controller: _txtTimeController,
-                                      textAlign: TextAlign.justify,
-                                      keyboardType: TextInputType.numberWithOptions(decimal: false),
-                                      decoration: InputDecoration(
-                                          contentPadding: EdgeInsets.only(top: 20.0,left: 10,right: 5),
-                                          hintText: '00:00',
-                                          border: const OutlineInputBorder(),
-                                          focusedBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(width: 1, color: borderColor),
-                                          ),
-                                          suffixIcon: Padding(
-                                            padding: const EdgeInsets.only(top: 10.0,left: 5),
-                                            child: SmallText(text: "AM",),
-                                          )
+                                    SizedBox(
+                                      height: 40,
+                                      width: MediaQuery.of(context).size.width /
+                                          2.5,
+                                      child: TextFormField(
+                                        controller: _txtTimeController,
+                                        textAlign: TextAlign.justify,
+                                        keyboardType:
+                                            TextInputType.numberWithOptions(
+                                                decimal: false),
+                                        decoration: InputDecoration(
+                                            contentPadding: EdgeInsets.only(
+                                                top: 12.0, left: 10, right: 5),
+                                            hintText: '00:00',
+                                            border: const OutlineInputBorder(),
+                                            focusedBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  width: 1, color: borderColor),
+                                            ),
+                                            suffixIcon: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  top: 8.0, left: 5),
+                                              child: SmallText(
+                                                text: "PM",
+                                              ),
+                                            )),
+                                        inputFormatters: <TextInputFormatter>[
+                                          timeMaskFormatter
+                                          // Not sure if it can be done with RegExp or a custom class here instead
+                                        ],
                                       ),
-                                      inputFormatters: <TextInputFormatter>[
-                                        timeMaskFormatter
-                                        // Not sure if it can be done with RegExp or a custom class here instead
+                                    ),
+                                  ],
+                                )
+                              : type == "Both"
+                                  ? Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            SmallText(
+                                              text: "In Time",
+                                              color: textGreyColor,
+                                              size: 16,
+                                            ),
+                                            SizedBox(
+                                              height: 40,
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  2.5,
+                                              child: TextFormField(
+                                                controller: _txtTimeController,
+                                                textAlign: TextAlign.justify,
+                                                keyboardType: TextInputType
+                                                    .numberWithOptions(
+                                                        decimal: false),
+                                                decoration: InputDecoration(
+                                                    contentPadding:
+                                                        EdgeInsets.only(
+                                                            top: 20.0,
+                                                            left: 10,
+                                                            right: 5),
+                                                    hintText: '00:00',
+                                                    border:
+                                                        const OutlineInputBorder(),
+                                                    focusedBorder:
+                                                        OutlineInputBorder(
+                                                      borderSide: BorderSide(
+                                                          width: 1,
+                                                          color: borderColor),
+                                                    ),
+                                                    suffixIcon: Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              top: 10.0,
+                                                              left: 5),
+                                                      child: SmallText(
+                                                        text: "AM",
+                                                      ),
+                                                    )),
+                                                inputFormatters: <
+                                                    TextInputFormatter>[
+                                                  timeMaskFormatter
+                                                  // Not sure if it can be done with RegExp or a custom class here instead
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            SmallText(
+                                              text: "Out Time",
+                                              color: textGreyColor,
+                                              size: 16,
+                                            ),
+                                            heightspace,
+                                            SizedBox(
+                                              height: 40,
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  2.5,
+                                              child: TextFormField(
+                                                controller: _txtTimeController,
+                                                textAlign: TextAlign.justify,
+                                                keyboardType: TextInputType
+                                                    .numberWithOptions(
+                                                        decimal: false),
+                                                decoration: InputDecoration(
+                                                    contentPadding:
+                                                        EdgeInsets.only(
+                                                            top: 20.0,
+                                                            left: 10,
+                                                            right: 5),
+                                                    hintText: '00:00',
+                                                    border:
+                                                        const OutlineInputBorder(),
+                                                    focusedBorder:
+                                                        OutlineInputBorder(
+                                                      borderSide: BorderSide(
+                                                          width: 1,
+                                                          color: borderColor),
+                                                    ),
+                                                    suffixIcon: Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              top: 10.0,
+                                                              left: 5),
+                                                      child: SmallText(
+                                                        text: "PM",
+                                                      ),
+                                                    )),
+                                                inputFormatters: <
+                                                    TextInputFormatter>[
+                                                  timeMaskFormatter
+                                                  // Not sure if it can be done with RegExp or a custom class here instead
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        )
                                       ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Column(crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  SmallText(text: "Out Time", color: textGreyColor,
-                                    size: 16,),
-                                  heightspace,
-                                  SizedBox(
-                                    height:40,
-                                    width: MediaQuery.of(context).size.width/2.5,
-                                    child: TextFormField(
-                                      controller: _txtTimeController,
-                                      textAlign: TextAlign.justify,
-                                      keyboardType: TextInputType.numberWithOptions(decimal: false),
-                                      decoration: InputDecoration(
-                                          contentPadding: EdgeInsets.only(top: 20.0,left: 10,right: 5),
-                                          hintText: '00:00',
-                                          border: const OutlineInputBorder(),
-                                          focusedBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(width: 1, color: borderColor),
-                                          ),
-                                          suffixIcon: Padding(
-                                            padding: const EdgeInsets.only(top: 10.0,left: 5),
-                                            child: SmallText(text: "PM",),
-                                          )
-                                      ),
-                                      inputFormatters: <TextInputFormatter>[
-                                        timeMaskFormatter
-                                        // Not sure if it can be done with RegExp or a custom class here instead
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              )
-                            ],
-                            ):SizedBox(),
-                            heightspace,
-                            heightspace,
-
-                            SmallText(
-                              text: MyStrings.reason,
-                              color: textGreyColor,
-                              size: 16,
+                                    )
+                                  : SizedBox(),
+                      heightspace,
+                      heightspace,
+                      SmallText(
+                        text: MyStrings.reason,
+                        color: textGreyColor,
+                        size: 16,
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      Expanded(
+                        child: TextField(
+                          maxLines: 3,
+                          keyboardType: TextInputType.multiline,
+                          decoration: InputDecoration(
+                            border: const OutlineInputBorder(),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(width: 1, color: borderColor),
                             ),
-                            const SizedBox(
-                              height: 5,
-                            ),
-                            Expanded(
-                              child: TextField(
-                                maxLines: 3,
-                                keyboardType: TextInputType.multiline,
-                                decoration: InputDecoration(
-                                  border: const OutlineInputBorder(),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(width: 1, color: borderColor),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            heightspace,
-                            heightspace,
-                            Center(child: Button(text: MyStrings.request,))
-                          ],
+                          ),
                         ),
                       ),
-                    ),
-                  );
-                });
-
+                      heightspace,
+                      heightspace,
+                      Center(
+                          child: Button(
+                        text: MyStrings.request,
+                      ))
+                    ],
+                  ),
+                ),
+              ),
+            );
+          });
         });
   }
-
 
   void _applyCompoff() {
     showModalBottomSheet(
@@ -2667,7 +2858,7 @@ class _LeaveSummaryState extends State<LeaveSummary> {
         backgroundColor: Colors.transparent,
         builder: (BuildContext bc) {
           return Container(
-            height: MediaQuery.of(context).size.height/1.7 ,
+            height: MediaQuery.of(context).size.height / 1.7,
             decoration: BoxDecoration(
               borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(15),
@@ -2682,90 +2873,106 @@ class _LeaveSummaryState extends State<LeaveSummary> {
                 children: [
                   Center(
                       child: SmallText(
-                        text: MyStrings.compOff,
-                        size: 18,
-                        fontWeight: FontWeight.w600,
-                      )),
+                    text: MyStrings.compOff,
+                    size: 18,
+                    fontWeight: FontWeight.w600,
+                  )),
                   heightspace,
                   heightspace,
                   StatefulBuilder(
                       builder: (context, StateSetter setModalState) {
-                        return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    return Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
                             children: [
-                              Row(
-                                children: [
-                                  Radio(
-                                      fillColor: MaterialStateColor.resolveWith(
-                                              (states) => primaryColor),
-                                      value: 1,
-                                      groupValue: id,
-                                      onChanged: (value) {
-                                        // set is changed here
-                                        setModalState(() {
-                                          difficulty = value.toString();
-                                          id=1;
-                                        });
-                                      }),
-                                  SmallText(text: MyStrings.fullDay,size: 15,)
-
-                                ],
-                              ),
-                              Row(
-                                children: [
-
-                                  Radio(
-                                      fillColor: MaterialStateColor.resolveWith(
-                                              (states) => primaryColor),
-                                      value: 2,
-                                      groupValue: id,
-                                      onChanged: (value) {
-                                        // set is changed here
-                                        setModalState(() {
-                                          difficulty = value.toString();
-                                          id=2;
-                                        });
-                                      }),
-                                  SmallText(text: MyStrings.firstHalf,size: 15,)
-
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  Radio(
-                                      fillColor: MaterialStateColor.resolveWith(
-                                              (states) => primaryColor),
-                                      value:3,
-                                      groupValue: id,
-                                      onChanged: (value) {
-                                        // set is changed here
-                                        setModalState(() {
-                                          difficulty = value.toString();
-                                          id=3;
-                                        });
-                                      }),
-                                  SmallText(text: MyStrings.secondHalf,size: 15,)
-                                ],
+                              Radio(
+                                  fillColor: MaterialStateColor.resolveWith(
+                                      (states) => primaryColor),
+                                  value: 1,
+                                  groupValue: id,
+                                  onChanged: (value) {
+                                    // set is changed here
+                                    setModalState(() {
+                                      difficulty = value.toString();
+                                      id = 1;
+                                    });
+                                  }),
+                              SmallText(
+                                text: MyStrings.fullDay,
+                                size: 15,
                               )
-                            ]);
-                      }),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Radio(
+                                  fillColor: MaterialStateColor.resolveWith(
+                                      (states) => primaryColor),
+                                  value: 2,
+                                  groupValue: id,
+                                  onChanged: (value) {
+                                    // set is changed here
+                                    setModalState(() {
+                                      difficulty = value.toString();
+                                      id = 2;
+                                    });
+                                  }),
+                              SmallText(
+                                text: MyStrings.firstHalf,
+                                size: 15,
+                              )
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Radio(
+                                  fillColor: MaterialStateColor.resolveWith(
+                                      (states) => primaryColor),
+                                  value: 3,
+                                  groupValue: id,
+                                  onChanged: (value) {
+                                    // set is changed here
+                                    setModalState(() {
+                                      difficulty = value.toString();
+                                      id = 3;
+                                    });
+                                  }),
+                              SmallText(
+                                text: MyStrings.secondHalf,
+                                size: 15,
+                              )
+                            ],
+                          )
+                        ]);
+                  }),
                   heightspace,
                   const DropDownBox(),
                   heightspace,
                   heightspace,
-                  Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Column(crossAxisAlignment: CrossAxisAlignment.start,
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          SmallText(text: MyStrings.fromDate,color: textGreyColor,
-                            size: 16,),
+                          SmallText(
+                            text: MyStrings.fromDate,
+                            color: textGreyColor,
+                            size: 16,
+                          ),
                           heightspace,
                           startDate(),
                         ],
                       ),
-                      Column(crossAxisAlignment: CrossAxisAlignment.start,
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          SmallText(text: MyStrings.toDate,color: textGreyColor,
-                            size: 16,),
+                          SmallText(
+                            text: MyStrings.toDate,
+                            color: textGreyColor,
+                            size: 16,
+                          ),
                           heightspace,
                           finishDate(),
                         ],
@@ -2793,8 +3000,10 @@ class _LeaveSummaryState extends State<LeaveSummary> {
                   ),
                   heightspace,
                   heightspace,
-
-                  Center(child: Button(text: MyStrings.applyLeave,))
+                  Center(
+                      child: Button(
+                    text: MyStrings.applyLeave,
+                  ))
                 ],
               ),
             ),
@@ -2805,7 +3014,7 @@ class _LeaveSummaryState extends State<LeaveSummary> {
   createBox(BuildContext context, StateSetter state) {
     return SingleChildScrollView(
         child: Container(
-            width: MediaQuery.of(context).size.width/2.5,
+            width: MediaQuery.of(context).size.width / 2.5,
             height: 40.0,
             padding: const EdgeInsets.only(left: 10.0),
             decoration: ShapeDecoration(
@@ -2814,14 +3023,10 @@ class _LeaveSummaryState extends State<LeaveSummary> {
                 borderRadius: const BorderRadius.all(Radius.circular(5.0)),
               ),
             ),
-            child: buildMainDropdown(state))
-    );
-
+            child: buildMainDropdown(state)));
   }
-  String? type;
-  int? optionId;
 
-   buildMainDropdown(StateSetter setState) {
+  buildMainDropdown(StateSetter setState) {
     return DropdownButtonHideUnderline(
       child: DropdownButton(
         value: type,
@@ -2844,13 +3049,9 @@ class _LeaveSummaryState extends State<LeaveSummary> {
       ),
     );
   }
-
-
-
 }
 
 @immutable
-
 class Uploadfile extends StatefulWidget {
   const Uploadfile({Key? key}) : super(key: key);
 
@@ -2859,15 +3060,14 @@ class Uploadfile extends StatefulWidget {
 }
 
 class _UploadfileState extends State<Uploadfile> {
-
-
   List<dynamic> imageList = [];
+  final picker = ImagePicker();
+  File? _image;
 
   @override
   Widget build(BuildContext context) {
-    return   GridView.builder(
-        gridDelegate:
-        const SliverGridDelegateWithFixedCrossAxisCount(
+    return GridView.builder(
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             childAspectRatio: 2 / 2,
             crossAxisCount: 4,
             crossAxisSpacing: 15,
@@ -2878,68 +3078,68 @@ class _UploadfileState extends State<Uploadfile> {
         // controller: ScrollController(keepScrollOffset: false),
         shrinkWrap: true,
         itemBuilder: (BuildContext ctx, index) {
-          final item = index + 1 == imageList.length + 1
-              ? null
-              : imageList[index];
+          final item =
+              index + 1 == imageList.length + 1 ? null : imageList[index];
           return index + 1 == imageList.length + 1
               ? (imageList.length > 2)
-              ? Container()
-              : InkWell(
-            onTap: _uploadImageModalBottomSheet,
-            child: Container(
-              decoration: BoxDecoration(
-                color: containerGreyColor,
-              ),
-              child: Column(
-                mainAxisAlignment:
-                MainAxisAlignment.center,
-                children: [
-                  const Icon(Icons.add),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  SmallText(
-                    text: MyStrings.uploadFile,size: 12,)
-                ],
-              ),
-            ),
-          )
+                  ? Container()
+                  : InkWell(
+                      onTap: _uploadImageModalBottomSheet,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: containerGreyColor,
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Icon(Icons.add),
+                            const SizedBox(
+                              height: 5,
+                            ),
+                            SmallText(
+                              text: MyStrings.uploadFile,
+                              size: 12,
+                            )
+                          ],
+                        ),
+                      ),
+                    )
               : Stack(
-            children: [
-              Container(
-                width: 200.0,
-                height: 200.0,
-                decoration: BoxDecoration(
-                    border: Border.all(
-                      color: primaryColor,
-                      width: 2,
-                    )),
-                child: Image.file(
-                  item,
-                  fit: BoxFit.cover,
-                ),
-              ),
-              Positioned(
-                child: GestureDetector(
-                  onTap: () {
-                    deleteImageDialogue(index);
-                  },
-                  child: const Align(
-                    alignment: Alignment.topRight,
-                    child: CircleAvatar(
-                      radius: 10.0,
-                      backgroundColor: Colors.teal,
-                      child: Icon(
-                        Icons.close,
-                        color: Colors.white,
-                        size: 15.0,
+                  children: [
+                    Container(
+                      width: 200.0,
+                      height: 200.0,
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                        color: primaryColor,
+                        width: 2,
+                      )),
+                      child: Image.file(
+                        item,
+                        fit: BoxFit.cover,
                       ),
                     ),
-                  ),
-                ),
-              ),
-            ],
-          );
+                    Positioned(
+                      child: GestureDetector(
+                        onTap: () {
+                          deleteImageDialogue(index);
+                        },
+                        child: const Align(
+                          alignment: Alignment.topRight,
+                          child: CircleAvatar(
+                            radius: 10.0,
+                            backgroundColor: Colors.teal,
+                            child: Icon(
+                              Icons.close,
+                              color: Colors.white,
+                              size: 15.0,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                );
         });
   }
 
@@ -3018,7 +3218,7 @@ class _UploadfileState extends State<Uploadfile> {
                                     ),
                                     child: Row(
                                       mainAxisAlignment:
-                                      MainAxisAlignment.center,
+                                          MainAxisAlignment.center,
                                       children: [
                                         Container(
                                             decoration: const BoxDecoration(
@@ -3026,7 +3226,7 @@ class _UploadfileState extends State<Uploadfile> {
                                                 shape: BoxShape.circle),
                                             child: Padding(
                                               padding:
-                                              const EdgeInsets.all(8.0),
+                                                  const EdgeInsets.all(8.0),
                                               child: Icon(
                                                 Icons.camera_alt,
                                                 color: primaryColor,
@@ -3070,7 +3270,7 @@ class _UploadfileState extends State<Uploadfile> {
                                     ),
                                     child: Row(
                                       mainAxisAlignment:
-                                      MainAxisAlignment.center,
+                                          MainAxisAlignment.center,
                                       children: [
                                         Container(
                                             decoration: const BoxDecoration(
@@ -3078,7 +3278,7 @@ class _UploadfileState extends State<Uploadfile> {
                                                 shape: BoxShape.circle),
                                             child: Padding(
                                               padding:
-                                              const EdgeInsets.all(8.0),
+                                                  const EdgeInsets.all(8.0),
                                               child: Icon(
                                                 Icons.photo_library,
                                                 color: primaryColor,
@@ -3114,11 +3314,11 @@ class _UploadfileState extends State<Uploadfile> {
         return Dialog(
           elevation: 0.0,
           shape:
-          RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
           child: Container(
             height: MediaQuery.of(context).size.height / 4.5,
             padding:
-            EdgeInsets.only(left: 20.0, top: 10, bottom: 10, right: 10),
+                EdgeInsets.only(left: 20.0, top: 10, bottom: 10, right: 10),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -3181,12 +3381,9 @@ class _UploadfileState extends State<Uploadfile> {
     );
   }
 
-  final picker = ImagePicker();
-  File? _image;
-
   Future getCameraImage() async {
     final pickedFile =
-    await picker.pickImage(source: ImageSource.camera, imageQuality: 50);
+        await picker.pickImage(source: ImageSource.camera, imageQuality: 50);
     if (pickedFile != null) {
       _image = File(pickedFile.path);
       var getFileSize = getFileSizeString(bytes: _image!.lengthSync());
@@ -3258,9 +3455,7 @@ class _UploadfileState extends State<Uploadfile> {
   }
 }
 
-
 @immutable
-
 class startDate extends StatefulWidget {
   const startDate({Key? key}) : super(key: key);
 
@@ -3269,7 +3464,6 @@ class startDate extends StatefulWidget {
 }
 
 class _startDateState extends State<startDate> {
-
   DateTime selectedDate = new DateTime.now();
   DateTime time = new DateTime.now();
   late DateTime selectedfromDate;
@@ -3291,7 +3485,7 @@ class _startDateState extends State<startDate> {
 
   @override
   Widget build(BuildContext context) {
-    return  GestureDetector(
+    return GestureDetector(
       onTap: () {
         selectDate1(context);
       },
@@ -3300,7 +3494,7 @@ class _startDateState extends State<startDate> {
         child: AbsorbPointer(
           child: Container(
             height: 45,
-            width: MediaQuery.of(context).size.width/2.5,
+            width: MediaQuery.of(context).size.width / 2.5,
             child: TextFormField(
               textAlignVertical: TextAlignVertical.center,
               textAlign: TextAlign.left,
@@ -3323,7 +3517,6 @@ class _startDateState extends State<startDate> {
       ),
     );
   }
-
 
   Future<void> selectDate1(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -3349,40 +3542,39 @@ class _startDateState extends State<startDate> {
         );
       },
     );
-    if (picked != null)
+    if (picked != null) {
       setState(() {
         selectedDate = picked;
         selectedfromDate = picked;
-        var formatter = new DateFormat('dd/MM/yyyy');
+        var formatter = DateFormat('dd/MM/yyyy');
         String formatted = formatter.format(selectedDate);
         fromdate?.value = TextEditingValue(text: formatted.toString());
       });
+    }
   }
 }
 
-
 @immutable
-
-class requestDate extends StatefulWidget {
-  const requestDate({Key? key}) : super(key: key);
+class RequestDate extends StatefulWidget {
+  const RequestDate({Key? key}) : super(key: key);
 
   @override
-  State<requestDate> createState() => _requestDateState();
+  State<RequestDate> createState() => _RequestDateState();
 }
 
-class _requestDateState extends State<requestDate> {
-
-  DateTime selectedDate =  DateTime.now();
+class _RequestDateState extends State<RequestDate> {
+  DateTime selectedDate = DateTime.now();
   DateTime time = DateTime.now();
   late DateTime selectedfromDate;
   TextEditingController? fromdate;
   final formKey = GlobalKey<FormState>();
 
+  @override
   void initState() {
     // TODO: implement initState
     super.initState();
     initUser();
-    var formatter = new DateFormat('dd/MM/yyyy');
+    var formatter = DateFormat('dd/MM/yyyy');
     String formatted = formatter.format(selectedDate);
     fromdate?.value = TextEditingValue(text: formatted.toString());
   }
@@ -3393,7 +3585,7 @@ class _requestDateState extends State<requestDate> {
 
   @override
   Widget build(BuildContext context) {
-    return  GestureDetector(
+    return GestureDetector(
       onTap: () {
         selectDate1(context);
       },
@@ -3402,7 +3594,7 @@ class _requestDateState extends State<requestDate> {
         child: AbsorbPointer(
           child: Container(
             height: 45,
-            width: MediaQuery.of(context).size.width/2.5,
+            width: MediaQuery.of(context).size.width / 2.5,
             child: TextFormField(
               textAlignVertical: TextAlignVertical.center,
               textAlign: TextAlign.left,
@@ -3425,7 +3617,6 @@ class _requestDateState extends State<requestDate> {
       ),
     );
   }
-
 
   Future<void> selectDate1(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -3463,7 +3654,6 @@ class _requestDateState extends State<requestDate> {
 }
 
 @immutable
-
 class finishDate extends StatefulWidget {
   const finishDate({Key? key}) : super(key: key);
 
@@ -3472,18 +3662,18 @@ class finishDate extends StatefulWidget {
 }
 
 class _finishDateState extends State<finishDate> {
-
-  DateTime selectedendDate =  DateTime.now();
-  DateTime time =  DateTime.now();
+  DateTime selectedendDate = DateTime.now();
+  DateTime time = DateTime.now();
   late DateTime selectedendleaveDate;
   TextEditingController? enddate;
   final formKey1 = GlobalKey<FormState>();
 
+  @override
   void initState() {
     // TODO: implement initState
     super.initState();
     initUser();
-    var formatter = new DateFormat('dd/MM/yyyy');
+    var formatter = DateFormat('dd/MM/yyyy');
     String formatted = formatter.format(selectedendDate);
     enddate?.value = TextEditingValue(text: formatted.toString());
   }
@@ -3494,16 +3684,16 @@ class _finishDateState extends State<finishDate> {
 
   @override
   Widget build(BuildContext context) {
-    return  GestureDetector(
+    return GestureDetector(
       onTap: () {
         selectendDate1(context);
       },
       child: Form(
         key: formKey1,
         child: AbsorbPointer(
-          child: Container(
+          child: SizedBox(
             height: 45,
-            width: MediaQuery.of(context).size.width/2.1,
+            width: MediaQuery.of(context).size.width / 2.1,
             child: TextFormField(
               textAlignVertical: TextAlignVertical.center,
               textAlign: TextAlign.left,
@@ -3525,7 +3715,6 @@ class _finishDateState extends State<finishDate> {
         ),
       ),
     );
-
   }
 
   Future<void> selectendDate1(BuildContext context) async {
@@ -3563,7 +3752,6 @@ class _finishDateState extends State<finishDate> {
     }
   }
 }
-
 
 @immutable
 class ExpandableFab extends StatefulWidget {

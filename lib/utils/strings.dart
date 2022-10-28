@@ -1,8 +1,8 @@
 import 'package:aims/UI%20screens/loginScreen/forgotpassword.dart';
 
 class MyStrings{
-  static const FontFamilyRegular ="Poppins-Regular";
-  static const FontFamilyMedium ="Poppins-Medium";
+  static const fontFamilyRegular ="Poppins-Regular";
+  static const fontFamilyMedium ="Poppins-Medium";
 
 
 
@@ -12,14 +12,14 @@ class MyStrings{
   static const employeeId ="Employee Id";
   static const password ="Password";
   static const forgot ="Forgot Password?";
-  static const valid_Id ="Please enter the valid Employee Id or Password";
+  static const validId ="Please enter the valid Employee Id or Password";
 
   // forgot password
   static const forgotPassword ="Forgot Password";
   static const instruction ="Enter the employee id and email associated with your account and we will send an email with instructions to reset your password";
   static const email ="Email Id";
   static const submit ="Submit";
-  static const resetmessage ="Password reset link been sent to your email";
+  static const resetMessage ="Password reset link been sent to your email";
   static const ok ="Ok";
 
   // profile
@@ -49,11 +49,8 @@ class MyStrings{
 
   // Side menu
   static const leave ="Leave";
-  static const leavemanagment ="Leave Managment";
   static const leaveBalance ="Leave Balance";
   static const applyLeave ="Apply Leave";
-  static const applySwipe ="Apply Swipe";
-  static const applyCom ="Apply Com+ off";
   static const compensatory ="Compensatory Off ";
   static const od ="OD";
   static const leaveHistory ="Leave History";
@@ -61,55 +58,68 @@ class MyStrings{
   static const holidayList ="Holiday List";
 
   // Leave Summary
-  static const employeeName ="Employee name:";
+
   static const leaveSummary ="Leave Summary";
   static const casualLeave ="Casual Leave";
-  static const balance ="Balance Leave";
-  static const taken ="Taken\n Leave";
-  static const pending ="Pending Leave";
-  static const sickLeave	="Sick Leave";
+  static const sickLeave ="Sick Leave";
   static const privilegeLeave	="Privilege Leave";
-  static const comOff	="Comp.Leave Enjoy / Accruedd";
   static const marriageLeave ="Marriage Leave";
   static const paternityLeave ="Paternity Leave";
-  static const medicalLeave	 ="Medical Leave";
-  static const bereavementLeave	 ="Bereavement Leave";
+  static const medicalLeave	="Medical Leave";
+  static const bereavementLeave ="Bereavement Leave";
 
   // Apply leave
-  static const requestLeave	 ="Request a Leave";
-  static const requestSwipe	 ="Request a Swipe";
-  static const leaveType	 ="Select Leave Type";
-  static const applyDate	 ="Apply Date";
-  static const type	 ="Type";
-  static const date	 ="Date";
-  static const reason	 ="Reason";
-  static const attachFile	 ="Attach file";
-  static const uploadFile	 ="Upload file";
-  static const gallery	 ="Gallery";
-  static const camera	 ="Camera";
-  static const yes	 ="Yes";
-  static const no	 ="No";
-  static const half	 ="Half";
-  static const firstHalf	 ="First Half";
-  static const secondHalf	 ="Second Half";
-  static const fullDay	 ="Full Day";
-  static const forSession	 ="For?";
-  static const fromDate	 ="From date";
-  static const toDate	 ="To date";
+  static const requestLeave	="Request a Leave";
+  static const requestSwipe	="Request a Swipe";
+  static const leaveType ="Select Leave Type";
+  static const applyDate ="Apply Date";
+  static const type	="Type";
+  static const date	="Date";
+  static const reason	="Reason";
+  static const attachFile	="Attach file";
+  static const uploadFile	="Upload file";
+  static const gallery ="Gallery";
+  static const camera	="Camera";
+  static const yes ="Yes";
+  static const no	="No";
+  static const half	="Half";
+  static const firstHalf ="First Half";
+  static const secondHalf	="Second Half";
+  static const fullDay ="Full Day";
+  static const forSession	="For?";
+  static const fromDate	="From date";
+  static const toDate	="To date";
 
   // Swipe
-  static const swipe	 ="Swipe";
-  static const selectType	 ="Select Type";
-  static const mode	 ="In/Out Mode";
-  static const modeType	 ="Mode";
-  static const inTime	 ="In";
-  static const out	 ="Out";
-  static const request	 ="Request Swipe";
-  static const both	 ="Both";
+  static const swipe ="Swipe";
+  static const selectType	="Select Type";
+  static const mode ="In/Out Mode";
+  static const modeType	="Mode";
+  static const inTime	="In";
+  static const out ="Out";
+  static const request ="Request Swipe";
+  static const both ="Both";
 
   // Com off
-  static const compOff 	 ="Comp Off ";
+  static const compOff ="Comp Off";
 
-  //Leave History
-  // static const leaveHistory 	 ="Leave History ";
+  // Leave History
+  static const filter ="Filter";
+
+  // Leave application
+  static const updatePendingApplication ="Update Pending Application";
+  static const leaveApplication ="Leave Application";
+  static const module ="Module";
+  static const updateApplication ="Update Application";
+  static const approver ="Approver";
+  static const status ="Status";
+  static const employeeName ="Employee Name";
+  static const requestFromDate ="Request From Date";
+  static const requestToDate ="Request To Date";
+  static const applicationFromDate ="Application From Date";
+  static const applicationToDate ="Application To Date";
+  static const view ="View";
+  static const cancel ="Cancel";
+  static const approved ="Approved";
+  static const rejected ="Rejected";
 }

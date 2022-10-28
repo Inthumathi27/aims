@@ -61,271 +61,271 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
-      drawer: SizedBox(
-        width: MediaQuery.of(context).size.width/1.6,
-        child: Drawer(
-          child: Container(
-            color: Color(0xffddd3dc).withOpacity(0.2),
-            child: ListView(
-              padding: EdgeInsets.fromLTRB(12, 0, 12, 0),
-              children: [
-                SizedBox(
-                  height: 135.0,
-                  child: DrawerHeader(
-                    decoration: BoxDecoration(
-                      border: Border(
-                        bottom: Divider.createBorderSide(context,
-                            color: Colors.transparent),
-                      ),
-                    ),
-                    child: Image.asset(
-                      'assets/logo.png',
-                      width: 50,
-                      height: 50,
-                    ),
-                  ),
-                ),
-                heightspace,
-                heightspace,
-                ListTile(
-                  title: Row(
-                    children: [
-                      Image.asset(
-                        'assets/sidemenu/profile.png',
-                        width: 25,
-                        height: 25,
-                      ),
-                      widthspace,
-                      SmallText(
-                        text: MyStrings.profile,
-                        color: drawertextColor,
-                        size: 16,
-                        fontWeight: FontWeight.w400,
-                      )
-                    ],
-                  ),
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        PageTransition(
-                            type: PageTransitionType.rightToLeft,
-                            child: ProfilePage()));
-                  },
-                ),
-                heightspace,
-                heightspace,
-                SmallText(
-                  text: MyStrings.leavemanagment.toUpperCase(),
-                  color: drawerHeadingColor.withOpacity(0.6),
-                  size: 16,
-                  fontWeight: FontWeight.w600,
-                ),
-                heightspace,
-                ListTile(
-                  title: Row(
-                    children: [
-                      Image.asset(
-                        'assets/sidemenu/leavebalance.png',
-                        width: 25,
-                        height: 25,
-                      ),
-                      widthspace,
-                      SmallText(
-                        text: MyStrings.leaveBalance,
-                        color: drawertextColor,
-                        size: 16,
-                        fontWeight: FontWeight.w400,
-                      )
-                    ],
-                  ),
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        PageTransition(
-                            type: PageTransitionType.rightToLeft,
-                            child:  LeaveSummary()));
-                  },
-                ),
-                ListTile(
-                  title: Row(
-                    children: [
-                      Image.asset(
-                        'assets/sidemenu/applyleave.png',
-                        width: 25,
-                        height: 25,
-                      ),
-                      widthspace,
-                      SmallText(
-                        text: MyStrings.applyLeave,
-                        color: drawertextColor,
-                        size: 16,
-                        fontWeight: FontWeight.w400,
-                      )
-                    ],
-                  ),
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        PageTransition(
-                            type: PageTransitionType.rightToLeft,
-                            child: const ApplyLeave()));
-                  },
-                ),
-                ListTile(
-                  title: Row(
-                    children: [
-                      Image.asset(
-                        'assets/sidemenu/applyswipe.png',
-                        width: 27,
-                        height: 27,
-                      ),
-                      widthspace,
-                      SmallText(
-                        text: MyStrings.applySwipe,
-                        color: drawertextColor,
-                         size: 16,
-                        fontWeight: FontWeight.w400,
-                      )
-                    ],
-                  ),
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        PageTransition(
-                            type: PageTransitionType.rightToLeft,
-                            child: ProfilePage()));
-                  },
-                ),
-                ListTile(
-                  title: Row(
-                    children: [
-                      Image.asset(
-                        'assets/sidemenu/compo.png',
-                        width: 25,
-                        height: 25,
-                      ),
-                      widthspace,
-                      SmallText(
-                        text: MyStrings.compensatory,
-                        color: drawertextColor,
-                        size: 16,
-                        fontWeight: FontWeight.w400,
-                      )
-                    ],
-                  ),
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        PageTransition(
-                            type: PageTransitionType.rightToLeft,
-                            child: ProfilePage()));
-                  },
-                ),
-                ListTile(
-                  title: Row(
-                    children: [
-                      Image.asset(
-                        'assets/sidemenu/od.png',
-                        width: 28,
-                        height: 28,
-                      ),
-                      widthspace,
-                      SmallText(
-                        text: MyStrings.od,
-                        color: drawertextColor,
-                        size: 16,
-                        fontWeight: FontWeight.w400,
-                      )
-                    ],
-                  ),
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        PageTransition(
-                            type: PageTransitionType.rightToLeft,
-                            child: ProfilePage()));
-                  },
-                ),
-                ListTile(
-                  title: Row(
-                    children: [
-                      Image.asset(
-                        'assets/sidemenu/leavehistory.png',
-                        width: 25,
-                        height: 25,
-                      ),
-                      widthspace,
-                      SmallText(
-                        text: MyStrings.leaveHistory,
-                        color: drawertextColor,
-                        size: 16,
-                        fontWeight: FontWeight.w400,
-                      )
-                    ],
-                  ),
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        PageTransition(
-                            type: PageTransitionType.rightToLeft,
-                            child: ProfilePage()));
-                  },
-                ),
-                ListTile(
-                  title: Row(
-                    children: [
-                      Image.asset(
-                        'assets/sidemenu/leaverules.png',
-                        width: 25,
-                        height: 25,
-                      ),
-                      widthspace,
-                      SmallText(
-                        text: MyStrings.leaveRules,
-                        color: drawertextColor,
-                        size: 16,
-                        fontWeight: FontWeight.w400,
-                      )
-                    ],
-                  ),
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        PageTransition(
-                            type: PageTransitionType.rightToLeft,
-                            child: ProfilePage()));
-                  },
-                ),
-                ListTile(
-                  title: Row(
-                    children: [
-                      Image.asset(
-                        'assets/sidemenu/holidaylist.png',
-                        width: 25,
-                        height: 25,
-                      ),
-                      widthspace,
-                      SmallText(
-                        text: MyStrings.holidayList,
-                        color: drawertextColor,
-                        size: 16,
-                        fontWeight: FontWeight.w400,
-                      )
-                    ],
-                  ),
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        PageTransition(
-                            type: PageTransitionType.rightToLeft,
-                            child: ProfilePage()));
-                  },
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
+      // drawer: SizedBox(
+      //   width: MediaQuery.of(context).size.width/1.6,
+      //   child: Drawer(
+      //     child: Container(
+      //       color: Color(0xffddd3dc).withOpacity(0.2),
+      //       child: ListView(
+      //         padding: EdgeInsets.fromLTRB(12, 0, 12, 0),
+      //         children: [
+      //           SizedBox(
+      //             height: 135.0,
+      //             child: DrawerHeader(
+      //               decoration: BoxDecoration(
+      //                 border: Border(
+      //                   bottom: Divider.createBorderSide(context,
+      //                       color: Colors.transparent),
+      //                 ),
+      //               ),
+      //               child: Image.asset(
+      //                 'assets/logo.png',
+      //                 width: 50,
+      //                 height: 50,
+      //               ),
+      //             ),
+      //           ),
+      //           heightspace,
+      //           heightspace,
+      //           ListTile(
+      //             title: Row(
+      //               children: [
+      //                 Image.asset(
+      //                   'assets/sidemenu/profile.png',
+      //                   width: 25,
+      //                   height: 25,
+      //                 ),
+      //                 widthspace,
+      //                 SmallText(
+      //                   text: MyStrings.profile,
+      //                   color: drawertextColor,
+      //                   size: 16,
+      //                   fontWeight: FontWeight.w400,
+      //                 )
+      //               ],
+      //             ),
+      //             onTap: () {
+      //               Navigator.push(
+      //                   context,
+      //                   PageTransition(
+      //                       type: PageTransitionType.rightToLeft,
+      //                       child: ProfilePage()));
+      //             },
+      //           ),
+      //           heightspace,
+      //           heightspace,
+      //           SmallText(
+      //             text: MyStrings.leavemanagment.toUpperCase(),
+      //             color: drawerHeadingColor.withOpacity(0.6),
+      //             size: 16,
+      //             fontWeight: FontWeight.w600,
+      //           ),
+      //           heightspace,
+      //           ListTile(
+      //             title: Row(
+      //               children: [
+      //                 Image.asset(
+      //                   'assets/sidemenu/leavebalance.png',
+      //                   width: 25,
+      //                   height: 25,
+      //                 ),
+      //                 widthspace,
+      //                 SmallText(
+      //                   text: MyStrings.leaveBalance,
+      //                   color: drawertextColor,
+      //                   size: 16,
+      //                   fontWeight: FontWeight.w400,
+      //                 )
+      //               ],
+      //             ),
+      //             onTap: () {
+      //               Navigator.push(
+      //                   context,
+      //                   PageTransition(
+      //                       type: PageTransitionType.rightToLeft,
+      //                       child:  LeaveSummary()));
+      //             },
+      //           ),
+      //           ListTile(
+      //             title: Row(
+      //               children: [
+      //                 Image.asset(
+      //                   'assets/sidemenu/applyleave.png',
+      //                   width: 25,
+      //                   height: 25,
+      //                 ),
+      //                 widthspace,
+      //                 SmallText(
+      //                   text: MyStrings.applyLeave,
+      //                   color: drawertextColor,
+      //                   size: 16,
+      //                   fontWeight: FontWeight.w400,
+      //                 )
+      //               ],
+      //             ),
+      //             onTap: () {
+      //               Navigator.push(
+      //                   context,
+      //                   PageTransition(
+      //                       type: PageTransitionType.rightToLeft,
+      //                       child: const ApplyLeave()));
+      //             },
+      //           ),
+      //           ListTile(
+      //             title: Row(
+      //               children: [
+      //                 Image.asset(
+      //                   'assets/sidemenu/applyswipe.png',
+      //                   width: 27,
+      //                   height: 27,
+      //                 ),
+      //                 widthspace,
+      //                 SmallText(
+      //                   text: MyStrings.applySwipe,
+      //                   color: drawertextColor,
+      //                    size: 16,
+      //                   fontWeight: FontWeight.w400,
+      //                 )
+      //               ],
+      //             ),
+      //             onTap: () {
+      //               Navigator.push(
+      //                   context,
+      //                   PageTransition(
+      //                       type: PageTransitionType.rightToLeft,
+      //                       child: ProfilePage()));
+      //             },
+      //           ),
+      //           ListTile(
+      //             title: Row(
+      //               children: [
+      //                 Image.asset(
+      //                   'assets/sidemenu/compo.png',
+      //                   width: 25,
+      //                   height: 25,
+      //                 ),
+      //                 widthspace,
+      //                 SmallText(
+      //                   text: MyStrings.compensatory,
+      //                   color: drawertextColor,
+      //                   size: 16,
+      //                   fontWeight: FontWeight.w400,
+      //                 )
+      //               ],
+      //             ),
+      //             onTap: () {
+      //               Navigator.push(
+      //                   context,
+      //                   PageTransition(
+      //                       type: PageTransitionType.rightToLeft,
+      //                       child: ProfilePage()));
+      //             },
+      //           ),
+      //           ListTile(
+      //             title: Row(
+      //               children: [
+      //                 Image.asset(
+      //                   'assets/sidemenu/od.png',
+      //                   width: 28,
+      //                   height: 28,
+      //                 ),
+      //                 widthspace,
+      //                 SmallText(
+      //                   text: MyStrings.od,
+      //                   color: drawertextColor,
+      //                   size: 16,
+      //                   fontWeight: FontWeight.w400,
+      //                 )
+      //               ],
+      //             ),
+      //             onTap: () {
+      //               Navigator.push(
+      //                   context,
+      //                   PageTransition(
+      //                       type: PageTransitionType.rightToLeft,
+      //                       child: ProfilePage()));
+      //             },
+      //           ),
+      //           ListTile(
+      //             title: Row(
+      //               children: [
+      //                 Image.asset(
+      //                   'assets/sidemenu/leavehistory.png',
+      //                   width: 25,
+      //                   height: 25,
+      //                 ),
+      //                 widthspace,
+      //                 SmallText(
+      //                   text: MyStrings.leaveHistory,
+      //                   color: drawertextColor,
+      //                   size: 16,
+      //                   fontWeight: FontWeight.w400,
+      //                 )
+      //               ],
+      //             ),
+      //             onTap: () {
+      //               Navigator.push(
+      //                   context,
+      //                   PageTransition(
+      //                       type: PageTransitionType.rightToLeft,
+      //                       child: ProfilePage()));
+      //             },
+      //           ),
+      //           ListTile(
+      //             title: Row(
+      //               children: [
+      //                 Image.asset(
+      //                   'assets/sidemenu/leaverules.png',
+      //                   width: 25,
+      //                   height: 25,
+      //                 ),
+      //                 widthspace,
+      //                 SmallText(
+      //                   text: MyStrings.leaveRules,
+      //                   color: drawertextColor,
+      //                   size: 16,
+      //                   fontWeight: FontWeight.w400,
+      //                 )
+      //               ],
+      //             ),
+      //             onTap: () {
+      //               Navigator.push(
+      //                   context,
+      //                   PageTransition(
+      //                       type: PageTransitionType.rightToLeft,
+      //                       child: ProfilePage()));
+      //             },
+      //           ),
+      //           ListTile(
+      //             title: Row(
+      //               children: [
+      //                 Image.asset(
+      //                   'assets/sidemenu/holidaylist.png',
+      //                   width: 25,
+      //                   height: 25,
+      //                 ),
+      //                 widthspace,
+      //                 SmallText(
+      //                   text: MyStrings.holidayList,
+      //                   color: drawertextColor,
+      //                   size: 16,
+      //                   fontWeight: FontWeight.w400,
+      //                 )
+      //               ],
+      //             ),
+      //             onTap: () {
+      //               Navigator.push(
+      //                   context,
+      //                   PageTransition(
+      //                       type: PageTransitionType.rightToLeft,
+      //                       child: ProfilePage()));
+      //             },
+      //           ),
+      //         ],
+      //       ),
+      //     ),
+      //   ),
+      // ),
       body: DoubleBackToCloseApp(
           snackBar: SnackBar(
             behavior: SnackBarBehavior.floating,

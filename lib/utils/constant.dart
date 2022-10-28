@@ -17,26 +17,26 @@ String TOKEN = 'token';
 
 
 
-TextStyle font11 = const TextStyle(fontSize: 11.0,fontFamily: MyStrings.FontFamilyMedium);
-TextStyle font12 = const TextStyle(fontSize: 12.0,fontFamily: MyStrings.FontFamilyMedium);
-TextStyle font13 = const TextStyle(fontSize: 13.0,fontFamily: MyStrings.FontFamilyMedium);
-TextStyle font14 = const TextStyle(fontSize: 14.0,fontFamily: MyStrings.FontFamilyMedium);
-TextStyle font15 = const TextStyle(fontSize: 15.0,fontFamily: MyStrings.FontFamilyMedium);
-TextStyle font16 = const TextStyle(fontSize: 16.0,fontFamily: MyStrings.FontFamilyMedium);
-TextStyle font17 = const TextStyle(fontSize: 17.0,fontFamily: MyStrings.FontFamilyMedium);
-TextStyle font18 = const TextStyle(fontSize: 18.0,fontFamily: MyStrings.FontFamilyMedium);
-TextStyle font19 = const TextStyle(fontSize: 19.0,fontFamily: MyStrings.FontFamilyMedium);
-TextStyle font20 = const TextStyle(fontSize: 20.0,fontFamily: MyStrings.FontFamilyMedium);
-TextStyle font21 = const TextStyle(fontSize: 21.0,fontFamily: MyStrings.FontFamilyMedium);
-TextStyle font22 = const TextStyle(fontSize: 22.0,fontFamily: MyStrings.FontFamilyMedium);
-TextStyle font23 = const TextStyle(fontSize: 23.0,fontFamily: MyStrings.FontFamilyMedium);
-TextStyle font24 = const TextStyle(fontSize: 24.0,fontFamily: MyStrings.FontFamilyMedium);
-TextStyle font25 = const TextStyle(fontSize: 25.0,fontFamily: MyStrings.FontFamilyMedium);
-TextStyle font26 = const TextStyle(fontSize: 26.0,fontFamily: MyStrings.FontFamilyMedium);
-TextStyle font27 = const TextStyle(fontSize: 27.0,fontFamily: MyStrings.FontFamilyMedium);
-TextStyle font28 = const TextStyle(fontSize: 28.0,fontFamily: MyStrings.FontFamilyMedium);
-TextStyle font29 = const TextStyle(fontSize: 29.0,fontFamily: MyStrings.FontFamilyMedium);
-TextStyle font30 = const TextStyle(fontSize: 30.0,fontFamily: MyStrings.FontFamilyMedium);
+TextStyle font11 = const TextStyle(fontSize: 11.0,fontFamily: MyStrings.fontFamilyMedium);
+TextStyle font12 = const TextStyle(fontSize: 12.0,fontFamily: MyStrings.fontFamilyMedium);
+TextStyle font13 = const TextStyle(fontSize: 13.0,fontFamily: MyStrings.fontFamilyMedium);
+TextStyle font14 = const TextStyle(fontSize: 14.0,fontFamily: MyStrings.fontFamilyMedium);
+TextStyle font15 = const TextStyle(fontSize: 15.0,fontFamily: MyStrings.fontFamilyMedium);
+TextStyle font16 = const TextStyle(fontSize: 16.0,fontFamily: MyStrings.fontFamilyMedium);
+TextStyle font17 = const TextStyle(fontSize: 17.0,fontFamily: MyStrings.fontFamilyMedium);
+TextStyle font18 = const TextStyle(fontSize: 18.0,fontFamily: MyStrings.fontFamilyMedium);
+TextStyle font19 = const TextStyle(fontSize: 19.0,fontFamily: MyStrings.fontFamilyMedium);
+TextStyle font20 = const TextStyle(fontSize: 20.0,fontFamily: MyStrings.fontFamilyMedium);
+TextStyle font21 = const TextStyle(fontSize: 21.0,fontFamily: MyStrings.fontFamilyMedium);
+TextStyle font22 = const TextStyle(fontSize: 22.0,fontFamily: MyStrings.fontFamilyMedium);
+TextStyle font23 = const TextStyle(fontSize: 23.0,fontFamily: MyStrings.fontFamilyMedium);
+TextStyle font24 = const TextStyle(fontSize: 24.0,fontFamily: MyStrings.fontFamilyMedium);
+TextStyle font25 = const TextStyle(fontSize: 25.0,fontFamily: MyStrings.fontFamilyMedium);
+TextStyle font26 = const TextStyle(fontSize: 26.0,fontFamily: MyStrings.fontFamilyMedium);
+TextStyle font27 = const TextStyle(fontSize: 27.0,fontFamily: MyStrings.fontFamilyMedium);
+TextStyle font28 = const TextStyle(fontSize: 28.0,fontFamily: MyStrings.fontFamilyMedium);
+TextStyle font29 = const TextStyle(fontSize: 29.0,fontFamily: MyStrings.fontFamilyMedium);
+TextStyle font30 = const TextStyle(fontSize: 30.0,fontFamily: MyStrings.fontFamilyMedium);
 
 Color whiteColor = Colors.white;
 Color bluegreyColor = Colors.blueGrey;

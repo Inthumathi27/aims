@@ -183,7 +183,7 @@ class _ForgotPasswordState extends State<ForgotPassword> with SingleTickerProvid
                 children: [
                   Image.asset('assets/forgot/sucess.gif',width: 75,height: 75,),
                   heightspace,
-                  SmallText(text: MyStrings.resetmessage,textAlign: TextAlign.center,),
+                  SmallText(text: MyStrings.resetMessage,textAlign: TextAlign.center,),
                 ],
               ));
         }

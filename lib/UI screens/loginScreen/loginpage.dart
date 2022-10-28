@@ -375,7 +375,7 @@ class _LoginScreenState extends State<LoginScreen>
               {
                 // _showMyDialog();
                 Fluttertoast.showToast(
-                    msg: MyStrings.valid_Id);
+                    msg: MyStrings.validId);
               print(loginResponse.message);
               }
             else{
