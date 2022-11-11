@@ -140,7 +140,7 @@ class _LoginScreenState extends State<LoginScreen>
                             SmallText(
                               text: MyStrings.department,
                               size: 14,
-                              color: bluegreyColor,
+                              color: blueGreyColor,
                               fontStyle: FontStyle.italic,
                             ),
                           ],
@@ -243,7 +243,7 @@ class _LoginScreenState extends State<LoginScreen>
                           InputTextfield(
                             text: MyStrings.employeeId,
                             controller: employeeId,
-                            fillColor: TextFieldBgColor,
+                            fillColor: textFieldBgColor,
                             icon: Icon(
                               Icons.person,
                               color: primaryColor,
@@ -256,7 +256,7 @@ class _LoginScreenState extends State<LoginScreen>
                             controller: passwordController,
                             decoration: InputDecoration(
                               filled: true,
-                              fillColor: TextFieldBgColor,
+                              fillColor: textFieldBgColor,
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10),
                                 borderSide: BorderSide.none,
@@ -299,12 +299,12 @@ class _LoginScreenState extends State<LoginScreen>
                           ),
                           InkWell(
                             onTap: () {
-                              Navigator.push(
-                                  context,
-                                  PageTransition(
-                                      type: PageTransitionType.rightToLeft,
-                                      child: const HomeScreen()));
-                              // _loginWithPassword(employeeId.text,passwordController.text);
+                              // Navigator.push(
+                              //     context,
+                              //     PageTransition(
+                              //         type: PageTransitionType.rightToLeft,
+                              //         child: const HomeScreen()));
+                             _loginWithPassword(employeeId.text,passwordController.text);
                             },
                             child: Listener(
                               onPointerDown: (PointerDownEvent event) {

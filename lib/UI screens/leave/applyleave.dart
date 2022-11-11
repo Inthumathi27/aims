@@ -113,7 +113,7 @@ class _ApplyLeaveState extends State<ApplyLeave> {
                       }).toList(),
                       hint: SmallText(
                         text: MyStrings.leaveType,
-                        color: drawertextColor,
+                        color: drawerTextColor,
                         size: 16,
                         fontWeight: FontWeight.w400,
                       ),
@@ -277,7 +277,7 @@ class _ApplyLeaveState extends State<ApplyLeave> {
                             }).toList(),
                             hint: SmallText(
                               text: MyStrings.half,
-                              color: drawertextColor,
+                              color: drawerTextColor,
                               size: 16,
                               fontWeight: FontWeight.w400,
                             ),
@@ -383,7 +383,7 @@ class _ApplyLeaveState extends State<ApplyLeave> {
                                 }).toList(),
                                 hint: SmallText(
                                   text: MyStrings.half,
-                                  color: drawertextColor,
+                                  color: drawerTextColor,
                                   size: 16,
                                   fontWeight: FontWeight.w400,
                                 ),

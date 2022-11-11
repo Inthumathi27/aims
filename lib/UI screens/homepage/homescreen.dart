@@ -1,6 +1,7 @@
 import 'package:aims/UI%20screens/account/profile.dart';
 import 'package:aims/UI%20screens/leave/applyleave.dart';
 import 'package:aims/UI%20screens/leave/leavesummary.dart';
+import 'package:aims/UI%20screens/leave/myteam/teamleavedetails.dart';
 import 'package:aims/UI%20screens/loginScreen/loginpage.dart';
 import 'package:aims/utils/constant.dart';
 import 'package:aims/utils/strings.dart';
@@ -337,51 +338,103 @@ class _HomeScreenState extends State<HomeScreen> {
               textAlign: TextAlign.center,
             ),
           ),
-          child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround,
+          child: Column(
             children: [
-              InkWell(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      PageTransition(
-                          type: PageTransitionType.rightToLeft,
-                          child: ProfilePage()));
-                },
-                child: Column(
-                  children: [
-                    Icon(
-                      Icons.account_circle_outlined,
-                      size: 100,
-                      color: bluegreyColor,
+              Row(mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          PageTransition(
+                              type: PageTransitionType.rightToLeft,
+                              child: ProfilePage()));
+                    },
+                    child: Column(
+                      children: [
+                        Icon(
+                          Icons.account_circle_outlined,
+                          size: 100,
+                          color: blueGreyColor,
+                        ),
+                        SmallText(
+                          text: MyStrings.profile,
+                          size: 18,
+                        )
+                      ],
                     ),
-                    SmallText(
-                      text: MyStrings.profile,
-                      size: 18,
-                    )
-                  ],
-                ),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          PageTransition(
+                              type: PageTransitionType.rightToLeft,
+                              child: LeaveSummary()));
+                    },
+                    child: Column(
+                      children: [
+                        Icon(
+                          Icons.account_circle_outlined,
+                          size: 100,
+                          color: blueGreyColor,
+                        ),
+                        SmallText(
+                          text: MyStrings.leave,
+                          size: 18,
+                        )
+                      ],
+                    ),
+                  ),
+                ],
               ),
-              InkWell(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      PageTransition(
-                          type: PageTransitionType.rightToLeft,
-                          child: LeaveSummary()));
-                },
-                child: Column(
-                  children: [
-                    Icon(
-                      Icons.account_circle_outlined,
-                      size: 100,
-                      color: bluegreyColor,
+              Row(mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          PageTransition(
+                              type: PageTransitionType.rightToLeft,
+                              child: MyTeam()));
+                    },
+                    child: Column(
+                      children: [
+                        Icon(
+                          Icons.account_circle_outlined,
+                          size: 100,
+                          color: blueGreyColor,
+                        ),
+                        SmallText(
+                          text: MyStrings.myTeam,
+                          size: 18,
+                        )
+                      ],
                     ),
-                    SmallText(
-                      text: MyStrings.leave,
-                      size: 18,
-                    )
-                  ],
-                ),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      // Navigator.push(
+                      //     context,
+                      //     PageTransition(
+                      //         type: PageTransitionType.rightToLeft,
+                      //         child: LeaveSummary()));
+                    },
+                    child: Column(
+                      children: [
+                        Icon(
+                          Icons.account_circle_outlined,
+                          size: 100,
+                          color: blueGreyColor,
+                        ),
+                        // SmallText(
+                        //   text: MyStrings.leave,
+                        //   size: 18,
+                        // )
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ],
           ),

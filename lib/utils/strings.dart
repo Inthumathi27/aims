@@ -51,33 +51,44 @@ class MyStrings{
   static const leave ="Leave";
   static const leaveBalance ="Leave Balance";
   static const applyLeave ="Apply Leave";
+  static const applySwipe ="Apply Swipe";
+  static const permission ="Permission";
+  static const shiftChange ="Apply Shift change";
   static const compensatory ="Compensatory Off ";
   static const od ="OD";
   static const leaveHistory ="Leave History";
   static const leaveRules ="Leave Rules";
-  static const holidayList ="Holiday List";
+
 
   // Leave Summary
 
   static const leaveSummary ="Leave Summary";
+  static const leaveManagement ="Leave Management";
   static const casualLeave ="Casual Leave";
   static const sickLeave ="Sick Leave";
   static const privilegeLeave	="Privilege Leave";
-  static const marriageLeave ="Marriage Leave";
-  static const paternityLeave ="Paternity Leave";
-  static const medicalLeave	="Medical Leave";
-  static const bereavementLeave ="Bereavement Leave";
+  static const marriageLeave ="Marriage";
+  static const paternityLeave ="Paternity";
+  static const maternityLeave ="Maternity";
+  static const medicalLeave	="Medical";
+  static const bereavementLeave ="Bereavement";
+  static const menu ="Menu";
+  static const summary ="Summary";
+  static const holidayList ="Holiday List";
+  static const policy ="Policy";
+  static const history ="History";
 
   // Apply leave
-  static const requestLeave	="Request a Leave";
-  static const requestSwipe	="Request a Swipe";
-  static const leaveType ="Select Leave Type";
+  static const requestLeave	="Request Leave";
+  static const requestSwipe	="Request Swipe";
+  static const requestShiftChange	="Request shift change";
+  static const leaveType ="Select Type";
   static const applyDate ="Apply Date";
   static const type	="Type";
   static const date	="Date";
   static const reason	="Reason";
   static const attachFile	="Attach file";
-  static const uploadFile	="Upload file";
+  static const uploadFile	="Upload Documents";
   static const gallery ="Gallery";
   static const camera	="Camera";
   static const yes ="Yes";
@@ -89,6 +100,7 @@ class MyStrings{
   static const forSession	="For?";
   static const fromDate	="From date";
   static const toDate	="To date";
+  static const apply	="Apply";
 
   // Swipe
   static const swipe ="Swipe";
@@ -99,6 +111,11 @@ class MyStrings{
   static const out ="Out";
   static const request ="Request Swipe";
   static const both ="Both";
+
+  // Shift
+  static const morning ="General shift";
+  static const noon ="Noon shift";
+  static const night ="Night shift";
 
   // Com off
   static const compOff ="Comp Off";
@@ -122,4 +139,9 @@ class MyStrings{
   static const cancel ="Cancel";
   static const approved ="Approved";
   static const rejected ="Rejected";
+
+  // My Team
+  static const myTeam ="My Team";
+  static const edit ="Edit";
+  static const delete ="Delete";
 }

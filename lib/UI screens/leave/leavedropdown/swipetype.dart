@@ -49,7 +49,7 @@ class _DropDownSwipeState extends State<DropDownSwipe> {
             }).toList(),
             hint: SmallText(
               text: MyStrings.selectType,
-              color: drawertextColor,
+              color: drawerTextColor,
               size: 16,
               fontWeight: FontWeight.w400,
             ),

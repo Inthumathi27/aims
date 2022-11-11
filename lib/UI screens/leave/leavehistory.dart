@@ -69,15 +69,6 @@ class _LeaveHistoryState extends State<LeaveHistory> {
 
   String state = 'Animation start';
 
-  var selectedItem = '';
-
-  void showMenuSelection(String value) {
-    setState(() {
-      selectedItem = value.toString();
-    });
-
-    Navigator.pushNamed(context, value.toString());
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -142,7 +133,7 @@ class _LeaveHistoryState extends State<LeaveHistory> {
                               SmallText(
                                 text: "Casual Leave",
                                 size: 15,
-                                color: containertextGreyColor.withOpacity(0.7),
+                                color: containerTextGreyColor.withOpacity(0.7),
                               )
                             ],
                           )
@@ -185,7 +176,7 @@ class _LeaveHistoryState extends State<LeaveHistory> {
                               SmallText(
                                 text: "Sick Leave",
                                 size: 15,
-                                color: containertextGreyColor.withOpacity(0.7),
+                                color: containerTextGreyColor.withOpacity(0.7),
                               )
                             ],
                           )
@@ -311,7 +302,7 @@ class _LeaveHistoryState extends State<LeaveHistory> {
                                                                   .leaveType ==
                                                               "Com Off"
                                                           ? const Color (0xffff8659)
-                                                          : bluegreyColor,
+                                                          : blueGreyColor,
                                               fontStyle: FontStyle.italic,
                                               size: 15,
                                               fontWeight: FontWeight.w600,
@@ -339,7 +330,7 @@ class _LeaveHistoryState extends State<LeaveHistory> {
                                       child: SmallText(
                                         text: leaveHistory[index].reason,
                                         size: 13,
-                                        color: drawertextColor,
+                                        color: drawerTextColor,
                                       ),
                                     ),
                                     Container(
@@ -368,7 +359,7 @@ class _LeaveHistoryState extends State<LeaveHistory> {
                                                 color: leaveHistory[index]
                                                             .status ==
                                                         "Approved"
-                                                    ? bluegreyColor
+                                                    ? blueGreyColor
                                                 // const Color(0xff569b5f)
                                                     : leaveHistory[index]
                                                                 .status ==
@@ -387,7 +378,7 @@ class _LeaveHistoryState extends State<LeaveHistory> {
                                               color: leaveHistory[index]
                                                           .status ==
                                                       "Approved"
-                                                  ?  bluegreyColor
+                                                  ?  blueGreyColor
                                               // const Color(0xff569b5f)
                                                   : leaveHistory[index]
                                                               .status ==

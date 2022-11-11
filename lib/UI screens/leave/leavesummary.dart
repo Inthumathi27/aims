@@ -1,1124 +1,157 @@
 import 'dart:io';
-import 'dart:math' as math;
 import 'dart:math';
-import 'package:aims/UI%20screens/leave/leaveapplication.dart';
+
 import 'package:aims/utils/constant.dart';
 import 'package:aims/utils/strings.dart';
 import 'package:aims/widgets/button.dart';
 import 'package:aims/widgets/smalltext.dart';
-import 'package:fdottedline/fdottedline.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:marquee/marquee.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:page_transition/page_transition.dart';
-import 'leavedropdown/leavetype.dart';
-import 'leavedropdown/modetype.dart';
-import 'leavehistory.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
+import 'leaveapplication.dart';
 
-// class LeaveSummary extends StatefulWidget {
-//   const LeaveSummary({Key? key}) : super(key: key);
-//
-//   @override
-//   State<LeaveSummary> createState() => _LeaveSummaryState();
-// }
-//
-// class _LeaveSummaryState extends State<LeaveSummary> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         centerTitle: true,
-//         title: SmallText(
-//           text: MyStrings.leaveBalance,
-//         ),
-//         actions: [
-//           InkWell(
-//             onTap: () {
-//               Navigator.of(context).pushReplacement(
-//                   CupertinoPageRoute(builder: (context) => const ApplyLeave()));
-//             },
-//             child: const Padding(
-//               padding: EdgeInsets.only(right: 10.0),
-//               child: Icon(Icons.add),
-//             ),
-//           ),
-//         ],
-//       ),
-//       body: SingleChildScrollView(
-//         child: Padding(
-//           padding: const EdgeInsets.all(15.0),
-//           child: Column(
-//             children: [
-//               // Row(
-//               //   children: [
-//               //     Icon(Icons.account_circle_outlined,color: textGreyColor,),
-//               //     widthspace,
-//               //     SmallText(
-//               //       text: "Faina Josephine",
-//               //       size: 16,
-//               //       fontWeight: FontWeight.w600,
-//               //     ),
-//               //   ],
-//               // ),
-//               // heightspace,
-//               // Row(
-//               //   children: [
-//               //     Icon(Icons.approval,color: textGreyColor,),
-//               //     widthspace,
-//               //     SmallText(
-//               //       text: "AM045",
-//               //       size: 16,
-//               //       fontWeight: FontWeight.w600,
-//               //     ),
-//               //   ],
-//               // ),
-//               // heightspace,
-//               // heightspace,
-//
-//               Container(
-//                 width: MediaQuery.of(context).size.width,
-//                 decoration: BoxDecoration(
-//                   borderRadius: BorderRadius.circular(10),
-//                   color: const Color(0xfffde1e6).withOpacity(0.5),
-//                 ),
-//                 child: Padding(
-//                   padding: const EdgeInsets.all(12.0),
-//                   child: Column(
-//                     crossAxisAlignment: CrossAxisAlignment.start,
-//                     children: [
-//                       SmallText(
-//                         text: MyStrings.casualLeave,
-//                         color: Color(0xff9d7178),
-//                         fontWeight: FontWeight.w600,
-//                         size: 16,
-//                       ),
-//                       heightspace,
-//                       FDottedLine(
-//                         color: borderColor.withOpacity(0.2),
-//                         width: MediaQuery.of(context).size.width,
-//                       ),
-//                       heightspace,
-//                       Row(
-//                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                         children: [
-//                           Card(
-//                             shape: RoundedRectangleBorder(
-//                               borderRadius: BorderRadius.circular(10.0),
-//                             ),
-//                             elevation: 2,
-//                             child: Container(
-//                               width: MediaQuery.of(context).size.width / 4,
-//                               child: Padding(
-//                                 padding: const EdgeInsets.all(8.0),
-//                                 child: Column(
-//                                   children: [
-//                                     SmallText(
-//                                       text: "7",
-//                                       size: 22,
-//                                       fontWeight: FontWeight.w600,
-//                                     ),
-//                                     const SizedBox(
-//                                       height: 5,
-//                                     ),
-//                                     SmallText(
-//                                       text: MyStrings.balance,
-//                                       size: 14,
-//                                       color: drawertextColor,
-//                                       textAlign: TextAlign.center,
-//                                     ),
-//                                   ],
-//                                 ),
-//                               ),
-//                             ),
-//                           ),
-//                           Card(
-//                             shape: RoundedRectangleBorder(
-//                               borderRadius: BorderRadius.circular(10.0),
-//                             ),
-//                             elevation: 2,
-//                             child: Container(
-//                               width: MediaQuery.of(context).size.width / 4,
-//                               child: Padding(
-//                                 padding: const EdgeInsets.all(8.0),
-//                                 child: Column(
-//                                   children: [
-//                                     SmallText(
-//                                       text: "3.5",
-//                                       size: 22,
-//                                       fontWeight: FontWeight.w600,
-//                                     ),
-//                                     const SizedBox(
-//                                       height: 5,
-//                                     ),
-//                                     SmallText(
-//                                       text: MyStrings.taken,
-//                                       size: 14,
-//                                       color: drawertextColor,
-//                                       textAlign: TextAlign.center,
-//                                     ),
-//                                   ],
-//                                 ),
-//                               ),
-//                             ),
-//                           ),
-//                           Card(
-//                             shape: RoundedRectangleBorder(
-//                               borderRadius: BorderRadius.circular(10.0),
-//                             ),
-//                             elevation: 2,
-//                             child: Container(
-//                               width: MediaQuery.of(context).size.width / 4,
-//                               child: Padding(
-//                                 padding: const EdgeInsets.all(8.0),
-//                                 child: Column(
-//                                   children: [
-//                                     SmallText(
-//                                       text: "3.5",
-//                                       size: 22,
-//                                       fontWeight: FontWeight.w600,
-//                                     ),
-//                                     const SizedBox(
-//                                       height: 5,
-//                                     ),
-//                                     SmallText(
-//                                       text: MyStrings.pending,
-//                                       size: 14,
-//                                       color: drawertextColor,
-//                                       textAlign: TextAlign.center,
-//                                     ),
-//                                   ],
-//                                 ),
-//                               ),
-//                             ),
-//                           ),
-//                         ],
-//                       )
-//                     ],
-//                   ),
-//                 ),
-//               ),
-//               heightspace,
-//               heightspace,
-//               Container(
-//                 width: MediaQuery.of(context).size.width,
-//                 decoration: BoxDecoration(
-//                   borderRadius: BorderRadius.circular(10),
-//                   color: Color(0xffbffbfc).withOpacity(0.5),
-//                 ),
-//                 child: Padding(
-//                   padding: const EdgeInsets.all(12.0),
-//                   child: Column(
-//                     crossAxisAlignment: CrossAxisAlignment.start,
-//                     children: [
-//                       SmallText(
-//                         text: MyStrings.sickLeave,
-//                         color: Color(0xff378486),
-//                         fontWeight: FontWeight.w600,
-//                         size: 16,
-//                       ),
-//                       heightspace,
-//                       FDottedLine(
-//                         color: borderColor.withOpacity(0.2),
-//                         width: MediaQuery.of(context).size.width,
-//                       ),
-//                       heightspace,
-//                       Row(
-//                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                         children: [
-//                           Card(
-//                             elevation: 2,
-//                             shape: RoundedRectangleBorder(
-//                               borderRadius: BorderRadius.circular(10.0),
-//                             ),
-//                             child: Container(
-//                               width: MediaQuery.of(context).size.width / 4,
-//                               child: Padding(
-//                                 padding: const EdgeInsets.all(8.0),
-//                                 child: Column(
-//                                   children: [
-//                                     SmallText(
-//                                       text: "7",
-//                                       size: 22,
-//                                       fontWeight: FontWeight.w600,
-//                                     ),
-//                                     const SizedBox(
-//                                       height: 5,
-//                                     ),
-//                                     SmallText(
-//                                       text: MyStrings.balance,
-//                                       size: 14,
-//                                       color: drawertextColor,
-//                                       textAlign: TextAlign.center,
-//                                     ),
-//                                   ],
-//                                 ),
-//                               ),
-//                             ),
-//                           ),
-//                           Card(
-//                             shape: RoundedRectangleBorder(
-//                               borderRadius: BorderRadius.circular(10.0),
-//                             ),
-//                             elevation: 2,
-//                             child: Container(
-//                               width: MediaQuery.of(context).size.width / 4,
-//                               child: Padding(
-//                                 padding: const EdgeInsets.all(8.0),
-//                                 child: Column(
-//                                   children: [
-//                                     SmallText(
-//                                       text: "5",
-//                                       size: 22,
-//                                       fontWeight: FontWeight.w600,
-//                                     ),
-//                                     const SizedBox(
-//                                       height: 5,
-//                                     ),
-//                                     SmallText(
-//                                       text: MyStrings.taken,
-//                                       size: 14,
-//                                       color: drawertextColor,
-//                                       textAlign: TextAlign.center,
-//                                     ),
-//                                   ],
-//                                 ),
-//                               ),
-//                             ),
-//                           ),
-//                           Card(
-//                             shape: RoundedRectangleBorder(
-//                               borderRadius: BorderRadius.circular(10.0),
-//                             ),
-//                             elevation: 2,
-//                             child: Container(
-//                               width: MediaQuery.of(context).size.width / 4,
-//                               child: Padding(
-//                                 padding: const EdgeInsets.all(8.0),
-//                                 child: Column(
-//                                   children: [
-//                                     SmallText(
-//                                       text: "2",
-//                                       size: 22,
-//                                       fontWeight: FontWeight.w600,
-//                                     ),
-//                                     const SizedBox(
-//                                       height: 5,
-//                                     ),
-//                                     SmallText(
-//                                       text: MyStrings.pending,
-//                                       size: 14,
-//                                       color: drawertextColor,
-//                                       textAlign: TextAlign.center,
-//                                     ),
-//                                   ],
-//                                 ),
-//                               ),
-//                             ),
-//                           ),
-//                         ],
-//                       )
-//                     ],
-//                   ),
-//                 ),
-//               ),
-//               heightspace,
-//               heightspace,
-//               Container(
-//                 width: MediaQuery.of(context).size.width,
-//                 decoration: BoxDecoration(
-//                   borderRadius: BorderRadius.circular(10),
-//                   color: Color(0xfffcfbd4).withOpacity(0.5),
-//                 ),
-//                 child: Padding(
-//                   padding: const EdgeInsets.all(12.0),
-//                   child: Column(
-//                     crossAxisAlignment: CrossAxisAlignment.start,
-//                     children: [
-//                       SmallText(
-//                         text: MyStrings.privilegeLeave,
-//                         color: const Color(0xff8b8a54),
-//                         fontWeight: FontWeight.w600,
-//                         size: 16,
-//                       ),
-//                       heightspace,
-//                       FDottedLine(
-//                         color: borderColor.withOpacity(0.2),
-//                         width: MediaQuery.of(context).size.width,
-//                       ),
-//                       heightspace,
-//                       Row(
-//                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                         children: [
-//                           Card(
-//                             shape: RoundedRectangleBorder(
-//                               borderRadius: BorderRadius.circular(10.0),
-//                             ),
-//                             elevation: 2,
-//                             child: Container(
-//                               width: MediaQuery.of(context).size.width / 4,
-//                               child: Padding(
-//                                 padding: const EdgeInsets.all(8.0),
-//                                 child: Column(
-//                                   children: [
-//                                     SmallText(
-//                                       text: "0",
-//                                       size: 22,
-//                                       fontWeight: FontWeight.w600,
-//                                     ),
-//                                     const SizedBox(
-//                                       height: 5,
-//                                     ),
-//                                     SmallText(
-//                                       text: MyStrings.balance,
-//                                       size: 14,
-//                                       color: drawertextColor,
-//                                       textAlign: TextAlign.center,
-//                                     ),
-//                                   ],
-//                                 ),
-//                               ),
-//                             ),
-//                           ),
-//                           Card(
-//                             shape: RoundedRectangleBorder(
-//                               borderRadius: BorderRadius.circular(10.0),
-//                             ),
-//                             elevation: 2,
-//                             child: SizedBox(
-//                               width: MediaQuery.of(context).size.width / 4,
-//                               child: Padding(
-//                                 padding: const EdgeInsets.all(8.0),
-//                                 child: Column(
-//                                   children: [
-//                                     SmallText(
-//                                       text: "0",
-//                                       size: 22,
-//                                       fontWeight: FontWeight.w600,
-//                                     ),
-//                                     const SizedBox(
-//                                       height: 5,
-//                                     ),
-//                                     SmallText(
-//                                       text: MyStrings.taken,
-//                                       size: 14,
-//                                       color: drawertextColor,
-//                                       textAlign: TextAlign.center,
-//                                     ),
-//                                   ],
-//                                 ),
-//                               ),
-//                             ),
-//                           ),
-//                           Card(
-//                             shape: RoundedRectangleBorder(
-//                               borderRadius: BorderRadius.circular(10.0),
-//                             ),
-//                             elevation: 2,
-//                             child: SizedBox(
-//                               width: MediaQuery.of(context).size.width / 4,
-//                               child: Padding(
-//                                 padding: const EdgeInsets.all(8.0),
-//                                 child: Column(
-//                                   children: [
-//                                     SmallText(
-//                                       text: "0",
-//                                       size: 22,
-//                                       fontWeight: FontWeight.w600,
-//                                     ),
-//                                     const SizedBox(
-//                                       height: 5,
-//                                     ),
-//                                     SmallText(
-//                                       text: MyStrings.pending,
-//                                       size: 14,
-//                                       color: drawertextColor,
-//                                       textAlign: TextAlign.center,
-//                                     ),
-//                                   ],
-//                                 ),
-//                               ),
-//                             ),
-//                           ),
-//                         ],
-//                       )
-//                     ],
-//                   ),
-//                 ),
-//               ),
-//               heightspace,
-//               heightspace,
-//               Container(
-//                 width: MediaQuery.of(context).size.width,
-//                 decoration: BoxDecoration(
-//                   borderRadius: BorderRadius.circular(10),
-//                   color: const Color(0xffefdcfe).withOpacity(0.5),
-//                 ),
-//                 child: Padding(
-//                   padding: const EdgeInsets.all(12.0),
-//                   child: Column(
-//                     crossAxisAlignment: CrossAxisAlignment.start,
-//                     children: [
-//                       SmallText(
-//                         text: MyStrings.comOff,
-//                         color: const Color(0xff7e6494),
-//                         fontWeight: FontWeight.w600,
-//                         size: 16,
-//                       ),
-//                       heightspace,
-//                       FDottedLine(
-//                         color: borderColor.withOpacity(0.2),
-//                         width: MediaQuery.of(context).size.width,
-//                       ),
-//                       heightspace,
-//                       Row(
-//                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                         children: [
-//                           Card(
-//                             shape: RoundedRectangleBorder(
-//                               borderRadius: BorderRadius.circular(10.0),
-//                             ),
-//                             elevation: 2,
-//                             child: SizedBox(
-//                               width: MediaQuery.of(context).size.width / 4,
-//                               child: Padding(
-//                                 padding: const EdgeInsets.all(8.0),
-//                                 child: Column(
-//                                   children: [
-//                                     SmallText(
-//                                       text: "3",
-//                                       size: 22,
-//                                       fontWeight: FontWeight.w600,
-//                                     ),
-//                                     const SizedBox(
-//                                       height: 5,
-//                                     ),
-//                                     SmallText(
-//                                       text: MyStrings.balance,
-//                                       size: 14,
-//                                       color: drawertextColor,
-//                                       textAlign: TextAlign.center,
-//                                     ),
-//                                   ],
-//                                 ),
-//                               ),
-//                             ),
-//                           ),
-//                           Card(
-//                             shape: RoundedRectangleBorder(
-//                               borderRadius: BorderRadius.circular(10.0),
-//                             ),
-//                             elevation: 2,
-//                             child: Container(
-//                               width: MediaQuery.of(context).size.width / 4,
-//                               child: Padding(
-//                                 padding: const EdgeInsets.all(8.0),
-//                                 child: Column(
-//                                   children: [
-//                                     SmallText(
-//                                       text: "0",
-//                                       size: 22,
-//                                       fontWeight: FontWeight.w600,
-//                                     ),
-//                                     const SizedBox(
-//                                       height: 5,
-//                                     ),
-//                                     SmallText(
-//                                       text: MyStrings.taken,
-//                                       size: 14,
-//                                       color: drawertextColor,
-//                                       textAlign: TextAlign.center,
-//                                     ),
-//                                   ],
-//                                 ),
-//                               ),
-//                             ),
-//                           ),
-//                           Card(
-//                             shape: RoundedRectangleBorder(
-//                               borderRadius: BorderRadius.circular(10.0),
-//                             ),
-//                             elevation: 2,
-//                             child: Container(
-//                               width: MediaQuery.of(context).size.width / 4,
-//                               child: Padding(
-//                                 padding: const EdgeInsets.all(8.0),
-//                                 child: Column(
-//                                   children: [
-//                                     SmallText(
-//                                       text: "3",
-//                                       size: 22,
-//                                       fontWeight: FontWeight.w600,
-//                                     ),
-//                                     const SizedBox(
-//                                       height: 5,
-//                                     ),
-//                                     SmallText(
-//                                       text: MyStrings.pending,
-//                                       size: 14,
-//                                       color: drawertextColor,
-//                                       textAlign: TextAlign.center,
-//                                     ),
-//                                   ],
-//                                 ),
-//                               ),
-//                             ),
-//                           ),
-//                         ],
-//                       )
-//                     ],
-//                   ),
-//                 ),
-//               ),
-//               heightspace,
-//               heightspace,
-//               Container(
-//                 width: MediaQuery.of(context).size.width,
-//                 decoration: BoxDecoration(
-//                   borderRadius: BorderRadius.circular(10),
-//                   color: Color(0xffd2f6e9).withOpacity(0.5),
-//                 ),
-//                 child: Padding(
-//                   padding: const EdgeInsets.all(12.0),
-//                   child: Column(
-//                     crossAxisAlignment: CrossAxisAlignment.start,
-//                     children: [
-//                       SmallText(
-//                         text: MyStrings.marriageLeave,
-//                         color: const Color(0xff507466),
-//                         fontWeight: FontWeight.w600,
-//                         size: 16,
-//                       ),
-//                       heightspace,
-//                       FDottedLine(
-//                         color: borderColor.withOpacity(0.2),
-//                         width: MediaQuery.of(context).size.width,
-//                       ),
-//                       heightspace,
-//                       Row(
-//                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                         children: [
-//                           Card(
-//                             shape: RoundedRectangleBorder(
-//                               borderRadius: BorderRadius.circular(10.0),
-//                             ),
-//                             elevation: 2,
-//                             child: Container(
-//                               width: MediaQuery.of(context).size.width / 4,
-//                               child: Padding(
-//                                 padding: const EdgeInsets.all(8.0),
-//                                 child: Column(
-//                                   children: [
-//                                     SmallText(
-//                                       text: "20",
-//                                       size: 22,
-//                                       fontWeight: FontWeight.w600,
-//                                     ),
-//                                     const SizedBox(
-//                                       height: 5,
-//                                     ),
-//                                     SmallText(
-//                                       text: MyStrings.balance,
-//                                       size: 14,
-//                                       color: drawertextColor,
-//                                       textAlign: TextAlign.center,
-//                                     ),
-//                                   ],
-//                                 ),
-//                               ),
-//                             ),
-//                           ),
-//                           Card(
-//                             shape: RoundedRectangleBorder(
-//                               borderRadius: BorderRadius.circular(10.0),
-//                             ),
-//                             elevation: 2,
-//                             child: Container(
-//                               width: MediaQuery.of(context).size.width / 4,
-//                               child: Padding(
-//                                 padding: const EdgeInsets.all(8.0),
-//                                 child: Column(
-//                                   children: [
-//                                     SmallText(
-//                                       text: "20",
-//                                       size: 22,
-//                                       fontWeight: FontWeight.w600,
-//                                     ),
-//                                     const SizedBox(
-//                                       height: 5,
-//                                     ),
-//                                     SmallText(
-//                                       text: MyStrings.taken,
-//                                       size: 14,
-//                                       color: drawertextColor,
-//                                       textAlign: TextAlign.center,
-//                                     ),
-//                                   ],
-//                                 ),
-//                               ),
-//                             ),
-//                           ),
-//                           Card(
-//                             shape: RoundedRectangleBorder(
-//                               borderRadius: BorderRadius.circular(10.0),
-//                             ),
-//                             elevation: 2,
-//                             child: Container(
-//                               width: MediaQuery.of(context).size.width / 4,
-//                               child: Padding(
-//                                 padding: const EdgeInsets.all(8.0),
-//                                 child: Column(
-//                                   children: [
-//                                     SmallText(
-//                                       text: "0",
-//                                       size: 22,
-//                                       fontWeight: FontWeight.w600,
-//                                     ),
-//                                     const SizedBox(
-//                                       height: 5,
-//                                     ),
-//                                     SmallText(
-//                                       text: MyStrings.pending,
-//                                       size: 14,
-//                                       color: drawertextColor,
-//                                       textAlign: TextAlign.center,
-//                                     ),
-//                                   ],
-//                                 ),
-//                               ),
-//                             ),
-//                           ),
-//                         ],
-//                       )
-//                     ],
-//                   ),
-//                 ),
-//               ),
-//               heightspace,
-//               heightspace,
-//               Container(
-//                 width: MediaQuery.of(context).size.width,
-//                 decoration: BoxDecoration(
-//                   borderRadius: BorderRadius.circular(10),
-//                   color: Color(0xffc8d8ef).withOpacity(0.5),
-//                 ),
-//                 child: Padding(
-//                   padding: const EdgeInsets.all(12.0),
-//                   child: Column(
-//                     crossAxisAlignment: CrossAxisAlignment.start,
-//                     children: [
-//                       SmallText(
-//                         text: MyStrings.paternityLeave,
-//                         color: const Color(0xff36598a),
-//                         fontWeight: FontWeight.w600,
-//                         size: 16,
-//                       ),
-//                       heightspace,
-//                       FDottedLine(
-//                         color: borderColor.withOpacity(0.2),
-//                         width: MediaQuery.of(context).size.width,
-//                       ),
-//                       heightspace,
-//                       Row(
-//                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                         children: [
-//                           Card(
-//                             shape: RoundedRectangleBorder(
-//                               borderRadius: BorderRadius.circular(10.0),
-//                             ),
-//                             elevation: 2,
-//                             child: Container(
-//                               width: MediaQuery.of(context).size.width / 4,
-//                               child: Padding(
-//                                 padding: const EdgeInsets.all(8.0),
-//                                 child: Column(
-//                                   children: [
-//                                     SmallText(
-//                                       text: "182",
-//                                       size: 22,
-//                                       fontWeight: FontWeight.w600,
-//                                     ),
-//                                     const SizedBox(
-//                                       height: 5,
-//                                     ),
-//                                     SmallText(
-//                                       text: MyStrings.balance,
-//                                       size: 14,
-//                                       color: drawertextColor,
-//                                       textAlign: TextAlign.center,
-//                                     ),
-//                                   ],
-//                                 ),
-//                               ),
-//                             ),
-//                           ),
-//                           Card(
-//                             shape: RoundedRectangleBorder(
-//                               borderRadius: BorderRadius.circular(10.0),
-//                             ),
-//                             elevation: 2,
-//                             child: Container(
-//                               width: MediaQuery.of(context).size.width / 4,
-//                               child: Padding(
-//                                 padding: const EdgeInsets.all(8.0),
-//                                 child: Column(
-//                                   children: [
-//                                     SmallText(
-//                                       text: "130",
-//                                       size: 22,
-//                                       fontWeight: FontWeight.w600,
-//                                     ),
-//                                     const SizedBox(
-//                                       height: 5,
-//                                     ),
-//                                     SmallText(
-//                                       text: MyStrings.taken,
-//                                       size: 14,
-//                                       color: drawertextColor,
-//                                       textAlign: TextAlign.center,
-//                                     ),
-//                                   ],
-//                                 ),
-//                               ),
-//                             ),
-//                           ),
-//                           Card(
-//                             shape: RoundedRectangleBorder(
-//                               borderRadius: BorderRadius.circular(10.0),
-//                             ),
-//                             elevation: 2,
-//                             child: Container(
-//                               width: MediaQuery.of(context).size.width / 4,
-//                               child: Padding(
-//                                 padding: const EdgeInsets.all(8.0),
-//                                 child: Column(
-//                                   children: [
-//                                     SmallText(
-//                                       text: "52",
-//                                       size: 22,
-//                                       fontWeight: FontWeight.w600,
-//                                     ),
-//                                     const SizedBox(
-//                                       height: 5,
-//                                     ),
-//                                     SmallText(
-//                                       text: MyStrings.pending,
-//                                       size: 14,
-//                                       color: drawertextColor,
-//                                       textAlign: TextAlign.center,
-//                                     ),
-//                                   ],
-//                                 ),
-//                               ),
-//                             ),
-//                           ),
-//                         ],
-//                       )
-//                     ],
-//                   ),
-//                 ),
-//               ),
-//               heightspace,
-//               heightspace,
-//               Container(
-//                 width: MediaQuery.of(context).size.width,
-//                 decoration: BoxDecoration(
-//                   borderRadius: BorderRadius.circular(10),
-//                   color: const Color(0xfffbdfb8).withOpacity(0.5),
-//                 ),
-//                 child: Padding(
-//                   padding: const EdgeInsets.all(12.0),
-//                   child: Column(
-//                     crossAxisAlignment: CrossAxisAlignment.start,
-//                     children: [
-//                       SmallText(
-//                         text: MyStrings.medicalLeave,
-//                         color: const Color(0xff876f4d),
-//                         fontWeight: FontWeight.w600,
-//                         size: 16,
-//                       ),
-//                       heightspace,
-//                       FDottedLine(
-//                         color: borderColor.withOpacity(0.2),
-//                         width: MediaQuery.of(context).size.width,
-//                       ),
-//                       heightspace,
-//                       Row(
-//                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                         children: [
-//                           Card(
-//                             shape: RoundedRectangleBorder(
-//                               borderRadius: BorderRadius.circular(10.0),
-//                             ),
-//                             elevation: 2,
-//                             child: Container(
-//                               width: MediaQuery.of(context).size.width / 4,
-//                               child: Padding(
-//                                 padding: const EdgeInsets.all(8.0),
-//                                 child: Column(
-//                                   children: [
-//                                     SmallText(
-//                                       text: "3",
-//                                       size: 22,
-//                                       fontWeight: FontWeight.w600,
-//                                     ),
-//                                     SizedBox(
-//                                       height: 5,
-//                                     ),
-//                                     SmallText(
-//                                       text: MyStrings.balance,
-//                                       size: 14,
-//                                       color: drawertextColor,
-//                                       textAlign: TextAlign.center,
-//                                     ),
-//                                   ],
-//                                 ),
-//                               ),
-//                             ),
-//                           ),
-//                           Card(
-//                             shape: RoundedRectangleBorder(
-//                               borderRadius: BorderRadius.circular(10.0),
-//                             ),
-//                             elevation: 2,
-//                             child: Container(
-//                               width: MediaQuery.of(context).size.width / 4,
-//                               child: Padding(
-//                                 padding: const EdgeInsets.all(8.0),
-//                                 child: Column(
-//                                   children: [
-//                                     SmallText(
-//                                       text: "2",
-//                                       size: 22,
-//                                       fontWeight: FontWeight.w600,
-//                                     ),
-//                                     SizedBox(
-//                                       height: 5,
-//                                     ),
-//                                     SmallText(
-//                                       text: MyStrings.taken,
-//                                       size: 14,
-//                                       color: drawertextColor,
-//                                       textAlign: TextAlign.center,
-//                                     ),
-//                                   ],
-//                                 ),
-//                               ),
-//                             ),
-//                           ),
-//                           Card(
-//                             shape: RoundedRectangleBorder(
-//                               borderRadius: BorderRadius.circular(10.0),
-//                             ),
-//                             elevation: 2,
-//                             child: Container(
-//                               width: MediaQuery.of(context).size.width / 4,
-//                               child: Padding(
-//                                 padding: const EdgeInsets.all(8.0),
-//                                 child: Column(
-//                                   children: [
-//                                     SmallText(
-//                                       text: "1",
-//                                       size: 22,
-//                                       fontWeight: FontWeight.w600,
-//                                     ),
-//                                     SizedBox(
-//                                       height: 5,
-//                                     ),
-//                                     SmallText(
-//                                       text: MyStrings.pending,
-//                                       size: 14,
-//                                       color: drawertextColor,
-//                                       textAlign: TextAlign.center,
-//                                     ),
-//                                   ],
-//                                 ),
-//                               ),
-//                             ),
-//                           ),
-//                         ],
-//                       )
-//                     ],
-//                   ),
-//                 ),
-//               ),
-//               heightspace,
-//               heightspace,
-//               Container(
-//                 width: MediaQuery.of(context).size.width,
-//                 decoration: BoxDecoration(
-//                   borderRadius: BorderRadius.circular(10),
-//                   color: Color(0xffc4e1df).withOpacity(0.5),
-//                 ),
-//                 child: Padding(
-//                   padding: const EdgeInsets.all(12.0),
-//                   child: Column(
-//                     crossAxisAlignment: CrossAxisAlignment.start,
-//                     children: [
-//                       SmallText(
-//                         text: MyStrings.bereavementLeave,
-//                         color: Color(0xff2f8c86),
-//                         fontWeight: FontWeight.w600,
-//                         size: 16,
-//                       ),
-//                       heightspace,
-//                       FDottedLine(
-//                         color: borderColor.withOpacity(0.2),
-//                         width: MediaQuery.of(context).size.width,
-//                       ),
-//                       heightspace,
-//                       Row(
-//                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                         children: [
-//                           Card(
-//                             elevation: 2,
-//                             shape: RoundedRectangleBorder(
-//                               borderRadius: BorderRadius.circular(10.0),
-//                             ),
-//                             child: Container(
-//                               width: MediaQuery.of(context).size.width / 4,
-//                               child: Padding(
-//                                 padding: const EdgeInsets.all(8.0),
-//                                 child: Column(
-//                                   children: [
-//                                     SmallText(
-//                                       text: "0",
-//                                       size: 22,
-//                                       fontWeight: FontWeight.w600,
-//                                     ),
-//                                     SizedBox(
-//                                       height: 5,
-//                                     ),
-//                                     SmallText(
-//                                       text: MyStrings.balance,
-//                                       size: 14,
-//                                       color: drawertextColor,
-//                                       textAlign: TextAlign.center,
-//                                     ),
-//                                   ],
-//                                 ),
-//                               ),
-//                             ),
-//                           ),
-//                           Card(
-//                             elevation: 2,
-//                             shape: RoundedRectangleBorder(
-//                               borderRadius: BorderRadius.circular(10.0),
-//                             ),
-//                             child: Container(
-//                               width: MediaQuery.of(context).size.width / 4,
-//                               child: Padding(
-//                                 padding: const EdgeInsets.all(8.0),
-//                                 child: Column(
-//                                   children: [
-//                                     SmallText(
-//                                       text: "0",
-//                                       size: 22,
-//                                       fontWeight: FontWeight.w600,
-//                                     ),
-//                                     SizedBox(
-//                                       height: 5,
-//                                     ),
-//                                     SmallText(
-//                                       text: MyStrings.taken,
-//                                       size: 14,
-//                                       color: drawertextColor,
-//                                       textAlign: TextAlign.center,
-//                                     ),
-//                                   ],
-//                                 ),
-//                               ),
-//                             ),
-//                           ),
-//                           Card(
-//                             elevation: 2,
-//                             shape: RoundedRectangleBorder(
-//                               borderRadius: BorderRadius.circular(10.0),
-//                             ),
-//                             child: Container(
-//                               width: MediaQuery.of(context).size.width / 4,
-//                               child: Padding(
-//                                 padding: const EdgeInsets.all(8.0),
-//                                 child: Column(
-//                                   children: [
-//                                     SmallText(
-//                                       text: "0",
-//                                       size: 22,
-//                                       fontWeight: FontWeight.w600,
-//                                     ),
-//                                     SizedBox(
-//                                       height: 5,
-//                                     ),
-//                                     SmallText(
-//                                       text: MyStrings.pending,
-//                                       size: 14,
-//                                       color: drawertextColor,
-//                                       textAlign: TextAlign.center,
-//                                     ),
-//                                   ],
-//                                 ),
-//                               ),
-//                             ),
-//                           ),
-//                         ],
-//                       )
-//                     ],
-//                   ),
-//                 ),
-//               ),
-//             ],
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
+
+class Leavedata {
+  String? month;
+  String? date;
+  String? reason;
+  String? leaveType;
+  String? status;
+
+  Leavedata({
+    this.month,
+    this.date,
+    this.reason,
+    this.leaveType,
+    this.status,
+  });
+}
+
+
+enum leaveItem { itemOne, itemTwo }
+
 
 class LeaveSummary extends StatefulWidget {
+  const LeaveSummary({Key? key}) : super(key: key);
+
   @override
-  _LeaveSummaryState createState() => _LeaveSummaryState();
+  State<LeaveSummary> createState() => _LeaveSummaryState();
 }
 
 class _LeaveSummaryState extends State<LeaveSummary> {
-  final _selectedColor = Colors.grey.shade200;
+  final List<String> menuItem = [
+    MyStrings.summary,
+    MyStrings.holidayList,
+    MyStrings.history,
+    MyStrings.policy,
+  ];
+  final List<String> ApplyItem = [
+    MyStrings.applyLeave,
+    MyStrings.applySwipe,
+    MyStrings.shiftChange,
+  ];
+  List leaveHistory = [
+    Leavedata(
+        month: "September",
+        date: "28",
+        reason: "Moving to native",
+        leaveType: "CL",
+        status: "Pending"),
+    Leavedata(
+        month: "November",
+        date: "2-5",
+        reason: "Not Felling Well",
+        leaveType: "SL",
+        status: "Approved"),
+    Leavedata(
+        month: "December",
+        date: "15",
+        reason: "I am going out",
+        leaveType: "PM",
+        status: "Approved"),
+    Leavedata(
+        month: "December",
+        date: "25-27",
+        reason: "I am going to trip to Goa with my family and friends",
+        leaveType: "CL",
+        status: "Rejected"),
+    Leavedata(
+        month: "December",
+        date: "25-27",
+        reason: "I am working in villupuram branch",
+        leaveType: "OD",
+        status: "Pending"),
+    Leavedata(
+        month: "October",
+        date: "12",
+        reason: "Comp off used",
+        leaveType: "Com Off",
+        status: "Approved"),
+  ];
+
+  // the selected value
   final int _counter = 0;
-  String radioButtonItem = 'Full day';
+  String? _selectedMenu;
+  String? _selectedApply;
+  String state = 'Animation start';
+  String? _chosenValue;
+  String? _chosenday;
+  List<dynamic> imageList = [];
+  String radioButtonItem = 'One day';
   int id = 1;
-  var selectedItem = '';
+  List<bool>? isSelected;
+  List<bool>? isSelected1;
   String? difficulty;
-
-  void showMenuSelection(String value) {
-    setState(() {
-      selectedItem = value.toString();
-    });
-    print(value);
-    Navigator.pushNamed(context, value.toString());
-  }
-
+  String? _chosenMode;
   String? type;
-  int? optionId;
-  bool visibilityTableRow = true;
+  String? exshift;
+  String? newshift;
+  TextEditingController _txtTimeController = TextEditingController();
 
-  void _changed() {
-    setState(() {
-      if(visibilityTableRow){
-        visibilityTableRow = false;
-      }else{
-        visibilityTableRow = true;
-      }
-    });
+  final MaskTextInputFormatter timeMaskFormatter =
+      MaskTextInputFormatter(mask: '##:##', filter: {"#": RegExp(r'[0-9]')});
+
+  void initState() {
+    super.initState();
+    initUser();
+    var formatter = DateFormat('dd/MM/yyyy');
+    String formatted = formatter.format(selectedDate);
+    enddate?.value = TextEditingValue(text: formatted.toString());
+    // var formatter = DateFormat('dd/MM/yyyy');
+    // String formatted = formatter.format(selectedDate);
+    swipedate?.value = TextEditingValue(text: formatted.toString());
+    fromdate?.value = TextEditingValue(text: formatted.toString());
+    enddate?.value = TextEditingValue(text: formatted.toString());
   }
+
+  void initUser() {
+    fromdate = TextEditingController();
+    enddate = TextEditingController();
+    swipedate = TextEditingController();
+  }
+
+  leaveItem? selectedMenu;
   @override
   Widget build(BuildContext context) {
+    var different = selectedendDate.difference(selectedDate).inDays + 1;
     return Scaffold(
+      backgroundColor: bgColor,
       appBar: AppBar(
+        backgroundColor: whiteColor,
         elevation: 0,
         centerTitle: true,
+        iconTheme: IconThemeData(color: primaryColor),
         title: SmallText(
-          text: MyStrings.leaveBalance,
+          text: MyStrings.leaveManagement,
+          color: primaryColor,
         ),
         actions: [
           InkWell(
@@ -1127,7 +160,7 @@ class _LeaveSummaryState extends State<LeaveSummary> {
                   context,
                   PageTransition(
                       type: PageTransitionType.rightToLeft,
-                      child: const LeaveApplication()));
+                      child: LeaveApplication()));
             },
             child: Padding(
               padding: const EdgeInsets.only(top: 12.0, right: 10),
@@ -1135,7 +168,7 @@ class _LeaveSummaryState extends State<LeaveSummary> {
                 children: [
                   Icon(
                     Icons.notifications,
-                    color: whiteColor,
+                    color: primaryColor,
                     size: 30,
                   ),
                   Container(
@@ -1245,1947 +278,3654 @@ class _LeaveSummaryState extends State<LeaveSummary> {
         // ],
       ),
       body: SingleChildScrollView(
-        child: Container(
-          child: Column(
-              // crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                DefaultTabController(
-                    length: 3, // length of tabs
-                    initialIndex: 0,
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: <Widget>[
-                          // Container(
-                          //   child: const TabBar(
-                          //     labelColor: Colors.green,
-                          //     unselectedLabelColor: Colors.black,
-                          //     tabs: [
-                          //       Tab(text: 'Leave Summary'),
-                          //       Tab(text: 'Leave Rules'),
-                          //       Tab(text: 'Holiday List'),
-                          //     ],
-                          //   ),
-                          // ),
-                          Container(
-                            height: kToolbarHeight + 10.0,
-                            padding: const EdgeInsets.only(
-                                top: 10.0, right: 16.0, left: 16.0, bottom: 10),
-                            decoration: BoxDecoration(
-                              color: _selectedColor,
-                              borderRadius: const BorderRadius.only(
-                                  topLeft: Radius.circular(8.0),
-                                  topRight: Radius.circular(8.0)),
-                            ),
-                            child: TabBar(
-                              indicator: BoxDecoration(
-                                  // borderRadius: const BorderRadius.only(
-                                  //     topLeft: Radius.circular(8.0),
-                                  //     topRight: Radius.circular(8.0)),
-                                  borderRadius: BorderRadius.circular(8),
-                                  color: primaryColor),
-                              labelColor: whiteColor,
-                              unselectedLabelColor: Colors.black,
-                              tabs: const [
-                                Tab(text: 'Summary'),
-                                Tab(text: 'Holiday List'),
-                                Tab(text: 'Rules'),
-                              ],
-                            ),
-                          ),
-                          // Container(
-                          //   height: kToolbarHeight - 8.0,
-                          //   decoration: BoxDecoration(
-                          //     color: Colors.grey.shade200,
-                          //     borderRadius: BorderRadius.circular(8.0),
-                          //   ),
-                          //   child: TabBar(
-                          //     // controller: _tabController,
-                          //     indicator: BoxDecoration(
-                          //         borderRadius: BorderRadius.circular(8.0),
-                          //         color: _selectedColor),
-                          //     labelColor: Colors.white,
-                          //     unselectedLabelColor: Colors.black,
-                          //     tabs:  const [
-                          //       Tab(text: 'Summary'),
-                          //       Tab(text: 'Rules'),
-                          //       Tab(text: 'Holiday List'),
-                          //     ],
-                          //   ),
-                          // ),
-
-                          // Container(
-                          //   height: kToolbarHeight + 8.0,
-                          //   padding:
-                          //   const EdgeInsets.only(top: 16.0, right: 16.0, left: 16.0),
-                          //   decoration: BoxDecoration(
-                          //     color: _selectedColor,
-                          //     borderRadius: const BorderRadius.only(
-                          //         topLeft: Radius.circular(8.0),
-                          //         topRight: Radius.circular(8.0)),
-                          //   ),
-                          //   child:  TabBar(
-                          //     // controller: _tabController,
-                          //     indicator: BoxDecoration(
-                          //         borderRadius: const BorderRadius.only(
-                          //             topLeft: Radius.circular(8.0),
-                          //             topRight: Radius.circular(8.0)),
-                          //         color: primaryColor),
-                          //     labelColor: whiteColor,
-                          //     unselectedLabelColor: Colors.black,
-                          //     tabs: [
-                          //           Tab(text: 'Summary'),
-                          //           Tab(text: 'Rules'),
-                          //           Tab(text: 'Holiday List'),
-                          //         ],
-                          //   ),
-                          // ),
-                          SizedBox(
-                              height: MediaQuery.of(context).size.height /
-                                  1.3, //height of TabBarView
-                              // decoration: const BoxDecoration(
-                              //     border: Border(
-                              //         top: BorderSide(
-                              //             color: Colors.grey, width: 0.5))),
-                              child: TabBarView(children: <Widget>[
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    heightspace,
-                                    heightspace,
-                                    Padding(
-                                      padding: const EdgeInsets.all(15.0),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Row(
-                                            children: [
-                                              SmallText(
-                                                text: MyStrings.leaveSummary,
-                                                fontWeight: FontWeight.w400,
-                                                size: 15,
-                                                color: profiletextColor,
-                                              ),
-                                              SizedBox(
-                                                width: 5,
-                                              ),
-                                              SmallText(
-                                                  text: "(2022)",
-                                                  size: 16,
-                                                  fontWeight: FontWeight.w600),
-                                            ],
-                                          ),
-                                          InkWell(
-                                            onTap: () {
-                                              // showModalBottomSheet(
-                                              //   context: context,
-                                              //   isScrollControlled: true,
-                                              //   builder: (BuildContext context) {
-                                              //     return FractionallySizedBox(
-                                              //       heightFactor: 0.3,
-                                              //       child: showBottomModal(),
-                                              //     );
-                                              //   },
-                                              // );
-                                            },
-                                            child: Row(
-                                              children: const [
-                                                Icon(Icons.segment),
-                                                SizedBox(
-                                                  width: 5,
-                                                ),
-                                                Text('Filter')
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-
-                                    DataTable(
-                                      //border: TableBorder.all(width: 0.3, color:prescriptionDivideColor),
-                                      headingRowColor:
-                                          MaterialStateColor.resolveWith(
-                                              (states) => primaryColor),
-                                      headingRowHeight: 50,
-                                      showBottomBorder: true,
-                                      columnSpacing: 25,
-                                      horizontalMargin: 10,
-                                      dataRowHeight: 50,
-                                      columns: [
-                                      DataColumn(
-                                      label: Center(
-                                         child: Padding(
-                                          padding:
-                                              const EdgeInsets.only(left: 20.0),
-                                          child: SmallText(
-                                            text: "Leave\nType",
-                                            color: whiteColor,
-                                            size: 14,
-                                            textAlign: TextAlign.center,
-                                          ),
-                                        ))),
-                                      DataColumn(
-                                            label: SmallText(
-                                          text: "Consumed\nDays",
-                                          color: whiteColor,
-                                          size: 14,
-                                          textAlign: TextAlign.center,
-                                        )),
-                                      DataColumn(
-                                            label: SmallText(
-                                          text: "Credit\nDays",
-                                          color: whiteColor,
-                                          size: 14,
-                                          textAlign: TextAlign.center,
-                                        )),
-                                      DataColumn(
-                                            label: SmallText(
-                                          text: "Available\nBalance",
-                                          color: whiteColor,
-                                          size: 15,
-                                          textAlign: TextAlign.center,
-                                        )),
-                                      ],
-                                      rows: [
-                                        DataRow(
-
-                                          cells: <DataCell>[
-                                            DataCell(
-                                                InkWell(
-                                                  onTap: (){
-                                                    showDialog(
-                                                      context: context,
-                                                      builder: (BuildContext context) => _buildPopupDialog(context),
-                                                    );
-                                                  },
-
-                                                  child: SmallText(
-                                                    text: MyStrings.casualLeave,
-                                                    size: 14,
-                                                    color: drawertextColor,
-                                                  ),
-
-                                                ),),
-                                            DataCell(Center(
-                                                child: SmallText(
-                                              text: '7',
-                                              size: 14,
-                                              color: drawertextColor,
-                                            ))),
-                                            DataCell(Center(
-                                                child: SmallText(
-                                              text: '3.5',
-                                              size: 14,
-                                              color: drawertextColor,
-                                            ))),
-                                            DataCell(Center(
-                                                child: SmallText(
-                                              text: '3.5',
-                                              size: 14,
-                                              color: drawertextColor,
-                                            ))),
-                                          ],
-
-                                        ),
-                                        DataRow(
-                                          cells: <DataCell>[
-                                            DataCell(InkWell(
-                                              onTap: (){
-                                                _changed();
-                                              },
-                                              child: SmallText(
-                                                text: MyStrings.sickLeave,
-                                                size: 14,
-                                                color: drawertextColor,
-                                              ),
-                                            )),
-                                            DataCell(Center(
-                                                child: SmallText(
-                                              text: '7',
-                                              size: 14,
-                                              color: drawertextColor,
-                                            ))),
-                                            DataCell(Center(
-                                                child: SmallText(
-                                              text: '5',
-                                              size: 14,
-                                              color: drawertextColor,
-                                            ))),
-                                            DataCell(Center(
-                                                child: SmallText(
-                                              text: '2',
-                                              size: 14,
-                                              color: drawertextColor,
-                                            ))),
-                                          ],
-                                        ),
-                                        DataRow(
-                                          cells: <DataCell>[
-                                            DataCell(SmallText(
-                                              text: MyStrings.privilegeLeave,
-                                              size: 14,
-                                              color: drawertextColor,
-                                            )),
-                                            DataCell(Center(
-                                                child: SmallText(
-                                              text: '0',
-                                              size: 14,
-                                              color: drawertextColor,
-                                            ))),
-                                            DataCell(Center(
-                                                child: SmallText(
-                                              text: '0',
-                                              size: 14,
-                                              color: drawertextColor,
-                                            ))),
-                                            DataCell(Center(
-                                                child: SmallText(
-                                              text: '0',
-                                              size: 14,
-                                              color: drawertextColor,
-                                            ))),
-                                          ],
-                                        ),
-                                        DataRow(
-                                          cells: <DataCell>[
-                                            DataCell(SmallText(
-                                              text: MyStrings.compensatory,
-                                              size: 14,
-                                              color: drawertextColor,
-                                            )),
-                                            DataCell(Center(
-                                                child: SmallText(
-                                              text: '1',
-                                              size: 14,
-                                              color: drawertextColor,
-                                            ))),
-                                            DataCell(Center(
-                                                child: SmallText(
-                                              text: '0',
-                                              size: 14,
-                                              color: drawertextColor,
-                                            ))),
-                                            DataCell(Center(
-                                                child: SmallText(
-                                              text: '1',
-                                              size: 14,
-                                              color: drawertextColor,
-                                            ))),
-                                          ],
-                                        ),
-                                        DataRow(
-                                          cells: <DataCell>[
-                                            DataCell(SmallText(
-                                              text: MyStrings.marriageLeave,
-                                              size: 14,
-                                              color: drawertextColor,
-                                            )),
-                                            DataCell(Center(
-                                                child: SmallText(
-                                              text: '20',
-                                              size: 14,
-                                              color: drawertextColor,
-                                            ))),
-                                            DataCell(Center(
-                                                child: SmallText(
-                                              text: '20',
-                                              size: 14,
-                                              color: drawertextColor,
-                                            ))),
-                                            DataCell(Center(
-                                                child: SmallText(
-                                              text: '0',
-                                              size: 14,
-                                              color: drawertextColor,
-                                            ))),
-                                          ],
-                                        ),
-                                        DataRow(
-                                          cells: <DataCell>[
-                                            DataCell(SmallText(
-                                              text: MyStrings.marriageLeave,
-                                              size: 14,
-                                              color: drawertextColor,
-                                            )),
-                                            DataCell(Center(
-                                                child: SmallText(
-                                              text: '20',
-                                              size: 14,
-                                              color: drawertextColor,
-                                            ))),
-                                            DataCell(Center(
-                                                child: SmallText(
-                                              text: '20',
-                                              size: 14,
-                                              color: drawertextColor,
-                                            ))),
-                                            DataCell(Center(
-                                                child: SmallText(
-                                              text: '0',
-                                              size: 14,
-                                              color: drawertextColor,
-                                            ))),
-                                          ],
-                                        ),
-                                        DataRow(
-                                          cells: <DataCell>[
-                                            DataCell(SmallText(
-                                              text: MyStrings.paternityLeave,
-                                              size: 14,
-                                              color: drawertextColor,
-                                            )),
-                                            DataCell(Center(
-                                                child: SmallText(
-                                              text: '182',
-                                              size: 14,
-                                              color: drawertextColor,
-                                            ))),
-                                            DataCell(Center(
-                                                child: SmallText(
-                                              text: '130',
-                                              size: 14,
-                                              color: drawertextColor,
-                                            ))),
-                                            DataCell(Center(
-                                                child: SmallText(
-                                              text: '52',
-                                              size: 14,
-                                              color: drawertextColor,
-                                            ))),
-                                          ],
-                                        ),
-                                        DataRow(
-                                          cells: <DataCell>[
-                                            DataCell(SmallText(
-                                              text: MyStrings.medicalLeave,
-                                              size: 14,
-                                              color: drawertextColor,
-                                            )),
-                                            DataCell(Center(
-                                                child: SmallText(
-                                              text: '3',
-                                              size: 14,
-                                              color: drawertextColor,
-                                            ))),
-                                            DataCell(Center(
-                                                child: SmallText(
-                                              text: '2',
-                                              size: 14,
-                                              color: drawertextColor,
-                                            ))),
-                                            DataCell(Center(
-                                                child: SmallText(
-                                              text: '1',
-                                              size: 14,
-                                              color: drawertextColor,
-                                            ))),
-                                          ],
-                                        ),
-                                        DataRow(
-                                          cells: <DataCell>[
-                                            DataCell(SmallText(
-                                              text: MyStrings.bereavementLeave,
-                                              size: 14,
-                                              color: drawertextColor,
-                                            )),
-                                            DataCell(Center(
-                                                child: SmallText(
-                                              text: '0',
-                                              size: 14,
-                                              color: drawertextColor,
-                                            ))),
-                                            DataCell(Center(
-                                                child: SmallText(
-                                              text: '0',
-                                              size: 14,
-                                              color: drawertextColor,
-                                            ))),
-                                            DataCell(Center(
-                                                child: SmallText(
-                                              text: '0',
-                                              size: 14,
-                                              color: drawertextColor,
-                                            ))),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                    heightspace,
-                                    heightspace,
-                                    InkWell(
-                                      onTap: () {
-                                        Navigator.push(
-                                            context,
-                                            PageTransition(
-                                                type: PageTransitionType
-                                                    .rightToLeft,
-                                                child: const LeaveHistory()));
-                                      },
-                                      child: Center(
-                                        child: Button(
-                                          text: "View All History",
-                                        ),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    heightspace,
-                                    heightspace,
-                                    Padding(
-                                      padding: const EdgeInsets.all(15.0),
-                                      child: Row(
-                                        children: [
-                                          SmallText(
-                                            text: MyStrings.holidayList,
-                                            fontWeight: FontWeight.w400,
-                                            size: 17,
-                                            color: profiletextColor,
-                                          ),
-                                          SizedBox(
-                                            width: 5,
-                                          ),
-                                          SmallText(
-                                              text: "(2021-2022)",
-                                              size: 16,
-                                              fontWeight: FontWeight.w600),
-                                        ],
-                                      ),
-                                    ),
-                                    DataTable(
-                                      //border: TableBorder.all(width: 0.3, color:prescriptionDivideColor),
-                                      headingRowColor:
-                                          MaterialStateColor.resolveWith(
-                                              (states) => primaryColor),
-                                      headingRowHeight: 50,
-                                      showBottomBorder: true,
-                                      columnSpacing: 65,
-                                      horizontalMargin: 10,
-                                      dataRowHeight: 50,
-                                      columns: [
-                                        DataColumn(
-                                            label: Center(
-                                                child: Padding(
-                                          padding:
-                                              const EdgeInsets.only(left: 20.0),
-                                          child: SmallText(
-                                            text: "Date",
-                                            color: whiteColor,
-                                            size: 14,
-                                            textAlign: TextAlign.center,
-                                          ),
-                                        ))),
-                                        DataColumn(
-                                            label: Padding(
-                                          padding:
-                                              const EdgeInsets.only(left: 20.0),
-                                          child: SmallText(
-                                            text: "Day",
-                                            color: whiteColor,
-                                            size: 14,
-                                            textAlign: TextAlign.center,
-                                          ),
-                                        )),
-                                        DataColumn(
-                                            label: Padding(
-                                          padding:
-                                              const EdgeInsets.only(left: 20.0),
-                                          child: SmallText(
-                                            text: "Remarks",
-                                            color: whiteColor,
-                                            size: 14,
-                                            textAlign: TextAlign.center,
-                                          ),
-                                        )),
-                                      ],
-                                      rows: [
-                                        DataRow(
-                                          cells: <DataCell>[
-                                            DataCell(SmallText(
-                                              text: "01-Jan-22",
-                                              size: 14,
-                                              color: drawertextColor,
-                                            )),
-                                            DataCell(SmallText(
-                                              text: 'Saturday',
-                                              size: 14,
-                                              color: drawertextColor,
-                                            )),
-                                            DataCell(SmallText(
-                                              text: 'New Years Day',
-                                              size: 14,
-                                              color: drawertextColor,
-                                            )),
-                                          ],
-                                        ),
-                                        DataRow(
-                                          cells: <DataCell>[
-                                            DataCell(SmallText(
-                                              text: "14-Jan-22",
-                                              size: 14,
-                                              color: drawertextColor,
-                                            )),
-                                            DataCell(SmallText(
-                                              text: 'Friday',
-                                              size: 14,
-                                              color: drawertextColor,
-                                            )),
-                                            DataCell(SmallText(
-                                              text: 'Pongal',
-                                              size: 14,
-                                              color: drawertextColor,
-                                            )),
-                                          ],
-                                        ),
-                                        DataRow(
-                                          cells: <DataCell>[
-                                            DataCell(SmallText(
-                                              text: "26-Jan-22",
-                                              size: 14,
-                                              color: drawertextColor,
-                                            )),
-                                            DataCell(SmallText(
-                                              text: 'Wednesday',
-                                              size: 14,
-                                              color: drawertextColor,
-                                            )),
-                                            DataCell(SmallText(
-                                              text: 'Republic Day',
-                                              size: 14,
-                                              color: drawertextColor,
-                                            )),
-                                          ],
-                                        ),
-                                        DataRow(
-                                          cells: <DataCell>[
-                                            DataCell(SmallText(
-                                              text: "14-Apr-22",
-                                              size: 14,
-                                              color: drawertextColor,
-                                            )),
-                                            DataCell(SmallText(
-                                              text: 'Thursday',
-                                              size: 14,
-                                              color: drawertextColor,
-                                            )),
-                                            DataCell(SmallText(
-                                              text: 'Tamil New Year Day',
-                                              size: 14,
-                                              color: drawertextColor,
-                                            )),
-                                          ],
-                                        ),
-                                        DataRow(
-                                          cells: <DataCell>[
-                                            DataCell(SmallText(
-                                              text: "15-Aug-22",
-                                              size: 14,
-                                              color: drawertextColor,
-                                            )),
-                                            DataCell(SmallText(
-                                              text: 'Monday',
-                                              size: 14,
-                                              color: drawertextColor,
-                                            )),
-                                            DataCell(SmallText(
-                                              text: 'Independence Day',
-                                              size: 14,
-                                              color: drawertextColor,
-                                            )),
-                                          ],
-                                        ),
-                                        DataRow(
-                                          cells: <DataCell>[
-                                            DataCell(SmallText(
-                                              text: "31-Aug-22",
-                                              size: 14,
-                                              color: drawertextColor,
-                                            )),
-                                            DataCell(SmallText(
-                                              text: 'Wednesday',
-                                              size: 14,
-                                              color: drawertextColor,
-                                            )),
-                                            DataCell(SmallText(
-                                              text: 'Vinayakar Chathurthi',
-                                              size: 14,
-                                              color: drawertextColor,
-                                            )),
-                                          ],
-                                        ),
-                                        DataRow(
-                                          cells: <DataCell>[
-                                            DataCell(SmallText(
-                                              text: "04-Oct-22",
-                                              size: 14,
-                                              color: drawertextColor,
-                                            )),
-                                            DataCell(SmallText(
-                                              text: 'Tuesday',
-                                              size: 14,
-                                              color: drawertextColor,
-                                            )),
-                                            DataCell(SmallText(
-                                              text: 'Vijayadhasami',
-                                              size: 14,
-                                              color: drawertextColor,
-                                            )),
-                                          ],
-                                        ),
-                                        DataRow(
-                                          cells: <DataCell>[
-                                            DataCell(SmallText(
-                                              text: "24-Oct-22",
-                                              size: 14,
-                                              color: drawertextColor,
-                                            )),
-                                            DataCell(SmallText(
-                                              text: 'Monday',
-                                              size: 14,
-                                              color: drawertextColor,
-                                            )),
-                                            DataCell(SmallText(
-                                              text: 'Deepavali',
-                                              size: 14,
-                                              color: drawertextColor,
-                                            )),
-                                          ],
-                                        ),
-                                        DataRow(
-                                          cells: <DataCell>[
-                                            DataCell(SmallText(
-                                              text: "25-Nov-22",
-                                              size: 14,
-                                              color: drawertextColor,
-                                            )),
-                                            DataCell(SmallText(
-                                              text: 'Friday',
-                                              size: 14,
-                                              color: drawertextColor,
-                                            )),
-                                            DataCell(SmallText(
-                                              text: 'Thanks Giving Day',
-                                              size: 14,
-                                              color: drawertextColor,
-                                            )),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                Column(
-                                  children: [
-                                    heightspace,
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Column(
-                                        children: [
-                                          Card(
-                                            elevation: 1,
-                                            color: Color(0xffeefcfd),
-                                            child: Container(
-                                              width: MediaQuery.of(context)
-                                                  .size
-                                                  .width,
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                              ),
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.all(12.0),
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    SmallText(
-                                                      text:
-                                                          MyStrings.leaveRules,
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                      size: 17,
-                                                      color: profiletextColor,
-                                                    ),
-                                                    SizedBox(
-                                                      height: 5,
-                                                    ),
-                                                    SmallText(
-                                                      text:
-                                                          "Process data is not considered while showing Leave balances.",
-                                                      size: 13,
-                                                    )
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          heightspace,
-                                          heightspace,
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 15.0),
-                                            child: Column(
-                                              children: [
-                                                Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Row(
-                                                      children: [
-                                                        Container(
-                                                          decoration: BoxDecoration(
-                                                              shape: BoxShape
-                                                                  .circle,
-                                                              color:
-                                                                  primaryColor),
-                                                          width: 12.0,
-                                                          height: 12.0,
-                                                        ),
-                                                        widthspace,
-                                                        SmallText(
-                                                          text:
-                                                              "Leave Rules for CL : ( CL ) Desc : Casual Leave",
-                                                          size: 15,
-                                                          color:
-                                                              profiletextColor,
-                                                          fontWeight:
-                                                              FontWeight.w600,
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    SizedBox(
-                                                      height: 5,
-                                                    ),
-                                                    Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              left: 22.0),
-                                                      child: SmallText(
-                                                        text:
-                                                            "You can apply CL for 50 Future days.",
-                                                        size: 14,
-                                                      ),
-                                                    )
-                                                  ],
-                                                ),
-                                                heightspace,
-                                                heightspace,
-                                                FDottedLine(
-                                                  color: borderColor,
-                                                  width: MediaQuery.of(context)
-                                                      .size
-                                                      .width,
-                                                ),
-                                                heightspace,
-                                                heightspace,
-                                                Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Row(
-                                                      children: [
-                                                        Container(
-                                                          decoration: BoxDecoration(
-                                                              shape: BoxShape
-                                                                  .circle,
-                                                              color:
-                                                                  primaryColor),
-                                                          width: 12.0,
-                                                          height: 12.0,
-                                                        ),
-                                                        widthspace,
-                                                        SmallText(
-                                                          text:
-                                                              "Leave Rules for SL : ( SL ) Desc : Sick Leave",
-                                                          size: 15,
-                                                          color:
-                                                              profiletextColor,
-                                                          fontWeight:
-                                                              FontWeight.w600,
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    SizedBox(
-                                                      height: 5,
-                                                    ),
-                                                    Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              left: 22.0),
-                                                      child: SmallText(
-                                                        text:
-                                                            "You can apply SL for 50 Future days.",
-                                                        size: 14,
-                                                      ),
-                                                    )
-                                                  ],
-                                                ),
-                                                heightspace,
-                                                heightspace,
-                                                FDottedLine(
-                                                  color: borderColor,
-                                                  width: MediaQuery.of(context)
-                                                      .size
-                                                      .width,
-                                                ),
-                                                heightspace,
-                                                heightspace,
-                                                Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Row(
-                                                      children: [
-                                                        Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                      .only(
-                                                                  bottom: 18.0),
-                                                          child: Container(
-                                                            decoration: BoxDecoration(
-                                                                shape: BoxShape
-                                                                    .circle,
-                                                                color:
-                                                                    primaryColor),
-                                                            width: 12.0,
-                                                            height: 12.0,
-                                                          ),
-                                                        ),
-                                                        widthspace,
-                                                        Expanded(
-                                                            child: SmallText(
-                                                          text:
-                                                              "Leave Rules for CO+ : ( CO+ ) Desc : Comp. Leave Accrued",
-                                                          size: 15,
-                                                          color:
-                                                              profiletextColor,
-                                                          fontWeight:
-                                                              FontWeight.w600,
-                                                          height: 1.3,
-                                                        )),
-                                                      ],
-                                                    ),
-                                                    SizedBox(
-                                                      height: 5,
-                                                    ),
-                                                    Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              left: 22.0),
-                                                      child: SmallText(
-                                                        text:
-                                                            "CO+ can be applied for following day types : PHP, PH, WO, WOP, WOPH.",
-                                                        size: 14,
-                                                        height: 1.3,
-                                                      ),
-                                                    )
-                                                  ],
-                                                ),
-                                                heightspace,
-                                                heightspace,
-                                                FDottedLine(
-                                                  color: borderColor,
-                                                  width: MediaQuery.of(context)
-                                                      .size
-                                                      .width,
-                                                ),
-                                                heightspace,
-                                                heightspace,
-                                                Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Row(
-                                                      children: [
-                                                        Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                      .only(
-                                                                  bottom: 18.0),
-                                                          child: Container(
-                                                            decoration: BoxDecoration(
-                                                                shape: BoxShape
-                                                                    .circle,
-                                                                color:
-                                                                    primaryColor),
-                                                            width: 12.0,
-                                                            height: 12.0,
-                                                          ),
-                                                        ),
-                                                        widthspace,
-                                                        Expanded(
-                                                            child: SmallText(
-                                                          text:
-                                                              "Leave Rules for CO- : ( CO- ) Desc : Comp. Leave Enjoy",
-                                                          size: 15,
-                                                          color:
-                                                              profiletextColor,
-                                                          fontWeight:
-                                                              FontWeight.w600,
-                                                          height: 1.3,
-                                                        )),
-                                                      ],
-                                                    ),
-                                                    SizedBox(
-                                                      height: 5,
-                                                    ),
-                                                    Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              left: 22.0),
-                                                      child: SmallText(
-                                                          text:
-                                                              "You can apply CO- for 50 Future days.",
-                                                          size: 14),
-                                                    )
-                                                  ],
-                                                ),
-                                                heightspace,
-                                                heightspace,
-                                                FDottedLine(
-                                                  color: borderColor,
-                                                  width: MediaQuery.of(context)
-                                                      .size
-                                                      .width,
-                                                ),
-                                                heightspace,
-                                                heightspace,
-                                                Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Row(
-                                                      children: [
-                                                        Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                      .only(
-                                                                  bottom: 18.0),
-                                                          child: Container(
-                                                            decoration: BoxDecoration(
-                                                                shape: BoxShape
-                                                                    .circle,
-                                                                color:
-                                                                    primaryColor),
-                                                            width: 12.0,
-                                                            height: 12.0,
-                                                          ),
-                                                        ),
-                                                        widthspace,
-                                                        Expanded(
-                                                            child: SmallText(
-                                                          text:
-                                                              "Leave Rules for L1 : ( ML ) Desc : Marriage Leave",
-                                                          size: 15,
-                                                          color:
-                                                              profiletextColor,
-                                                          fontWeight:
-                                                              FontWeight.w600,
-                                                          height: 1.3,
-                                                        )),
-                                                      ],
-                                                    ),
-                                                    SizedBox(
-                                                      height: 5,
-                                                    ),
-                                                    Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              left: 22.0),
-                                                      child: SmallText(
-                                                          text:
-                                                              "You can apply L1 for 30 Future days.",
-                                                          size: 14),
-                                                    )
-                                                  ],
-                                                ),
-                                                heightspace,
-                                                heightspace,
-                                                FDottedLine(
-                                                  color: borderColor,
-                                                  width: MediaQuery.of(context)
-                                                      .size
-                                                      .width,
-                                                ),
-                                                heightspace,
-                                                heightspace,
-                                              ],
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                )
-                              ]))
-                        ])),
-              ]),
-        ),
-      ),
-      floatingActionButton: ExpandableFab(
-        initialOpen: false,
-        distance: 75.0,
-        children: [
-          ActionButton(
-            onPressed: () => _applyCompoff(),
-            icon: const Image(
-              image: AssetImage('assets/sidemenu/compo.png'),
-              width: 25,
-              height: 25,
-            ),
-          ),
-          ActionButton(
-            onPressed: () => _applySwipe(context),
-            icon: const Image(
-              image: AssetImage('assets/sidemenu/applyswipe.png'),
-              width: 25,
-              height: 25,
-            ),
-          ),
-          ActionButton(
-            onPressed: () => _applyLeave(),
-            icon: const Image(
-              image: AssetImage('assets/sidemenu/applyleave.png'),
-              width: 25,
-              height: 25,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-  Widget _buildPopupDialog(BuildContext context) {
-    return new AlertDialog(
-      title: const Text('Popup example'),
-      content: new Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text("Hello"),
-        ],
-      ),
-      actions: <Widget>[
-        new FlatButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          textColor: Theme.of(context).primaryColor,
-          child: const Text('Close'),
-        ),
-      ],
-    );
-  }
-  void _applyLeave() {
-    showModalBottomSheet(
-        context: context,
-        isScrollControlled: true,
-        backgroundColor: Colors.transparent,
-        builder: (BuildContext bc) {
-          return Container(
-            height: MediaQuery.of(context).size.height / 1.28,
-            decoration: BoxDecoration(
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(15),
-                topRight: Radius.circular(15),
-              ),
-              color: whiteColor,
-            ),
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(18, 18, 18, 18),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            heightspace,
+            heightspace,
+            Padding(
+              padding: const EdgeInsets.only(left: 12.0, right: 12),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Center(
-                      child: SmallText(
-                    text: MyStrings.requestLeave,
-                    size: 18,
-                    fontWeight: FontWeight.w600,
-                  )),
-                  heightspace,
-                  heightspace,
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      SmallText(
-                        text: MyStrings.applyDate,
-                        color: textGreyColor,
-                        size: 16,
-                      ),
-                      Text(DateFormat("dd/MM/yyyy").format(DateTime.now()))
-                    ],
-                  ),
-                  heightspace,
-                  StatefulBuilder(
-                      builder: (context, StateSetter setModalState) {
-                    return Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  Container(
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+                    width: MediaQuery.of(context).size.width / 2.2,
+                    height: 42,
+                    decoration: BoxDecoration(
+                        color: Theme.of(context).primaryColor,
+                        borderRadius: BorderRadius.circular(10)),
+                    child: DropdownButton<String>(
+                      value: _selectedApply,
+                      onChanged: (value) {
+                        setState(() {
+                          _selectedMenu = null;
+                          _selectedApply = value;
+                          print(_selectedApply);
+                        });
+                      },
+                      hint: Center(
+                          child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Row(
-                            children: [
-                              Radio(
-                                  fillColor: MaterialStateColor.resolveWith(
-                                      (states) => primaryColor),
-                                  value: 1,
-                                  groupValue: id,
-                                  onChanged: (value) {
-                                    // set is changed here
-                                    setModalState(() {
-                                      difficulty = value.toString();
-                                      id = 1;
-                                    });
-                                  }),
-                              SmallText(
-                                text: MyStrings.fullDay,
-                                size: 15,
-                              )
-                            ],
+                          Icon(
+                            Icons.add,
+                            color: whiteColor,
+                            size: 20,
                           ),
-                          Row(
-                            children: [
-                              Radio(
-                                  fillColor: MaterialStateColor.resolveWith(
-                                      (states) => primaryColor),
-                                  value: 2,
-                                  groupValue: id,
-                                  onChanged: (value) {
-                                    // set is changed here
-                                    setModalState(() {
-                                      difficulty = value.toString();
-                                      id = 2;
-                                    });
-                                  }),
-                              SmallText(
-                                text: MyStrings.firstHalf,
-                                size: 15,
-                              )
-                            ],
+                          SizedBox(
+                            width: 5,
                           ),
-                          Row(
-                            children: [
-                              Radio(
-                                  fillColor: MaterialStateColor.resolveWith(
-                                      (states) => primaryColor),
-                                  value: 3,
-                                  groupValue: id,
-                                  onChanged: (value) {
-                                    // set is changed here
-                                    setModalState(() {
-                                      difficulty = value.toString();
-                                      id = 3;
-                                    });
-                                  }),
-                              SmallText(
-                                text: MyStrings.secondHalf,
-                                size: 15,
-                              )
-                            ],
-                          )
-                        ]);
-                  }),
-                  heightspace,
-                  DropDownBox(),
-                  heightspace,
-                  heightspace,
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
                           SmallText(
-                            text: MyStrings.fromDate,
-                            color: textGreyColor,
-                            size: 16,
+                            text: "Menu",
+                            color: whiteColor,
                           ),
-                          heightspace,
-                          startDate(),
                         ],
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SmallText(
-                            text: MyStrings.toDate,
-                            color: textGreyColor,
-                            size: 16,
-                          ),
-                          heightspace,
-                          finishDate(),
-                        ],
-                      ),
-                    ],
-                  ),
-                  heightspace,
-                  heightspace,
-                  SmallText(
-                    text: MyStrings.reason,
-                    color: textGreyColor,
-                    size: 16,
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  TextField(
-                    maxLines: 3,
-                    decoration: InputDecoration(
-                      border: const OutlineInputBorder(),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(width: 1, color: borderColor),
-                      ),
+                      )),
+                      underline: Container(),
+                      isExpanded: true,
+                      iconEnabledColor: whiteColor,
+                      items: ApplyItem.map((Value) => DropdownMenuItem(
+                            value: Value,
+                            child: Container(
+                              alignment: Alignment.centerLeft,
+                              child: SmallText(
+                                text: Value,
+                                size: 15,
+                              ),
+                            ),
+                          )).toList(),
+                      selectedItemBuilder: (BuildContext context) =>
+                          ApplyItem.map((Value) => Center(
+                                child: SmallText(
+                                  text: Value,
+                                  color: whiteColor,
+                                  fontWeight: FontWeight.w500,
+                                  size: 15,
+                                ),
+                              )).toList(),
                     ),
                   ),
-                  heightspace,
-                  heightspace,
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SmallText(
-                        text: MyStrings.attachFile,
-                        color: textGreyColor,
-                        size: 16,
-                      ),
-                      heightspace,
-                      Uploadfile(),
-                      heightspace,
-                      heightspace,
-                    ],
+                  Container(
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+                    width: MediaQuery.of(context).size.width / 2.2,
+                    height: 42,
+                    decoration: BoxDecoration(
+                        color: Theme.of(context).primaryColor,
+                        borderRadius: BorderRadius.circular(10)),
+                    child: DropdownButton<String>(
+                      value: _selectedMenu,
+                      onChanged: (data) {
+                        setState(() {
+                          _selectedApply = null;
+                          _selectedMenu = data;
+                          print(_selectedMenu);
+                        });
+                      },
+                      hint: Center(
+                          child: SmallText(
+                        text: MyStrings.menu,
+                        color: whiteColor,
+                      )),
+                      underline: Container(),
+                      isExpanded: true,
+                      iconEnabledColor: whiteColor,
+                      items: menuItem
+                          .map((Data) => DropdownMenuItem(
+                                value: Data,
+                                child: Container(
+                                  alignment: Alignment.centerLeft,
+                                  child: SmallText(
+                                    text: Data,
+                                    size: 16,
+                                  ),
+                                ),
+                              ))
+                          .toList(),
+                      selectedItemBuilder: (BuildContext context) => menuItem
+                          .map((Data) => Center(
+                                child: SmallText(
+                                  text: Data,
+                                  color: whiteColor,
+                                  fontWeight: FontWeight.w500,
+                                  size: 16,
+                                ),
+                              ))
+                          .toList(),
+                    ),
                   ),
-                  Center(
-                      child: Button(
-                    text: MyStrings.applyLeave,
-                  ))
                 ],
               ),
             ),
-          );
-        });
-  }
-
-  TextEditingController _txtTimeController = TextEditingController();
-
-  final MaskTextInputFormatter timeMaskFormatter =
-      MaskTextInputFormatter(mask: '##:##', filter: {"#": RegExp(r'[0-9]')});
-
-  void _applySwipe(BuildContext context) {
-    showModalBottomSheet(
-        context: context,
-        isScrollControlled: true,
-        backgroundColor: Colors.transparent,
-        builder: (BuildContext bc) {
-          return StatefulBuilder(
-              builder: (BuildContext context, StateSetter state) {
-            return Padding(
-              padding: EdgeInsets.only(
-                  bottom: MediaQuery.of(context).viewInsets.bottom),
-              child: Container(
-                height: MediaQuery.of(context).size.height / 1.7,
-                decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(15),
-                    topRight: Radius.circular(15),
+            heightspace,
+            _selectedMenu == MyStrings.history ||
+                    _selectedMenu == MyStrings.policy ||
+                    _selectedApply == MyStrings.leave ||
+                    _selectedApply == MyStrings.applySwipe ||
+                    _selectedApply == MyStrings.shiftChange
+                ? SizedBox(
+                    height: 8,
+                  )
+                : Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            SmallText(
+                              text: _selectedMenu == MyStrings.holidayList
+                                  ? MyStrings.holidayList
+                                  : MyStrings.leaveSummary,
+                              fontWeight: FontWeight.w400,
+                              size: 15,
+                              color: profileTextColor,
+                            ),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            _selectedMenu == MyStrings.policy
+                                ? SizedBox()
+                                : SmallText(
+                                    text: "(2022)",
+                                    size: 16,
+                                    fontWeight: FontWeight.w600),
+                          ],
+                        ),
+                        _selectedMenu == MyStrings.holidayList ||
+                                _selectedMenu == MyStrings.policy
+                            ? SizedBox()
+                            : InkWell(
+                                onTap: () {
+                                  // showModalBottomSheet(
+                                  //   context: context,
+                                  //   isScrollControlled: true,
+                                  //   builder: (BuildContext context) {
+                                  //     return FractionallySizedBox(
+                                  //       heightFactor: 0.3,
+                                  //       child: showBottomModal(),
+                                  //     );
+                                  //   },
+                                  // );
+                                },
+                                child: Row(
+                                  children: const [
+                                    Icon(Icons.segment),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    Text('Filter')
+                                  ],
+                                ),
+                              ),
+                      ],
+                    ),
                   ),
-                  color: whiteColor,
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(18, 18, 18, 18),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Center(
-                          child: SmallText(
-                        text: MyStrings.requestSwipe,
-                        size: 18,
-                        fontWeight: FontWeight.w600,
+            _selectedMenu == MyStrings.holidayList
+                ? DataTable(
+                    //border: TableBorder.all(width: 0.3, color:prescriptionDivideColor),
+                    headingRowColor: MaterialStateColor.resolveWith(
+                        (states) => textFieldBgColor),
+                    headingRowHeight: 50,
+                    showBottomBorder: true,
+                    // columnSpacing: 65,
+                    horizontalMargin: 10,
+                    dataRowHeight: 50,
+                    columns: [
+                      DataColumn(
+                          label: Center(
+                              child: Padding(
+                        padding: const EdgeInsets.only(left: 20.0),
+                        child: SmallText(
+                          text: "Date",
+                          color: blueGreyColor,
+                          size: 14,
+                          textAlign: TextAlign.center,
+                        ),
+                      ))),
+                      DataColumn(
+                          label: Padding(
+                        padding: const EdgeInsets.only(left: 20.0),
+                        child: SmallText(
+                          text: "Day",
+                          color: blueGreyColor,
+                          size: 14,
+                          textAlign: TextAlign.center,
+                        ),
                       )),
-                      heightspace,
-                      heightspace,
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          SmallText(
-                            text: MyStrings.applyDate,
-                            color: textGreyColor,
-                            size: 16,
-                          ),
-                          Text(DateFormat("dd/MM/yyyy").format(DateTime.now()))
+                      DataColumn(
+                          label: Padding(
+                        padding: const EdgeInsets.only(left: 20.0),
+                        child: SmallText(
+                          text: "Remarks",
+                          color: blueGreyColor,
+                          size: 14,
+                          textAlign: TextAlign.center,
+                        ),
+                      )),
+                    ],
+                    rows: [
+                      DataRow(
+                        cells: <DataCell>[
+                          DataCell(SmallText(
+                            text: "01-Jan",
+                            size: 14,
+                            color: drawerTextColor,
+                          )),
+                          DataCell(SmallText(
+                            text: 'Saturday',
+                            size: 14,
+                            color: drawerTextColor,
+                          )),
+                          DataCell(SmallText(
+                            text: 'New Year',
+                            size: 14,
+                            color: drawerTextColor,
+                          )),
                         ],
                       ),
-                      heightspace,
-                      heightspace,
-                      Modedropdown(),
-                      heightspace,
-                      heightspace,
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              SmallText(
-                                text: MyStrings.fromDate,
-                                color: textGreyColor,
-                                size: 16,
-                              ),
-                              heightspace,
-                              const RequestDate(),
-                            ],
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              SmallText(
-                                text: MyStrings.mode,
-                                color: textGreyColor,
-                                size: 16,
-                              ),
-                              heightspace,
-                              createBox(
-                                context,
-                                state,
-                              )
-                            ],
-                          ),
+                      DataRow(
+                        cells: <DataCell>[
+                          DataCell(SmallText(
+                            text: "14-Jan",
+                            size: 14,
+                            color: drawerTextColor,
+                          )),
+                          DataCell(SmallText(
+                            text: 'Friday',
+                            size: 14,
+                            color: drawerTextColor,
+                          )),
+                          DataCell(SmallText(
+                            text: 'Pongal',
+                            size: 14,
+                            color: drawerTextColor,
+                          )),
                         ],
                       ),
-                      heightspace,
-                      heightspace,
-                      type == "In"
-                          ? Row(
+                      DataRow(
+                        cells: <DataCell>[
+                          DataCell(SmallText(
+                            text: "26-Jan",
+                            size: 14,
+                            color: drawerTextColor,
+                          )),
+                          DataCell(SmallText(
+                            text: 'Wednesday',
+                            size: 14,
+                            color: drawerTextColor,
+                          )),
+                          DataCell(SmallText(
+                            text: 'Republic Day',
+                            size: 14,
+                            color: drawerTextColor,
+                          )),
+                        ],
+                      ),
+                      DataRow(
+                        cells: <DataCell>[
+                          DataCell(SmallText(
+                            text: "14-Apr",
+                            size: 14,
+                            color: drawerTextColor,
+                          )),
+                          DataCell(SmallText(
+                            text: 'Thursday',
+                            size: 14,
+                            color: drawerTextColor,
+                          )),
+                          DataCell(SmallText(
+                            text: 'Tamil New Year',
+                            size: 14,
+                            color: drawerTextColor,
+                          )),
+                        ],
+                      ),
+                      DataRow(
+                        cells: <DataCell>[
+                          DataCell(SmallText(
+                            text: "15-Aug",
+                            size: 14,
+                            color: drawerTextColor,
+                          )),
+                          DataCell(SmallText(
+                            text: 'Monday',
+                            size: 14,
+                            color: drawerTextColor,
+                          )),
+                          DataCell(SmallText(
+                            text: 'Independence Day',
+                            size: 14,
+                            color: drawerTextColor,
+                          )),
+                        ],
+                      ),
+                      DataRow(
+                        cells: <DataCell>[
+                          DataCell(SmallText(
+                            text: "31-Aug",
+                            size: 14,
+                            color: drawerTextColor,
+                          )),
+                          DataCell(SmallText(
+                            text: 'Wednesday',
+                            size: 14,
+                            color: drawerTextColor,
+                          )),
+                          DataCell(SmallText(
+                            text: 'Vinayakar Chathurthi',
+                            size: 14,
+                            color: drawerTextColor,
+                          )),
+                        ],
+                      ),
+                      DataRow(
+                        cells: <DataCell>[
+                          DataCell(SmallText(
+                            text: "04-Oct",
+                            size: 14,
+                            color: drawerTextColor,
+                          )),
+                          DataCell(SmallText(
+                            text: 'Tuesday',
+                            size: 14,
+                            color: drawerTextColor,
+                          )),
+                          DataCell(SmallText(
+                            text: 'Vijayadhasami',
+                            size: 14,
+                            color: drawerTextColor,
+                          )),
+                        ],
+                      ),
+                      DataRow(
+                        cells: <DataCell>[
+                          DataCell(SmallText(
+                            text: "24-Oct",
+                            size: 14,
+                            color: drawerTextColor,
+                          )),
+                          DataCell(SmallText(
+                            text: 'Monday',
+                            size: 14,
+                            color: drawerTextColor,
+                          )),
+                          DataCell(SmallText(
+                            text: 'Deepavali',
+                            size: 14,
+                            color: drawerTextColor,
+                          )),
+                        ],
+                      ),
+                      DataRow(
+                        cells: <DataCell>[
+                          DataCell(SmallText(
+                            text: "25-Nov",
+                            size: 14,
+                            color: drawerTextColor,
+                          )),
+                          DataCell(SmallText(
+                            text: 'Friday',
+                            size: 14,
+                            color: drawerTextColor,
+                          )),
+                          DataCell(SmallText(
+                            text: 'Thanks Giving',
+                            size: 14,
+                            color: drawerTextColor,
+                          )),
+                        ],
+                      ),
+                    ],
+                  )
+                : _selectedMenu == MyStrings.history
+                    ? Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              width: MediaQuery.of(context).size.width,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: whiteColor),
+                              child: Padding(
+                                padding: const EdgeInsets.all(12.0),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        CircularPercentIndicator(
+                                          radius: 28.0,
+                                          lineWidth: 3.5,
+                                          animation: true,
+                                          percent: .6,
+                                          animationDuration: 1500,
+                                          animateFromLastPercent: true,
+                                          center: Image.asset(
+                                            'assets/leavemanagment/casualleave.png',
+                                            width: 20,
+                                            height: 20,
+                                          ),
+                                          // footer: Text(
+                                          //   state,
+                                          //   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17.0),
+                                          // ),
+                                          circularStrokeCap:
+                                              CircularStrokeCap.round,
+                                          progressColor: casualLeaveBorder,
+                                          onAnimationEnd: () =>
+                                              setState(() => state = ''),
+                                        ),
+                                        widthspace,
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            SmallText(
+                                              text: "18 days",
+                                              size: 20,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                            const SizedBox(
+                                              height: 3,
+                                            ),
+                                            SmallText(
+                                              text: "Casual Leave",
+                                              size: 15,
+                                              color: containerTextGreyColor
+                                                  .withOpacity(0.7),
+                                            )
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        CircularPercentIndicator(
+                                          radius: 28.0,
+                                          lineWidth: 3.5,
+                                          animation: true,
+                                          percent: .7,
+                                          animationDuration: 1500,
+                                          animateFromLastPercent: true,
+                                          center: Image.asset(
+                                            'assets/leavemanagment/sickleave.png',
+                                            width: 20,
+                                            height: 20,
+                                          ),
+                                          // footer: Text(
+                                          //   state,
+                                          //   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17.0),
+                                          // ),
+                                          circularStrokeCap:
+                                              CircularStrokeCap.round,
+                                          progressColor: sickLeaveBorder,
+                                          onAnimationEnd: () =>
+                                              setState(() => state = ''),
+                                        ),
+                                        widthspace,
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            SmallText(
+                                              text: "8 days",
+                                              size: 20,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                            const SizedBox(
+                                              height: 3,
+                                            ),
+                                            SmallText(
+                                              text: "Sick Leave",
+                                              size: 15,
+                                              color: containerTextGreyColor
+                                                  .withOpacity(0.7),
+                                            )
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            heightspace,
+                            heightspace,
+                            Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 SmallText(
-                                  text: "In Time",
-                                  color: textGreyColor,
-                                  size: 16,
+                                  text: "Leave Requests".toUpperCase(),
+                                  size: 14,
                                 ),
-                                SizedBox(
-                                  height: 40,
-                                  width:
-                                      MediaQuery.of(context).size.width / 2.5,
-                                  child: TextFormField(
-                                    controller: _txtTimeController,
-                                    textAlign: TextAlign.justify,
-                                    keyboardType:
-                                        TextInputType.numberWithOptions(
-                                            decimal: false),
-                                    decoration: InputDecoration(
-                                        contentPadding: EdgeInsets.only(
-                                            top: 12.0, left: 10, right: 5),
-                                        hintText: '00:00',
-                                        border: const OutlineInputBorder(),
-                                        focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              width: 1, color: borderColor),
-                                        ),
-                                        suffixIcon: Padding(
-                                          padding: const EdgeInsets.only(
-                                              top: 8.0, left: 5),
-                                          child: SmallText(
-                                            text: "AM",
-                                          ),
-                                        )),
-                                    inputFormatters: <TextInputFormatter>[
-                                      timeMaskFormatter
-                                      // Not sure if it can be done with RegExp or a custom class here instead
+                                InkWell(
+                                  onTap: () {
+                                    showModalBottomSheet(
+                                      context: context,
+                                      isScrollControlled: true,
+                                      builder: (BuildContext context) {
+                                        return FractionallySizedBox(
+                                          heightFactor: 0.3,
+                                          child: showBottomModal(),
+                                        );
+                                      },
+                                    );
+                                  },
+                                  child: Row(
+                                    children: const [
+                                      Icon(Icons.segment),
+                                      SizedBox(
+                                        width: 5,
+                                      ),
+                                      Text('Filter')
                                     ],
                                   ),
                                 ),
                               ],
-                            )
-                          : type == "Out"
-                              ? Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    SmallText(
-                                      text: "Out Time",
-                                      color: textGreyColor,
-                                      size: 16,
-                                    ),
-                                    SizedBox(
-                                      height: 40,
-                                      width: MediaQuery.of(context).size.width /
-                                          2.5,
-                                      child: TextFormField(
-                                        controller: _txtTimeController,
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            ListView.builder(
+                              physics: const BouncingScrollPhysics(),
+                              scrollDirection: Axis.vertical,
+                              shrinkWrap: true,
+                              itemCount: leaveHistory.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return Padding(
+                                  padding: const EdgeInsets.only(bottom: 10.0),
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        decoration: BoxDecoration(
+                                          color: whiteColor,
+                                          borderRadius:
+                                              BorderRadius.circular(5),
+                                          border: Border.all(
+                                              color:
+                                                  borderColor.withOpacity(0.5)),
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(12.0),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Row(
+                                                    children: [
+                                                      SmallText(
+                                                        text:
+                                                            '${leaveHistory[index].date} ${leaveHistory[index].month[0]}${leaveHistory[index].month[1]}${leaveHistory[index].month[2]} ',
+                                                        size: 15,
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                      ),
+                                                      widthspace,
+                                                      Container(
+                                                        decoration:
+                                                            BoxDecoration(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            5),
+                                                                color: leaveHistory[index]
+                                                                            .leaveType ==
+                                                                        "PM"
+                                                                    ? Color(
+                                                                        0xffe1fff3)
+                                                                    : leaveHistory[index].leaveType ==
+                                                                            "SL"
+                                                                        ? const Color(
+                                                                            0xffffeaf6)
+                                                                        : leaveHistory[index].leaveType ==
+                                                                                "OD"
+                                                                            ? const Color(0xfffff9e8)
+                                                                            : leaveHistory[index].leaveType == "Com Off"
+                                                                                ? const Color(0xfffff5f1)
+                                                                                : Color(0xffdffaff)),
+                                                        child: Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(5.0),
+                                                          child: SmallText(
+                                                            text: leaveHistory[
+                                                                    index]
+                                                                .leaveType,
+                                                            color: leaveHistory[index]
+                                                                        .leaveType ==
+                                                                    "OD"
+                                                                ? const Color(
+                                                                    0xffd39c06)
+                                                                : leaveHistory[index]
+                                                                            .leaveType ==
+                                                                        "CL"
+                                                                    ? const Color(
+                                                                        0xff33b5ce)
+                                                                    : leaveHistory[index].leaveType ==
+                                                                            "SL"
+                                                                        ? const Color(
+                                                                            0xffc988ad)
+                                                                        : leaveHistory[index].leaveType ==
+                                                                                "PM"
+                                                                            ? const Color(0xff3cc68f)
+                                                                            : leaveHistory[index].leaveType == "Com Off"
+                                                                                ? const Color(0xffff8659)
+                                                                                : blueGreyColor,
+                                                            fontStyle: FontStyle
+                                                                .italic,
+                                                            size: 15,
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  PopupMenuButton<leaveItem>(
+                                                    icon: Icon(Icons.more_horiz),
+                                                    iconSize: 18,
+                                                    initialValue: selectedMenu,
+                                                    // Callback that sets the selected popup menu item.
+                                                    onSelected: (leaveItem item) {
+                                                      setState(() {
+                                                        selectedMenu = item;
+                                                      });
+                                                    },
+                                                    itemBuilder: (BuildContext context) => <PopupMenuEntry<leaveItem>>[
+                                                      PopupMenuItem<leaveItem>(
+                                                        value: leaveItem.itemOne,
+                                                        child: Row(
+                                                          children: [
+                                                            Icon(Icons.edit,color: blueGreyColor,),
+                                                            widthspace,
+                                                            SmallText(text:MyStrings.edit),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      PopupMenuItem<leaveItem>(
+                                                        value: leaveItem.itemOne,
+                                                        child: Row(
+                                                          children: [
+                                                            Icon(Icons.delete,color: blueGreyColor,),
+                                                            widthspace,
+                                                            SmallText(text:MyStrings.delete),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  SizedBox(
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width /
+                                                            1.6,
+                                                    child: SmallText(
+                                                      text: leaveHistory[index]
+                                                          .reason,
+                                                      size: 13,
+                                                      color: drawerTextColor,
+                                                    ),
+                                                  ),
+                                                  Container(
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width /
+                                                            4.6,
+                                                    // decoration: BoxDecoration(
+                                                    //     borderRadius:
+                                                    //         BorderRadius.circular(5),
+                                                    //     color: leaveHistory[index].status ==
+                                                    //             "Approved"
+                                                    //         ? const Color(0xffdff8ee)
+                                                    //         : leaveHistory[index].status ==
+                                                    //                 "Rejected"
+                                                    //             ? const Color(0xfffcdfe1)
+                                                    //             : const Color(0xfffff5e6)),
+                                                    child: Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              6.0),
+                                                      child: Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Image.asset(
+                                                              'assets/leavemanagment/timer.png',
+                                                              width: 12,
+                                                              height: 12,
+                                                              color: leaveHistory[
+                                                                              index]
+                                                                          .status ==
+                                                                      "Approved"
+                                                                  ? blueGreyColor
+                                                                  // const Color(0xff569b5f)
+                                                                  : leaveHistory[index]
+                                                                              .status ==
+                                                                          "Rejected"
+                                                                      ? const Color(
+                                                                          0xffff3d49)
+                                                                      : const Color(
+                                                                          0xfffe9502)),
+                                                          const SizedBox(
+                                                            width: 5,
+                                                          ),
+                                                          SmallText(
+                                                            text: leaveHistory[
+                                                                    index]
+                                                                .status,
+                                                            textAlign:
+                                                                TextAlign.end,
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            color: leaveHistory[
+                                                                            index]
+                                                                        .status ==
+                                                                    "Approved"
+                                                                ? blueGreyColor
+                                                                // const Color(0xff569b5f)
+                                                                : leaveHistory[index]
+                                                                            .status ==
+                                                                        "Rejected"
+                                                                    ? const Color(
+                                                                        0xffff3d49)
+                                                                    : const Color(
+                                                                        0xfffe9502),
+                                                            size: 12,
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                            ),
+                          ],
+                        ),
+                      )
+                    : _selectedMenu == MyStrings.policy
+                        ? Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SmallText(
+                                  text: "Guidelines and Overview",
+                                  fontWeight: FontWeight.w600,
+                                ),
+                                Html(
+                                  data: "<ol>"
+                                      "<li>Any kind of leave can be granted or refused depending upon the business demands. Leave or absence from work without proper approval will call for disciplinary action.</li>"
+                                      "<li>The calendar year for leave is from January to December.</li>"
+                                      "<li>All leave records of the employees shall be maintained in the Human Resources Department.</li>"
+                                      "<li>All leaves should be applied (clearly with the reason) to the Reporting Manager before proceeding on leave. In case of an emergency when leave cannot be applied in advance, telephonic intimation to the immediate reporting manager should be done and it must be applied on the immediate day of reporting to work.</li>"
+                                      "<li>Leaves will be credited to the employee’s account at the beginning of every month. Employees may apply for leave depending upon their need and the leave balance available to their credit.</li>"
+                                      "<li>Every confirmed employee is entitled with one day of SL and one day of CL every month.</li>"
+                                      "<li>Employees on probation can avail of one-day Sick leave every month.</li>"
+                                      "<li>Un-availed SL will lapse in December and un-availed CL will be carried forward to the next calendar year.</li>"
+                                      "<li>Maximum 2 days of leaves can be taken in a month.</li>"
+                                      "<li>Sunday will be considered as LOP for employees taking leave on Saturday & Monday.</li>"
+                                      "<li>Saturday & Sunday will be considered as Leave/LOP for employees taking leave on Friday and Monday.</li>"
+                                      "<li>On the day of reporting to work after 3 consecutive days due to sickness, medical documents need to be produced to the HR Department on the day to resume duty.</li>"
+                                      "<li>If you fail to report to work within the sanctioned leave days, it will be considered that you are no longer interested in continuing your services with the company and that you have left the employment on your own without giving notice.</li>"
+                                      "<li>If you fail to report to work within the sanctioned leave days, it will be considered that you are no longer interested in continuing your services with the company and that you have left the employment on your own without giving notice. </li>"
+                                      "</ol>",
+                                  style: {
+                                    'body': Style(),
+                                    'li': Style(
+                                        margin: EdgeInsets.only(bottom: 20),
+                                        lineHeight: LineHeight.number(1.2),
+                                        padding: EdgeInsets.only(top: 2),
+                                        textAlign: TextAlign.justify),
+                                    // 'ol':Style(padding: EdgeInsets.only(top: 20)),
+                                  },
+                                ),
+                                heightspace,
+                                SmallText(
+                                  text: "Permissions",
+                                  fontWeight: FontWeight.w600,
+                                ),
+                                Html(
+                                  data:
+                                      "Due to emergency reasons/unavoidable circumstances, any employee who wishes to avail the permission could follow the below said protocols."
+                                      "<ol>"
+                                      "<li>Any kind of leave can be granted or refused depending upon the business demands. Leave or absence from work without proper approval will call for disciplinary action.</li>"
+                                      "<li>If you fail to report to work within the sanctioned leave days, it will be considered that you are no longer interested in continuing your services with the company and that you have left the employment on your own without giving notice. </li>"
+                                      "</ol>",
+                                  style: {
+                                    'body': Style(
                                         textAlign: TextAlign.justify,
-                                        keyboardType:
-                                            TextInputType.numberWithOptions(
-                                                decimal: false),
-                                        decoration: InputDecoration(
-                                            contentPadding: EdgeInsets.only(
-                                                top: 12.0, left: 10, right: 5),
-                                            hintText: '00:00',
+                                        lineHeight: LineHeight.number(1.2)),
+                                    'li': Style(
+                                        margin: EdgeInsets.only(bottom: 20),
+                                        lineHeight: LineHeight.number(1.2),
+                                        padding: EdgeInsets.only(top: 2),
+                                        textAlign: TextAlign.justify),
+                                    'ol': Style(
+                                        padding: EdgeInsets.only(top: 20)),
+                                  },
+                                ),
+                                heightspace,
+                                SmallText(
+                                  text: "Marriage Leave",
+                                  fontWeight: FontWeight.w600,
+                                ),
+                                Html(
+                                  data:
+                                      "10 days (including weekends) of leave can be availed. This will be not adjusted in their CL/SL.",
+                                  style: {
+                                    'body': Style(
+                                        textAlign: TextAlign.justify,
+                                        lineHeight: LineHeight.number(1.2)),
+                                  },
+                                ),
+                                heightspace,
+                                SmallText(
+                                  text: "Bereavement  Leave",
+                                  fontWeight: FontWeight.w600,
+                                ),
+                                Html(
+                                  data:
+                                      "Bereavementnt leaves shall be applicable only for the loss of blood relations -the first level of relations – parents, spouse, brother, sister, and children. This can be availed for up to 3 to 5 days maximum (including weekends). These leaves will be not adjusted in their CL/SL.",
+                                  style: {
+                                    'body': Style(
+                                        textAlign: TextAlign.justify,
+                                        lineHeight: LineHeight.number(1.2)),
+                                  },
+                                ),
+                                heightspace,
+                                SmallText(
+                                  text: "Casual Leaves",
+                                  fontWeight: FontWeight.w600,
+                                ),
+                                Html(
+                                  data: "<ol class='adf'>"
+                                      "<li><span>ELIGIBILITY</span><p>Employees joined on or before 15th of the month, shall gain one CL for the month.</p></li>"
+                                      "<li>ENTITLEMENT<p>Casual Leave shall be credited to the employee’s account at the beginning of the month.</p></li>"
+                                      "<li>ACCUMULATION<p>You can accumulate/carry forward your Casual leaves up to a maximum value of 15 only.</p></li>"
+                                      "<li>ENCASHMENT<p>Un-availed Casual leaves can be carry forwarded to the next year. It can be encashed or adjusted against notice pay at the time of separation. This will be on the discretion of your Reporting manager.</p></li>"
+                                      "<li>PROCESS<ul><li class = 'i'>Employee can request for Casual Leave for personal matters. These would be granted at the discretion of the Reporting Manager. The employee is required to apply for Casual Leave in advance.</li>"
+                                      "<li class = 'i'>Employee has to apply for the Casual Leave and get the leave approval from the respective Reporting Manager prior to availing the same.</li>"
+                                      "<li class = 'i'>In case of leave above 3 days, the employee has to get approval 2 weeks prior to availing the same.</li>"
+                                      "<li class = 'i'>Mode of communication to pass any information – The respective employee should directly call and inform only their Reporting Manager about permissions / leaves or any other exigencies and for not attending work. Any other mode of communication (WhatsApp or SMS) will be considered as ABSENCE FROM WORK.</li>"
+                                      "<li class = 'i'>In case of exigencies where he/she shall submit the leave approval request to the Reporting Manager within 48 hours of resuming duty.</li>"
+                                      "</ul></li>"
+                                      "</ol>",
+                                  style: {
+                                    'li': Style(
+                                        margin: EdgeInsets.only(bottom: 20),
+                                        lineHeight: LineHeight.number(1.2),
+                                        padding: EdgeInsets.only(top: 2),
+                                        textAlign: TextAlign.justify,
+                                        color: blueGreyColor,
+                                        fontWeight: FontWeight.w500),
+                                    'li.i': Style(
+                                        lineHeight: LineHeight.number(1.2),
+                                        textAlign: TextAlign.justify,
+                                        color: blackColor,
+                                        fontWeight: FontWeight.normal),
+                                    'p': Style(
+                                        color: blackColor,
+                                        fontWeight: FontWeight.normal),
+                                  },
+                                ),
+                                heightspace,
+                                SmallText(
+                                  text: "Sick Leaves",
+                                  fontWeight: FontWeight.w600,
+                                ),
+                                Html(
+                                  data: "<ol>"
+                                      "<li>ELIGIBILITY<p>All Probationary/Permanent employees at AnnexMed Pvt Ltd are eligible for Sick Leave.</p></li>"
+                                      "<li>ENTITLEMENT<ul>"
+                                      "<li class = 'i'>Sick Leave shall be credited to the employee’s account at the beginning of the month.</li>"
+                                      "<li class = 'i'>Sick Leave shall be credited to the employee’s account at the beginning of the month.</li></ul></li>"
+                                      "<li>ACCUMULATION<p>Un-availed Sick leaves will lapse at the end of the calendar year.</p></li>"
+                                      "<li>ENCASHMENT<p>Sick leaves cannot be encashed or adjusted against notice pay at the time of separation.</p></li>"
+                                      "<li>PROCESS<ul><li class = 'i'>Sick leave is to be taken in cases of injury/illness to the employee.</li>"
+                                      "<li class = 'i'>Employee has to apply for the Casual Leave and get the leave approval from the respective Reporting Manager prior to availing the same.</li>"
+                                      "<li class = 'i'>Mode of communication to pass any information - The respective employee should directly call and inform only their Reporting Manager about permissions/leaves or any other exigencies and for not attending work. Any other mode of communication (WhatsApp or SMS) will be considered as ABSENCE FROM WORK.</li>"
+                                      "<li class = 'i'>3 or more days of Sick Leave will require a medical certificate from a qualified and registered medical practitioner. Notwithstanding such a certificate, the company can in its sole discretion consider the same as a loss of pay.</li>"
+                                      "<li class = 'i'>Exceptional cases of injury/illness of a serious nature will be viewed on a case-to-case basis. These however need to be communicated in writing, for getting the necessary approval from the Reporting Manager. Clubbing of sick leaves with the other leaves in such cases will be at the discretion of the Manager in consultation with HR.</li>"
+                                      "</ul></li>"
+                                      "</ol>",
+                                  style: {
+                                    // 'body':Style(textAlign: TextAlign.justify,lineHeight: LineHeight.number(1.2)),
+                                    'li': Style(
+                                        margin: EdgeInsets.only(bottom: 20),
+                                        lineHeight: LineHeight.number(1.2),
+                                        padding: EdgeInsets.only(top: 2),
+                                        textAlign: TextAlign.justify,
+                                        color: blueGreyColor,
+                                        fontWeight: FontWeight.w500),
+                                    'li.i': Style(
+                                        lineHeight: LineHeight.number(1.2),
+                                        textAlign: TextAlign.justify,
+                                        color: blackColor,
+                                        fontWeight: FontWeight.normal),
+                                    'p': Style(
+                                        color: blackColor,
+                                        fontWeight: FontWeight.normal),
+                                  },
+                                ),
+                                heightspace,
+                                SmallText(
+                                  text: "Maternity Leave (MTL)",
+                                  fontWeight: FontWeight.w600,
+                                ),
+                                Html(
+                                  data: "<ol>"
+                                      "<li>ELIGIBILITY"
+                                      "<ul>"
+                                      "<li class = 'i'>Eligibility of Maternity leave, varies from case to case.</li>"
+                                      "<li class = 'i'>Maternity leave is a statutory leave.</li>"
+                                      "<li class = 'i'>Women Employees covered under ESI will be eligible for Maternity benefits for 6 months as per Maternity ACT.</li>"
+                                      "<li class = 'i'>Women Employees not covered under ESI and who completed 24 months of continuous service with the company will be eligible for 90 days of Maternity leave.</li>"
+                                      "<li class = 'i'>If you are on probation, you are entitled to avail of maternity leave, provided the above condition is fulfilled.</li>"
+                                      "</ul></li>"
+                                      "<li>ENTITLEMENT<ul>"
+                                      "<li class = 'i'>Maternity leave is restricted to two live births during the service with the company.</li>"
+                                      "<li class = 'i'>Women employees who have worked for a minimum period of 24 months prior to the delivery shall be entitled to Maternity Leave of up to 90 days in case of delivery, 30 days in case of miscarriage, from the date of miscarriage.</li>"
+                                      "<li class = 'i'>This leave shall not be extended beyond a period of 1 month, without a certificate from a Qualified Medical Practitioner and approval of the Human Resources.</li>"
+                                      "<li class = 'i'>All leave/s beyond the statutory limit of 90 days will be charged to Casual Leave.</li>"
+                                      "<li class = 'i'>Maternity Leave can be clubbed with Casual and Sick Leave.</li>"
+                                      "</ul></li>"
+                                      "<li>PROCESS<ul><li class = 'i'>Apply for Maternity Leave 4 weeks before you go on leave.</li>"
+                                      "<li class = 'i'>Apply for Maternity Leave 4 weeks before you go on leave.</li>"
+                                      "</ul></li>"
+                                      "</ol>",
+                                  style: {
+                                    // 'body':Style(textAlign: TextAlign.justify,lineHeight: LineHeight.number(1.2)),
+                                    'li': Style(
+                                        margin: EdgeInsets.only(bottom: 20),
+                                        lineHeight: LineHeight.number(1.2),
+                                        padding: EdgeInsets.only(top: 2),
+                                        textAlign: TextAlign.justify,
+                                        color: blueGreyColor,
+                                        fontWeight: FontWeight.w500),
+                                    'li.i': Style(
+                                        lineHeight: LineHeight.number(1.2),
+                                        textAlign: TextAlign.justify,
+                                        color: blackColor,
+                                        fontWeight: FontWeight.normal),
+                                    'p': Style(
+                                        color: blackColor,
+                                        fontWeight: FontWeight.normal),
+                                    'ol': Style(
+                                        color: Colors.red,
+                                        fontWeight: FontWeight.normal),
+                                  },
+                                ),
+                                heightspace,
+                                SmallText(
+                                  text: "Paternity Leave (PTL)",
+                                  fontWeight: FontWeight.w600,
+                                ),
+                                Html(
+                                  data: "<ol>"
+                                      "<li>ELIGIBILITY"
+                                      "<ul>"
+                                      "<li class = 'i'>Permanent Employees can avail of paternity leave of 3 working days after the birth of the child.</li>"
+                                      "<li class = 'i'>Any leaves availed beyond 3 working days are subject to the approval of the reporting authority or HR Dept.</li>"
+                                      "<li class = 'i'>Employees under probation are not eligible for Paternity Leave.</li>"
+                                      "</ul></li>"
+                                      "<li>ENTITLEMENT<ul>"
+                                      "<li class = 'i'>Paternity leave is restricted to two live births during the service with the company.</li>"
+                                      "<li class = 'i'>Paternity leave is restricted to two live births during the service with the company.</li>"
+                                      "</ul></li>"
+                                      "<li>PROCESS<ul><li class = 'i'>Apply for Paternity Leave a week before you go on leave. </li>"
+                                      "<li class = 'i'>Get the approval from your Reporting Manager in the mail copying the HR Department.</li>"
+                                      "</ul></li>"
+                                      "</ol>",
+                                  style: {
+                                    // 'body':Style(textAlign: TextAlign.justify,lineHeight: LineHeight.number(1.2)),
+                                    'li': Style(
+                                        margin: EdgeInsets.only(bottom: 20),
+                                        lineHeight: LineHeight.number(1.2),
+                                        padding: EdgeInsets.only(top: 2),
+                                        textAlign: TextAlign.justify,
+                                        color: blueGreyColor,
+                                        fontWeight: FontWeight.w500),
+                                    'li.i': Style(
+                                        lineHeight: LineHeight.number(1.2),
+                                        textAlign: TextAlign.justify,
+                                        color: blackColor,
+                                        fontWeight: FontWeight.normal),
+                                    'p': Style(
+                                        color: blackColor,
+                                        fontWeight: FontWeight.normal),
+                                    'ol': Style(
+                                        color: Colors.red,
+                                        fontWeight: FontWeight.normal),
+                                  },
+                                ),
+                                heightspace,
+                                SmallText(
+                                  text: "Marriage Leave (MRL)",
+                                  fontWeight: FontWeight.w600,
+                                ),
+                                Html(
+                                  data: "<ol>"
+                                      "<li>ELIGIBILITY"
+                                      "<ul>"
+                                      "<li class = 'i'>Permanent Employees can avail of Marriage Leaves.</li>"
+                                      "<li class = 'i'>As a gesture of sharing a happy moment in our employee's family, AnnexMed grants 10 calendar days as marriage Leave (including Saturday and Sunday)</li>"
+                                      "<li class = 'i'>Any leaves availed beyond 10 working days are subject to the approval of the reporting authority or HR Dept.</li>"
+                                      "<li class = 'i'>Availed leaves of more than 10 days (including weekends) will not be approved and paid.</li>"
+                                      "<li class = 'i'>Employees under probation are not eligible for Marriage Leave.</li>"
+                                      "</ul></li>"
+                                      "<li>ENTITLEMENT<ul>"
+                                      "<li class = 'i'>Marriage leaves are restricted to one marriage during the service with the company.</li>"
+                                      "<li class = 'i'>Marriage Leaves can be clubbed with Casual Leaves.</li>"
+                                      "</ul></li>"
+                                      "<li>PROCESS<ul><li class = 'i'>Apply for Marriage Leave 4 weeks before you go on leave.</li>"
+                                      "<li class = 'i'>Get the approval from your Reporting Manager in the mail copying the HR Department.</li>"
+                                      "</ul></li>"
+                                      "</ol>",
+                                  style: {
+                                    // 'body':Style(textAlign: TextAlign.justify,lineHeight: LineHeight.number(1.2)),
+                                    'li': Style(
+                                        margin: EdgeInsets.only(bottom: 20),
+                                        lineHeight: LineHeight.number(1.2),
+                                        padding: EdgeInsets.only(top: 2),
+                                        textAlign: TextAlign.justify,
+                                        color: blueGreyColor,
+                                        fontWeight: FontWeight.w500),
+                                    'li.i': Style(
+                                        lineHeight: LineHeight.number(1.2),
+                                        textAlign: TextAlign.justify,
+                                        color: blackColor,
+                                        fontWeight: FontWeight.normal),
+                                    'p': Style(
+                                        color: blackColor,
+                                        fontWeight: FontWeight.normal),
+                                    'ol': Style(
+                                        color: Colors.red,
+                                        fontWeight: FontWeight.normal),
+                                  },
+                                ),
+                                heightspace,
+                                SmallText(
+                                  text: "Bereavement Leave (BL)",
+                                  fontWeight: FontWeight.w600,
+                                ),
+                                Html(
+                                  data: "<ol>"
+                                      "<li>ELIGIBILITY"
+                                      "<ul>"
+                                      "<li class = 'i'>All Employees are entitled to avail of Bereavement Leaves.</li>"
+                                      "<li class = 'i'>Employees under probation  - Employees under probation are eligible for this Leave of upto 2 days. This leave shall not be adjusted with their SL. And, this should not be clubbed with the SL.</li>"
+                                      "</ul></li>"
+                                      "<li>ENTITLEMENT<ul>"
+                                      "<li class = 'i'>Any employee's first-level relation on their unfortunate event will be entitled to Bereavement leave for 7 days. (including weekends) (First Level Relation - Spouse, children, father, mother, brother, sister, If the request is more than 7 days (including weekends), it is subject to the approval of the reporting authority and HR).</li>"
+                                      "<li class = 'i'>Bereavement Leaves cannot be clubbed with Casual Leaves.</li>"
+                                      "</ul></li>"
+                                      "<li>PROCESS<ul><li class = 'i'>Mode of communication - The respective employee should directly call and inform only their Reporting Manager of these leaves. Any other mode of communication (WhatsApp or SMS) will be considered as ABSENCE FROM WORK.</li>"
+                                      "<li class = 'i'>Apply for Bereavement Leave as soon as you resume your work.</li>"
+                                      "<li class = 'i'>Get approval from your Reporting Manager by mail copying the HR Department.</li>"
+                                      "</ul></li>"
+                                      "</ol>",
+                                  style: {
+                                    // 'body':Style(textAlign: TextAlign.justify,lineHeight: LineHeight.number(1.2)),
+                                    'li': Style(
+                                        margin: EdgeInsets.only(bottom: 20),
+                                        lineHeight: LineHeight.number(1.2),
+                                        padding: EdgeInsets.only(top: 2),
+                                        textAlign: TextAlign.justify,
+                                        color: blueGreyColor,
+                                        fontWeight: FontWeight.w500),
+                                    'li.i': Style(
+                                        lineHeight: LineHeight.number(1.2),
+                                        textAlign: TextAlign.justify,
+                                        color: blackColor,
+                                        fontWeight: FontWeight.normal),
+                                    'p': Style(
+                                        color: blackColor,
+                                        fontWeight: FontWeight.normal),
+                                    'ol': Style(
+                                        color: Colors.red,
+                                        fontWeight: FontWeight.normal),
+                                  },
+                                ),
+                                heightspace,
+                                SmallText(
+                                  text: "Medical Leave (ML)",
+                                  fontWeight: FontWeight.w600,
+                                ),
+                                Html(
+                                  data: "<ol>"
+                                      "<li>ELIGIBILITY"
+                                      "<ul>"
+                                      "<li class = 'i'>Permanent Employees can avail of Medical Leaves.</li>"
+                                      "<li class = 'i'>Employees under probation are not eligible for this Leave.</li>"
+                                      "<li class = 'i'>Employees can avail of medical leave on critical medical conditions like surgery, accident or any other medical leave.</li>"
+                                      "</ul></li>"
+                                      "<li>ENTITLEMENT<ul>"
+                                      "<li class = 'i'>Maximum of 7 working days (including weekend) availed will be paid. </li>"
+                                      "<li class = 'i'>Anything beyond the 7 working days will be adjusted in your existing CL or SL and the rest will be considered as LOP.</li>"
+                                      "<li class = 'i'>Medical Leaves can be clubbed with Sick Leaves.</li>"
+                                      "</ul></li>"
+                                      "<li>PROCESS<ul><li class = 'i'>Mode of communication - The respective employee should directly call and inform only their Reporting Manager of these leaves. Any other mode of communication (WhatsApp or SMS) will be considered as ABSENCE FROM WORK.</li>"
+                                      "<li class = 'i'>Apply for Medical Leave as soon as you resume your work.</li>"
+                                      "<li class = 'i'>Proper medical reports and medical fitness certificate is required to be submitted by the employee.</li>"
+                                      "<li class = 'i'>Get the approval from your Reporting Manager by mail copying the HR Department</li>"
+                                      "</ul></li>"
+                                      "</ol>",
+                                  style: {
+                                    // 'body':Style(textAlign: TextAlign.justify,lineHeight: LineHeight.number(1.2)),
+                                    'li': Style(
+                                        margin: EdgeInsets.only(bottom: 20),
+                                        lineHeight: LineHeight.number(1.2),
+                                        padding: EdgeInsets.only(top: 2),
+                                        textAlign: TextAlign.justify,
+                                        color: blueGreyColor,
+                                        fontWeight: FontWeight.w500),
+                                    'li.i': Style(
+                                        lineHeight: LineHeight.number(1.2),
+                                        textAlign: TextAlign.justify,
+                                        color: blackColor,
+                                        fontWeight: FontWeight.normal),
+                                    'p': Style(
+                                        color: blackColor,
+                                        fontWeight: FontWeight.normal),
+                                    'ol': Style(
+                                        color: Colors.red,
+                                        fontWeight: FontWeight.normal),
+                                  },
+                                ),
+                                heightspace,
+                                SmallText(
+                                  text: "Non-Compliance and Consequence",
+                                  fontWeight: FontWeight.w600,
+                                ),
+                                Html(
+                                  data:
+                                      "Non-compliance or frequent inconsistencies in adherence to this policy will lead to disciplinary action or legal proceedings by AnnexMed depending upon the type and severity of the violation.",
+                                  style: {
+                                    'body': Style(
+                                        lineHeight: LineHeight.number(1.2),
+                                        textAlign: TextAlign.justify),
+                                    // 'li':Style(margin: EdgeInsets.only(bottom: 20),lineHeight: LineHeight.number(1.2),padding: EdgeInsets.only(top: 2),textAlign: TextAlign.justify),
+                                    // 'ol':Style(padding: EdgeInsets.only(top: 20)),
+                                  },
+                                ),
+                              ],
+                            ),
+                          )
+                        : _selectedApply == MyStrings.applyLeave
+                            ? Padding(
+                                padding: const EdgeInsets.all(12.0),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: const BorderRadius.only(
+                                      topLeft: Radius.circular(15),
+                                      topRight: Radius.circular(15),
+                                    ),
+                                    color: whiteColor,
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.fromLTRB(
+                                        18, 25, 18, 25),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Center(
+                                            child: SmallText(
+                                          text: MyStrings.requestLeave,
+                                          size: 18,
+                                          fontWeight: FontWeight.w600,
+                                        )),
+                                        heightspace,
+                                        heightspace,
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            SmallText(
+                                              text: 'Today\'s date',
+                                              color: textGreyColor,
+                                              size: 16,
+                                            ),
+                                            SmallText(
+                                              text: DateFormat("dd/MM/yyyy")
+                                                  .format(DateTime.now()),
+                                              size: 14,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          ],
+                                        ),
+                                        heightspace,
+                                        heightspace,
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            SmallText(
+                                              text: MyStrings.leaveType,
+                                              color: drawerTextColor,
+                                              size: 16,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                            Container(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  2.5,
+                                              height: 35.0,
+                                              padding:
+                                                  const EdgeInsets.all(0.0),
+                                              decoration: ShapeDecoration(
+                                                shape: RoundedRectangleBorder(
+                                                  side: BorderSide(
+                                                      width: 1.0,
+                                                      color: borderColor),
+                                                  borderRadius:
+                                                      const BorderRadius.all(
+                                                          Radius.circular(5.0)),
+                                                ),
+                                              ),
+                                              child:
+                                                  DropdownButtonHideUnderline(
+                                                child: ButtonTheme(
+                                                  alignedDropdown: true,
+                                                  child: DropdownButton<String>(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
+                                                    value: _chosenValue,
+                                                    underline: SizedBox(),
+                                                    isExpanded: true,
+                                                    style: font15.copyWith(
+                                                        color: Colors.black
+                                                            .withOpacity(0.7)),
+                                                    items: <String>[
+                                                      MyStrings.casualLeave,
+                                                      MyStrings.sickLeave,
+                                                      MyStrings.compOff,
+                                                      MyStrings.marriageLeave,
+                                                      MyStrings.maternityLeave,
+                                                      MyStrings.paternityLeave,
+                                                      MyStrings.medicalLeave,
+                                                      MyStrings.bereavementLeave
+                                                    ].map<
+                                                            DropdownMenuItem<
+                                                                String>>(
+                                                        (String value) {
+                                                      return DropdownMenuItem<
+                                                          String>(
+                                                        value: value,
+                                                        child: SmallText(
+                                                            text: value),
+                                                      );
+                                                    }).toList(),
+                                                    // hint: SmallText(
+                                                    //   text: MyStrings.leaveType,
+                                                    //   color: drawerTextColor,
+                                                    //   size: 16,
+                                                    //   fontWeight: FontWeight.w400,
+                                                    // ),
+                                                    onChanged: (String? value) {
+                                                      setState(() {
+                                                        _chosenValue = value;
+                                                      });
+                                                    },
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        heightspace,
+                                        heightspace,
+                                        _chosenValue ==
+                                                    MyStrings.marriageLeave ||
+                                                _chosenValue ==
+                                                    MyStrings.maternityLeave
+                                            ? SizedBox()
+                                            : Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  SmallText(
+                                                    text: "Apply for",
+                                                    color: drawerTextColor,
+                                                    size: 16,
+                                                    fontWeight: FontWeight.w400,
+                                                  ),
+                                                  Container(
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width /
+                                                            2.5,
+                                                    height: 35.0,
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            0.0),
+                                                    decoration: ShapeDecoration(
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                        side: BorderSide(
+                                                            width: 1.0,
+                                                            color: borderColor),
+                                                        borderRadius:
+                                                            const BorderRadius
+                                                                    .all(
+                                                                Radius.circular(
+                                                                    5.0)),
+                                                      ),
+                                                    ),
+                                                    child:
+                                                        DropdownButtonHideUnderline(
+                                                      child: ButtonTheme(
+                                                        alignedDropdown: true,
+                                                        child: DropdownButton<
+                                                            String>(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(10),
+                                                          value: _chosenday,
+                                                          underline: SizedBox(),
+                                                          isExpanded: true,
+                                                          style: font15.copyWith(
+                                                              color: Colors
+                                                                  .black
+                                                                  .withOpacity(
+                                                                      0.7)),
+                                                          items: <String>[
+                                                            "Single day",
+                                                            "Multiple day",
+                                                            "First Half",
+                                                            "Second Half"
+                                                          ].map<
+                                                              DropdownMenuItem<
+                                                                  String>>((String
+                                                              value) {
+                                                            return DropdownMenuItem<
+                                                                String>(
+                                                              value: value,
+                                                              child: SmallText(
+                                                                  text: value),
+                                                            );
+                                                          }).toList(),
+                                                          // hint: SmallText(
+                                                          //   text: MyStrings.leaveType,
+                                                          //   color: drawerTextColor,
+                                                          //   size: 16,
+                                                          //   fontWeight: FontWeight.w400,
+                                                          // ),
+                                                          onChanged:
+                                                              (String? value) {
+                                                            setState(() {
+                                                              _chosenday =
+                                                                  value;
+                                                            });
+                                                          },
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                        // StatefulBuilder(builder:
+                                        //     (context, StateSetter setModalState) {
+                                        //   return Row(
+                                        //       children: [
+                                        //         Transform.scale(
+                                        //           scale: 1.0,
+                                        //           child: Row(
+                                        //             children: [
+                                        //               Radio(
+                                        //                   fillColor: MaterialStateColor
+                                        //                       .resolveWith(
+                                        //                           (states) =>
+                                        //                               primaryColor),
+                                        //                   value: 1,
+                                        //                   groupValue: id,
+                                        //                   onChanged: (value) {
+                                        //                     // set is changed here
+                                        //                     setModalState(() {
+                                        //                       difficulty =
+                                        //                           value.toString();
+                                        //                       id = 1;
+                                        //                     });
+                                        //                   }),
+                                        //               SmallText(
+                                        //                 text:"Single",
+                                        //                 size: 13,
+                                        //               )
+                                        //             ],
+                                        //           ),
+                                        //         ),
+                                        //         Transform.scale(
+                                        //           scale: 1.0,
+                                        //           child: Row(
+                                        //             children: [
+                                        //               Radio(
+                                        //                   fillColor: MaterialStateColor
+                                        //                       .resolveWith(
+                                        //                           (states) =>
+                                        //                               primaryColor),
+                                        //                   value: 2,
+                                        //                   groupValue: id,
+                                        //                   onChanged: (value) {
+                                        //                     // set is changed here
+                                        //                     setModalState(() {
+                                        //                       difficulty =
+                                        //                           value.toString();
+                                        //                       id = 2;
+                                        //                     });
+                                        //                   }),
+                                        //               SmallText(
+                                        //                 text:"Multiple",
+                                        //                 size: 13,
+                                        //               )
+                                        //             ],
+                                        //           ),
+                                        //         ),
+                                        //         Transform.scale(
+                                        //           scale: 1.0,
+                                        //           child: Row(
+                                        //             children: [
+                                        //               Radio(
+                                        //                   fillColor: MaterialStateColor
+                                        //                       .resolveWith(
+                                        //                           (states) =>
+                                        //                               primaryColor),
+                                        //                   value: 3,
+                                        //                   groupValue: id,
+                                        //                   onChanged: (value) {
+                                        //                     // set is changed here
+                                        //                     setModalState(() {
+                                        //                       difficulty =
+                                        //                           value.toString();
+                                        //                       id = 3;
+                                        //                     });
+                                        //                   }),
+                                        //               SmallText(
+                                        //                 text:"1st half",
+                                        //                 size: 13,
+                                        //               )
+                                        //             ],
+                                        //           ),
+                                        //         ),
+                                        //         Transform.scale(
+                                        //           scale: 1.0,
+                                        //           child: Row(
+                                        //             children: [
+                                        //               Radio(
+                                        //                   fillColor: MaterialStateColor
+                                        //                       .resolveWith(
+                                        //                           (states) =>
+                                        //                               primaryColor),
+                                        //                   value: 4,
+                                        //                   groupValue: id,
+                                        //                   onChanged: (value) {
+                                        //                     // set is changed here
+                                        //                     setModalState(() {
+                                        //                       difficulty =
+                                        //                           value.toString();
+                                        //                       id = 4;
+                                        //                     });
+                                        //                   }),
+                                        //               SmallText(
+                                        //                 text: "2nd half",
+                                        //                 size: 13,
+                                        //               )
+                                        //             ],
+                                        //           ),
+                                        //         )
+                                        //       ]);
+                                        // }),
+                                        _chosenValue ==
+                                                    MyStrings.marriageLeave ||
+                                                _chosenValue ==
+                                                    MyStrings.maternityLeave
+                                            ? SizedBox()
+                                            : SizedBox(
+                                                height: 20,
+                                              ),
+
+                                        _chosenday == "Multiple day" ||
+                                                _chosenValue ==
+                                                    MyStrings.marriageLeave ||
+                                                _chosenValue ==
+                                                    MyStrings.maternityLeave
+                                            ? Column(
+                                                children: [
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      SmallText(
+                                                        text:
+                                                            MyStrings.fromDate,
+                                                        color: textGreyColor,
+                                                        size: 16,
+                                                      ),
+                                                      heightspace,
+                                                      GestureDetector(
+                                                        onTap: () {
+                                                          selectDate1(context);
+                                                        },
+                                                        child: Form(
+                                                          key: formKey,
+                                                          child: AbsorbPointer(
+                                                            child: Container(
+                                                              height: 35,
+                                                              width: MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width /
+                                                                  2.5,
+                                                              child:
+                                                                  TextFormField(
+                                                                // textAlignVertical:
+                                                                //     TextAlignVertical
+                                                                //         .center,
+                                                                // textAlign:
+                                                                //     TextAlign
+                                                                //         .left,
+                                                                style: font15,
+                                                                controller:
+                                                                    fromdate,
+                                                                readOnly: true,
+                                                                decoration:
+                                                                    InputDecoration(
+                                                                  border:
+                                                                      const OutlineInputBorder(),
+                                                                  suffixIcon:
+                                                                      Padding(
+                                                                        padding: const EdgeInsets.only(top: 4.0),      child: IconButton(
+                                                                    icon:
+                                                                          const Icon(
+                                                                        Icons
+                                                                            .calendar_today_sharp,
+                                                                        size: 15,
+                                                                    ),
+                                                                    onPressed: () =>
+                                                                          selectDate1(
+                                                                              context),
+                                                                  ),
+                                                                      ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  heightspace,
+                                                  heightspace,
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      SmallText(
+                                                        text: MyStrings.toDate,
+                                                        color: textGreyColor,
+                                                        size: 16,
+                                                      ),
+                                                      heightspace,
+                                                      GestureDetector(
+                                                        onTap: () {
+                                                          selectendDate1(
+                                                              context);
+                                                        },
+                                                        child: Form(
+                                                          key: formKey1,
+                                                          child: AbsorbPointer(
+                                                            child: SizedBox(
+                                                              height: 35,
+                                                              width: MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width /
+                                                                  2.5,
+                                                              child:
+                                                                  TextFormField(
+                                                                // textAlignVertical:
+                                                                //     TextAlignVertical
+                                                                //         .center,
+                                                                // textAlign:
+                                                                //     TextAlign
+                                                                //         .left,
+                                                                style: font15,
+                                                                controller:
+                                                                    enddate,
+                                                                readOnly: true,
+                                                                decoration:
+                                                                    InputDecoration(
+                                                                  border:
+                                                                      const OutlineInputBorder(),
+                                                                  suffixIcon:
+                                                                      Padding(
+                                                                        padding: const EdgeInsets.only(top: 4.0),     child: IconButton(
+                                                                    icon:
+                                                                          const Icon(
+                                                                        Icons
+                                                                            .calendar_today_sharp,
+                                                                        size: 15,
+                                                                    ),
+                                                                    onPressed: () =>
+                                                                          selectendDate1(
+                                                                              context),
+                                                                  ),
+                                                                      ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
+                                              )
+                                            : Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  _chosenday == "Single day"
+                                                      ? SmallText(
+                                                          text: "Apply date",
+                                                          color: textGreyColor,
+                                                          size: 16,
+                                                        )
+                                                      : SmallText(
+                                                          text: MyStrings
+                                                              .fromDate,
+                                                          color: textGreyColor,
+                                                          size: 16,
+                                                        ),
+                                                  heightspace,
+                                                  GestureDetector(
+                                                    onTap: () {
+                                                      selectDate1(context);
+                                                    },
+                                                    child: Form(
+                                                      key: formKey,
+                                                      child: AbsorbPointer(
+                                                        child: Container(
+                                                          height: 35,
+                                                          width: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width /
+                                                              2.5,
+                                                          child: TextFormField(
+                                                            // textAlignVertical:
+                                                            //     TextAlignVertical
+                                                            //         .center,
+                                                            // textAlign:
+                                                            //     TextAlign.left,
+                                                            // style: font15,
+                                                            controller:
+                                                                fromdate,
+                                                            readOnly: true,
+                                                            decoration:
+                                                                InputDecoration(
+                                                              border:
+                                                                  const OutlineInputBorder(),
+                                                              suffixIcon:
+                                                                  Padding(
+                                                                    padding: const EdgeInsets.only(top: 4.0),       child: IconButton(
+                                                                icon:
+                                                                      const Icon(
+                                                                    Icons
+                                                                        .calendar_today_sharp,
+                                                                    size: 14,
+                                                                ),
+                                                                onPressed: () =>
+                                                                      selectDate1(
+                                                                          context),
+                                                              ),
+                                                                  ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                        heightspace,
+                                        heightspace,
+                                        _chosenday == "Multiple day" ||
+                                                _chosenValue ==
+                                                    MyStrings.marriageLeave ||
+                                                _chosenValue ==
+                                                    MyStrings.maternityLeave
+                                            ? Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  SmallText(
+                                                    text: "Total days",
+                                                    color: textGreyColor,
+                                                    size: 16,
+                                                  ),
+                                                  Container(
+                                                    height: 35,
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width /
+                                                            2.5,
+                                                    decoration: BoxDecoration(
+                                                      border: Border.all(
+                                                          width: 1,
+                                                          color: borderColor),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              4),
+                                                    ),
+                                                    child: Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              left: 12.0,
+                                                              right: 12),
+                                                      child: SmallText(
+                                                          text:
+                                                              '$different days'),
+                                                    ),
+                                                    alignment:
+                                                        Alignment.centerLeft,
+                                                  ),
+                                                ],
+                                              )
+                                            : SizedBox(),
+                                        _chosenday == "Multiple day" ||
+                                                _chosenValue ==
+                                                    MyStrings.marriageLeave ||
+                                                _chosenValue ==
+                                                    MyStrings.maternityLeave
+                                            ? SizedBox(
+                                                height: 20,
+                                              )
+                                            : SizedBox(),
+                                        SmallText(
+                                          text: MyStrings.reason,
+                                          color: textGreyColor,
+                                          size: 16,
+                                        ),
+                                        const SizedBox(
+                                          height: 5,
+                                        ),
+                                        TextField(
+                                          maxLines: 2,
+                                          decoration: InputDecoration(
                                             border: const OutlineInputBorder(),
                                             focusedBorder: OutlineInputBorder(
                                               borderSide: BorderSide(
                                                   width: 1, color: borderColor),
                                             ),
-                                            suffixIcon: Padding(
-                                              padding: const EdgeInsets.only(
-                                                  top: 8.0, left: 5),
-                                              child: SmallText(
-                                                text: "PM",
-                                              ),
-                                            )),
-                                        inputFormatters: <TextInputFormatter>[
-                                          timeMaskFormatter
-                                          // Not sure if it can be done with RegExp or a custom class here instead
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                )
-                              : type == "Both"
-                                  ? Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            SmallText(
-                                              text: "In Time",
-                                              color: textGreyColor,
-                                              size: 16,
-                                            ),
-                                            SizedBox(
-                                              height: 40,
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  2.5,
-                                              child: TextFormField(
-                                                controller: _txtTimeController,
-                                                textAlign: TextAlign.justify,
-                                                keyboardType: TextInputType
-                                                    .numberWithOptions(
-                                                        decimal: false),
-                                                decoration: InputDecoration(
-                                                    contentPadding:
-                                                        EdgeInsets.only(
-                                                            top: 20.0,
-                                                            left: 10,
-                                                            right: 5),
-                                                    hintText: '00:00',
-                                                    border:
-                                                        const OutlineInputBorder(),
-                                                    focusedBorder:
-                                                        OutlineInputBorder(
-                                                      borderSide: BorderSide(
-                                                          width: 1,
-                                                          color: borderColor),
-                                                    ),
-                                                    suffixIcon: Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              top: 10.0,
-                                                              left: 5),
-                                                      child: SmallText(
-                                                        text: "AM",
-                                                      ),
-                                                    )),
-                                                inputFormatters: <
-                                                    TextInputFormatter>[
-                                                  timeMaskFormatter
-                                                  // Not sure if it can be done with RegExp or a custom class here instead
+                                          ),
+                                        ),
+                                        heightspace,
+                                        heightspace,
+                                        _chosenValue == MyStrings.casualLeave ||
+                                                _chosenValue ==
+                                                    MyStrings.compOff ||
+                                                _chosenValue ==
+                                                    MyStrings.paternityLeave ||
+                                                _chosenValue ==
+                                                    MyStrings.bereavementLeave
+                                            ? SizedBox()
+                                            : Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  // SmallText(
+                                                  //   text: MyStrings.attachFile,
+                                                  //   color: textGreyColor,
+                                                  //   size: 16,
+                                                  // ),
+                                                  imageList.length > 2
+                                                      ? SizedBox()
+                                                      : InkWell(
+                                                          onTap:
+                                                              _uploadImageModalBottomSheet,
+                                                          child: Container(
+                                                            height: 35,
+                                                            width: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width /
+                                                                2.4,
+                                                            decoration:
+                                                                BoxDecoration(
+                                                                    // color: containerGreyColor,
+
+                                                                    borderRadius:
+                                                                        BorderRadius
+                                                                            .circular(
+                                                                                5),
+                                                                    border:
+                                                                        Border
+                                                                            .all(
+                                                                      color: Color(
+                                                                          0xff8c8c8c),
+                                                                    )),
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                const Icon(
+                                                                  Icons.add,
+                                                                  color: Color(
+                                                                      0xff8c8c8c),
+                                                                ),
+                                                                SmallText(
+                                                                  text: MyStrings
+                                                                      .uploadFile,
+                                                                  size: 14,
+                                                                )
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        ),
                                                 ],
                                               ),
-                                            ),
-                                          ],
+                                        heightspace,
+                                        // ListView.builder(
+                                        //   physics:
+                                        //       const BouncingScrollPhysics(),
+                                        //   shrinkWrap: true,
+                                        //   itemCount: imageList.length + 1,
+                                        //   itemBuilder:
+                                        //       (BuildContext context,
+                                        //           int index) {
+                                        //     final item = index + 1 ==
+                                        //             imageList.length + 1
+                                        //         ? null
+                                        //         : imageList[index];
+                                        //     return index + 1 ==
+                                        //             imageList.length + 1
+                                        //         ? (imageList.length > 2)
+                                        //             ? SizedBox()
+                                        //             : InkWell(
+                                        //                 onTap:
+                                        //                     _uploadImageModalBottomSheet,
+                                        //                 child: Container(
+                                        //                   height: 75,
+                                        //                   decoration:
+                                        //                       BoxDecoration(
+                                        //                     color:
+                                        //                         containerGreyColor,
+                                        //                   ),
+                                        //                   child: SmallText(
+                                        //                     text: MyStrings
+                                        //                         .uploadFile,
+                                        //                     size: 12,
+                                        //                   ),
+                                        //                 ),
+                                        //               )
+                                        //         : Stack(
+                                        //             children: [
+                                        //               Container(
+                                        //                 width: 75.0,
+                                        //                 height: 75.0,
+                                        //                 decoration:
+                                        //                     BoxDecoration(
+                                        //                         border:
+                                        //                             Border
+                                        //                                 .all(
+                                        //                   color:
+                                        //                       primaryColor,
+                                        //                   width: 2,
+                                        //                 )),
+                                        //                 child: Image.file(
+                                        //                   item,
+                                        //                   fit: BoxFit.cover,
+                                        //                 ),
+                                        //               ),
+                                        //              Positioned(
+                                        //                left: 80,
+                                        //                child:
+                                        //                GestureDetector(
+                                        //                  onTap: () {
+                                        //                    deleteImageDialogue(
+                                        //                        index);
+                                        //                  },
+                                        //                  child:
+                                        //                  const Align(
+                                        //                    alignment:
+                                        //                    Alignment
+                                        //                        .topRight,
+                                        //                    child:
+                                        //                    CircleAvatar(
+                                        //                      radius: 10.0,
+                                        //                      backgroundColor:
+                                        //                      Colors
+                                        //                          .teal,
+                                        //                      child: Icon(
+                                        //                        Icons.close,
+                                        //                        color: Colors
+                                        //                            .white,
+                                        //                        size: 15.0,
+                                        //                      ),
+                                        //                    ),
+                                        //                  ),
+                                        //                ),
+                                        //               ),
+                                        //             ],
+                                        //           );
+                                        //   },
+                                        // ),
+
+                                        imageList.isEmpty
+                                            ? SizedBox()
+                                            : GridView.builder(
+                                                gridDelegate:
+                                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                                        childAspectRatio:
+                                                            2 / 2.5,
+                                                        crossAxisCount: 4,
+                                                        crossAxisSpacing: 15,
+                                                        mainAxisSpacing: 15),
+                                                itemCount: imageList.length + 1,
+                                                primary: false,
+                                                // physics: NeverScrollableScrollPhysFics(),
+                                                // controller: ScrollController(keepScrollOffset: false),
+                                                shrinkWrap: true,
+                                                itemBuilder:
+                                                    (BuildContext ctx, index) {
+                                                  final item = index + 1 ==
+                                                          imageList.length + 1
+                                                      ? null
+                                                      : imageList[index];
+                                                  return index + 1 ==
+                                                          imageList.length + 1
+                                                      ? (imageList.length > 2)
+                                                          ? Container()
+                                                          : SizedBox()
+                                                      // InkWell(
+                                                      //             onTap:
+                                                      //                 _uploadImageModalBottomSheet,
+                                                      //             child: Container(
+                                                      //               decoration:
+                                                      //                   BoxDecoration(
+                                                      //                 color:
+                                                      //                     containerGreyColor,
+                                                      //               ),
+                                                      //               child: Column(
+                                                      //                 mainAxisAlignment:
+                                                      //                     MainAxisAlignment
+                                                      //                         .center,
+                                                      //                 children: [
+                                                      //                   const Icon(
+                                                      //                       Icons
+                                                      //                           .add),
+                                                      //                   const SizedBox(
+                                                      //                     height: 5,
+                                                      //                   ),
+                                                      //                   SmallText(
+                                                      //                     text: MyStrings
+                                                      //                         .uploadFile,
+                                                      //                     size: 12,
+                                                      //                   )
+                                                      //                 ],
+                                                      //               ),
+                                                      //             ),
+                                                      //           )
+                                                      : Stack(
+                                                          children: [
+                                                            Container(
+                                                              width: 200.0,
+                                                              height: 200.0,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                      border:
+                                                                          Border
+                                                                              .all(
+                                                                color:
+                                                                    primaryColor,
+                                                                width: 2,
+                                                              )),
+                                                              child: Image.file(
+                                                                item,
+                                                                fit: BoxFit
+                                                                    .cover,
+                                                              ),
+                                                            ),
+                                                            Positioned(
+                                                              child:
+                                                                  GestureDetector(
+                                                                onTap: () {
+                                                                  deleteImageDialogue(
+                                                                      index);
+                                                                },
+                                                                child:
+                                                                    const Align(
+                                                                  alignment:
+                                                                      Alignment
+                                                                          .topRight,
+                                                                  child:
+                                                                      CircleAvatar(
+                                                                    radius:
+                                                                        10.0,
+                                                                    backgroundColor:
+                                                                        Colors
+                                                                            .teal,
+                                                                    child: Icon(
+                                                                      Icons
+                                                                          .close,
+                                                                      color: Colors
+                                                                          .white,
+                                                                      size:
+                                                                          15.0,
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        );
+                                                }),
+                                      heightspace,
+                                      heightspace,
+                                        Center(
+                                            child: Button(
+                                          text: MyStrings.applyLeave,
+                                        ))
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              )
+                            : _selectedApply == MyStrings.applySwipe
+                                ? Padding(
+                                    padding: const EdgeInsets.all(12.0),
+                                    child: Container(
+                                      height:
+                                          MediaQuery.of(context).size.height /
+                                              1.5,
+                                      decoration: BoxDecoration(
+                                        borderRadius: const BorderRadius.only(
+                                          topLeft: Radius.circular(15),
+                                          topRight: Radius.circular(15),
                                         ),
-                                        Column(
+                                        color: whiteColor,
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.fromLTRB(
+                                            18, 25, 18, 25),
+                                        child: Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                            SmallText(
-                                              text: "Out Time",
-                                              color: textGreyColor,
-                                              size: 16,
+                                            Center(
+                                                child: SmallText(
+                                              text: MyStrings.requestSwipe,
+                                              size: 18,
+                                              fontWeight: FontWeight.w600,
+                                            )),
+                                            heightspace,
+                                            heightspace,
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                SmallText(
+                                                  text: "Today's Date",
+                                                  color: textGreyColor,
+                                                  size: 16,
+                                                ),
+                                                SmallText(
+                                                  text: DateFormat("dd/MM/yyyy")
+                                                      .format(DateTime.now()),
+                                                  size: 14,
+                                                  fontWeight: FontWeight.w500,
+                                                )
+                                              ],
                                             ),
                                             heightspace,
-                                            SizedBox(
-                                              height: 40,
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  2.5,
-                                              child: TextFormField(
-                                                controller: _txtTimeController,
-                                                textAlign: TextAlign.justify,
-                                                keyboardType: TextInputType
-                                                    .numberWithOptions(
-                                                        decimal: false),
-                                                decoration: InputDecoration(
-                                                    contentPadding:
-                                                        EdgeInsets.only(
-                                                            top: 20.0,
-                                                            left: 10,
-                                                            right: 5),
-                                                    hintText: '00:00',
-                                                    border:
-                                                        const OutlineInputBorder(),
-                                                    focusedBorder:
-                                                        OutlineInputBorder(
-                                                      borderSide: BorderSide(
-                                                          width: 1,
+                                            heightspace,
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                SmallText(
+                                                  text: MyStrings.leaveType,
+                                                  color: drawerTextColor,
+                                                  size: 16,
+                                                  fontWeight: FontWeight.w400,
+                                                ),
+                                                Container(
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width /
+                                                      2.5,
+                                                  height: 35.0,
+                                                  padding:
+                                                      const EdgeInsets.all(0.0),
+                                                  decoration: ShapeDecoration(
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                      side: BorderSide(
+                                                          width: 1.0,
                                                           color: borderColor),
+                                                      borderRadius:
+                                                          const BorderRadius
+                                                                  .all(
+                                                              Radius.circular(
+                                                                  5.0)),
                                                     ),
-                                                    suffixIcon: Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              top: 10.0,
-                                                              left: 5),
-                                                      child: SmallText(
-                                                        text: "PM",
+                                                  ),
+                                                  child:
+                                                      DropdownButtonHideUnderline(
+                                                    child: ButtonTheme(
+                                                      alignedDropdown: true,
+                                                      child: DropdownButton<
+                                                          String>(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
+                                                        value: _chosenMode,
+                                                        underline: SizedBox(),
+                                                        isExpanded: true,
+                                                        style: font15.copyWith(
+                                                            color: Colors.black
+                                                                .withOpacity(
+                                                                    0.7)),
+                                                        items: <String>[
+                                                          MyStrings.permission,
+                                                          MyStrings.od,
+                                                        ].map<
+                                                            DropdownMenuItem<
+                                                                String>>((String
+                                                            value) {
+                                                          return DropdownMenuItem<
+                                                              String>(
+                                                            value: value,
+                                                            child: SmallText(
+                                                                text: value),
+                                                          );
+                                                        }).toList(),
+                                                        hint: SmallText(
+                                                          text: MyStrings
+                                                              .selectType,
+                                                          color:
+                                                              drawerTextColor,
+                                                          size: 16,
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                        ),
+                                                        onChanged:
+                                                            (String? value) {
+                                                          setState(() {
+                                                            _chosenMode = value;
+                                                          });
+                                                        },
                                                       ),
-                                                    )),
-                                                inputFormatters: <
-                                                    TextInputFormatter>[
-                                                  timeMaskFormatter
-                                                  // Not sure if it can be done with RegExp or a custom class here instead
-                                                ],
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            heightspace,
+                                            heightspace,
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                SmallText(
+                                                  text: MyStrings.date,
+                                                  color: textGreyColor,
+                                                  size: 16,
+                                                ),
+                                                heightspace,
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    selectSwipeDate(context);
+                                                  },
+                                                  child: Form(
+                                                    key: swipeKey,
+                                                    child: AbsorbPointer(
+                                                      child: SizedBox(
+                                                        width: MediaQuery.of(context).size.width / 2.5,
+                                                        height: 35.0,
+                                                        child: TextFormField(
+                                                          // textAlignVertical: TextAlignVertical.center,
+                                                          // textAlign: TextAlign.left,
+                                                          style: font15,
+                                                          controller: swipedate,
+                                                          readOnly: true,
+                                                          decoration:
+                                                              InputDecoration(
+                                                            border:
+                                                                const OutlineInputBorder(),
+                                                            suffixIcon:
+                                                            Padding(
+                                                              padding: const EdgeInsets.only(top: 4.0),
+                                                              child: IconButton(
+                                                                icon: const Icon(
+                                                                  Icons
+                                                                      .calendar_today_sharp,
+                                                                  size: 15,
+                                                                ),
+                                                                onPressed: () => selectSwipeDate(context),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            heightspace,
+                                            heightspace,
+                                            // Row(
+                                            //   mainAxisAlignment:
+                                            //       MainAxisAlignment
+                                            //           .spaceBetween,
+                                            //   children: [
+                                            //     SmallText(
+                                            //       text: MyStrings.mode,
+                                            //       color: textGreyColor,
+                                            //       size: 16,
+                                            //     ),
+                                            //     heightspace,
+                                            //     Container(
+                                            //       width: MediaQuery.of(context)
+                                            //               .size
+                                            //               .width /
+                                            //           2.5,
+                                            //       height: 35.0,
+                                            //       padding:
+                                            //           const EdgeInsets.all(0.0),
+                                            //       decoration: ShapeDecoration(
+                                            //         shape:
+                                            //             RoundedRectangleBorder(
+                                            //           side: BorderSide(
+                                            //               width: 1.0,
+                                            //               color: borderColor),
+                                            //           borderRadius:
+                                            //               const BorderRadius
+                                            //                       .all(
+                                            //                   Radius.circular(
+                                            //                       5.0)),
+                                            //         ),
+                                            //       ),
+                                            //       child:
+                                            //           DropdownButtonHideUnderline(
+                                            //         child: Padding(
+                                            //           padding:
+                                            //               const EdgeInsets.only(
+                                            //                   left: 8.0,
+                                            //                   right: 8),
+                                            //           child: DropdownButton(
+                                            //             value: type,
+                                            //             hint: const Text(
+                                            //                 "Select Slot"),
+                                            //             items: <String>[
+                                            //               MyStrings.inTime,
+                                            //               MyStrings.out,
+                                            //               MyStrings.both,
+                                            //             ].map<
+                                            //                 DropdownMenuItem<
+                                            //                     String>>((String
+                                            //                 value) {
+                                            //               return DropdownMenuItem<
+                                            //                   String>(
+                                            //                 value: value,
+                                            //                 child: SmallText(
+                                            //                     text: value),
+                                            //               );
+                                            //             }).toList(),
+                                            //             onChanged: (newType) {
+                                            //               setState(() {
+                                            //                 type = newType
+                                            //                     as String?;
+                                            //               });
+                                            //             },
+                                            //           ),
+                                            //         ),
+                                            //       ),
+                                            //     ),
+                                            //   ],
+                                            // ),
+                                            // type == ""
+                                            //     ? SizedBox()
+                                            //     : heightspace,
+                                            // heightspace,
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                SmallText(
+                                                  text: "In Time",
+                                                  color: textGreyColor,
+                                                  size: 16,
+                                                ),
+                                                SizedBox(
+                                                  height: 35,
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width /
+                                                      2.5,
+                                                  child: TextFormField(
+                                                    controller:
+                                                        _txtTimeController,
+                                                    textAlign:
+                                                        TextAlign.justify,
+                                                    keyboardType: TextInputType
+                                                        .numberWithOptions(
+                                                            decimal: false),
+                                                    decoration: InputDecoration(
+                                                        contentPadding:
+                                                            EdgeInsets.only(
+                                                                left: 10),
+                                                        hintText: '00:00',
+                                                        border:
+                                                            const OutlineInputBorder(),
+                                                        focusedBorder:
+                                                            OutlineInputBorder(
+                                                          borderSide: BorderSide(
+                                                              width: 1,
+                                                              color:
+                                                                  borderColor),
+                                                        ),
+                                                        suffixIcon: Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  top: 7.0),
+                                                          child: SmallText(
+                                                            text: "AM",
+                                                          ),
+                                                        )),
+                                                    inputFormatters: <
+                                                        TextInputFormatter>[
+                                                      timeMaskFormatter
+                                                      // Not sure if it can be done with RegExp or a custom class here instead
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            heightspace,
+                                            heightspace,
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                SmallText(
+                                                  text: "Out Time",
+                                                  color: textGreyColor,
+                                                  size: 16,
+                                                ),
+                                                heightspace,
+                                                SizedBox(
+                                                  height: 35,
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width /
+                                                      2.5,
+                                                  child: TextFormField(
+                                                    controller:
+                                                        _txtTimeController,
+                                                    textAlign:
+                                                        TextAlign.justify,
+                                                    keyboardType: TextInputType
+                                                        .numberWithOptions(
+                                                            decimal: false),
+                                                    decoration: InputDecoration(
+                                                        contentPadding:
+                                                            EdgeInsets.only(
+                                                                left: 10),
+                                                        hintText: '00:00',
+                                                        border:
+                                                            const OutlineInputBorder(),
+                                                        focusedBorder:
+                                                            OutlineInputBorder(
+                                                          borderSide: BorderSide(
+                                                              width: 1,
+                                                              color:
+                                                                  borderColor),
+                                                        ),
+                                                        suffixIcon: Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .only(
+                                                            top: 7.0,
+                                                          ),
+                                                          child: SmallText(
+                                                            text: "PM",
+                                                          ),
+                                                        )),
+                                                    inputFormatters: <
+                                                        TextInputFormatter>[
+                                                      timeMaskFormatter
+                                                      // Not sure if it can be done with RegExp or a custom class here instead
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            // type == "In"
+                                            //     ? Row(
+                                            //         mainAxisAlignment:
+                                            //             MainAxisAlignment
+                                            //                 .spaceBetween,
+                                            //         children: [
+                                            //           SmallText(
+                                            //             text: "In Time",
+                                            //             color: textGreyColor,
+                                            //             size: 16,
+                                            //           ),
+                                            //           SizedBox(
+                                            //             height: 40,
+                                            //             width: MediaQuery.of(
+                                            //                         context)
+                                            //                     .size
+                                            //                     .width /
+                                            //                 2.5,
+                                            //             child: TextFormField(
+                                            //               controller:
+                                            //                   _txtTimeController,
+                                            //               textAlign:
+                                            //                   TextAlign.justify,
+                                            //               keyboardType: TextInputType
+                                            //                   .numberWithOptions(
+                                            //                       decimal:
+                                            //                           false),
+                                            //               decoration:
+                                            //                   InputDecoration(
+                                            //                       contentPadding:
+                                            //                           EdgeInsets.only(
+                                            //                               top:
+                                            //                                   12.0,
+                                            //                               left:
+                                            //                                   10,
+                                            //                               right:
+                                            //                                   5),
+                                            //                       hintText:
+                                            //                           '00:00',
+                                            //                       border:
+                                            //                           const OutlineInputBorder(),
+                                            //                       focusedBorder:
+                                            //                           OutlineInputBorder(
+                                            //                         borderSide: BorderSide(
+                                            //                             width:
+                                            //                                 1,
+                                            //                             color:
+                                            //                                 borderColor),
+                                            //                       ),
+                                            //                       suffixIcon:
+                                            //                           Padding(
+                                            //                         padding: const EdgeInsets
+                                            //                                 .only(
+                                            //                             top:
+                                            //                                 8.0,
+                                            //                             left:
+                                            //                                 5),
+                                            //                         child:
+                                            //                             SmallText(
+                                            //                           text:
+                                            //                               "AM",
+                                            //                         ),
+                                            //                       )),
+                                            //               inputFormatters: <
+                                            //                   TextInputFormatter>[
+                                            //                 timeMaskFormatter
+                                            //                 // Not sure if it can be done with RegExp or a custom class here instead
+                                            //               ],
+                                            //             ),
+                                            //           ),
+                                            //         ],
+                                            //       )
+                                            //     : type == "Out"
+                                            //         ? Row(
+                                            //             mainAxisAlignment:
+                                            //                 MainAxisAlignment
+                                            //                     .spaceBetween,
+                                            //             children: [
+                                            //               SmallText(
+                                            //                 text: "Out Time",
+                                            //                 color:
+                                            //                     textGreyColor,
+                                            //                 size: 16,
+                                            //               ),
+                                            //               SizedBox(
+                                            //                 height: 40,
+                                            //                 width: MediaQuery.of(
+                                            //                             context)
+                                            //                         .size
+                                            //                         .width /
+                                            //                     2.5,
+                                            //                 child:
+                                            //                     TextFormField(
+                                            //                   controller:
+                                            //                       _txtTimeController,
+                                            //                   textAlign:
+                                            //                       TextAlign
+                                            //                           .justify,
+                                            //                   keyboardType: TextInputType
+                                            //                       .numberWithOptions(
+                                            //                           decimal:
+                                            //                               false),
+                                            //                   decoration:
+                                            //                       InputDecoration(
+                                            //                           contentPadding: EdgeInsets.only(
+                                            //                               top:
+                                            //                                   12.0,
+                                            //                               left:
+                                            //                                   10,
+                                            //                               right:
+                                            //                                   5),
+                                            //                           hintText:
+                                            //                               '00:00',
+                                            //                           border:
+                                            //                               const OutlineInputBorder(),
+                                            //                           focusedBorder:
+                                            //                               OutlineInputBorder(
+                                            //                             borderSide: BorderSide(
+                                            //                                 width:
+                                            //                                     1,
+                                            //                                 color:
+                                            //                                     borderColor),
+                                            //                           ),
+                                            //                           suffixIcon:
+                                            //                               Padding(
+                                            //                             padding: const EdgeInsets.only(
+                                            //                                 top:
+                                            //                                     8.0,
+                                            //                                 left:
+                                            //                                     5),
+                                            //                             child:
+                                            //                                 SmallText(
+                                            //                               text:
+                                            //                                   "PM",
+                                            //                             ),
+                                            //                           )),
+                                            //                   inputFormatters: <
+                                            //                       TextInputFormatter>[
+                                            //                     timeMaskFormatter
+                                            //                     // Not sure if it can be done with RegExp or a custom class here instead
+                                            //                   ],
+                                            //                 ),
+                                            //               ),
+                                            //             ],
+                                            //           )
+                                            //         : type == "Both"
+                                            //             ? Row(
+                                            //                 mainAxisAlignment:
+                                            //                     MainAxisAlignment
+                                            //                         .spaceBetween,
+                                            //                 children: [
+                                            //                   Column(
+                                            //                     crossAxisAlignment:
+                                            //                         CrossAxisAlignment
+                                            //                             .start,
+                                            //                     children: [
+                                            //                       SmallText(
+                                            //                         text:
+                                            //                             "In Time",
+                                            //                         color:
+                                            //                             textGreyColor,
+                                            //                         size: 16,
+                                            //                       ),
+                                            //                       SizedBox(
+                                            //                         height: 40,
+                                            //                         width: MediaQuery.of(context)
+                                            //                                 .size
+                                            //                                 .width /
+                                            //                             2.5,
+                                            //                         child:
+                                            //                             TextFormField(
+                                            //                           controller:
+                                            //                               _txtTimeController,
+                                            //                           textAlign:
+                                            //                               TextAlign
+                                            //                                   .justify,
+                                            //                           keyboardType:
+                                            //                               TextInputType.numberWithOptions(
+                                            //                                   decimal: false),
+                                            //                           decoration: InputDecoration(
+                                            //                               contentPadding: EdgeInsets.only(top: 20.0, left: 10, right: 5),
+                                            //                               hintText: '00:00',
+                                            //                               border: const OutlineInputBorder(),
+                                            //                               focusedBorder: OutlineInputBorder(
+                                            //                                 borderSide:
+                                            //                                     BorderSide(width: 1, color: borderColor),
+                                            //                               ),
+                                            //                               suffixIcon: Padding(
+                                            //                                 padding:
+                                            //                                     const EdgeInsets.only(top: 10.0, left: 5),
+                                            //                                 child:
+                                            //                                     SmallText(
+                                            //                                   text: "AM",
+                                            //                                 ),
+                                            //                               )),
+                                            //                           inputFormatters: <
+                                            //                               TextInputFormatter>[
+                                            //                             timeMaskFormatter
+                                            //                             // Not sure if it can be done with RegExp or a custom class here instead
+                                            //                           ],
+                                            //                         ),
+                                            //                       ),
+                                            //                     ],
+                                            //                   ),
+                                            //                   Column(
+                                            //                     crossAxisAlignment:
+                                            //                         CrossAxisAlignment
+                                            //                             .start,
+                                            //                     children: [
+                                            //                       SmallText(
+                                            //                         text:
+                                            //                             "Out Time",
+                                            //                         color:
+                                            //                             textGreyColor,
+                                            //                         size: 16,
+                                            //                       ),
+                                            //                       heightspace,
+                                            //                       SizedBox(
+                                            //                         height: 40,
+                                            //                         width: MediaQuery.of(context)
+                                            //                                 .size
+                                            //                                 .width /
+                                            //                             2.5,
+                                            //                         child:
+                                            //                             TextFormField(
+                                            //                           controller:
+                                            //                               _txtTimeController,
+                                            //                           textAlign:
+                                            //                               TextAlign
+                                            //                                   .justify,
+                                            //                           keyboardType:
+                                            //                               TextInputType.numberWithOptions(
+                                            //                                   decimal: false),
+                                            //                           decoration: InputDecoration(
+                                            //                               contentPadding: EdgeInsets.only(top: 20.0, left: 10, right: 5),
+                                            //                               hintText: '00:00',
+                                            //                               border: const OutlineInputBorder(),
+                                            //                               focusedBorder: OutlineInputBorder(
+                                            //                                 borderSide:
+                                            //                                     BorderSide(width: 1, color: borderColor),
+                                            //                               ),
+                                            //                               suffixIcon: Padding(
+                                            //                                 padding:
+                                            //                                     const EdgeInsets.only(top: 10.0, left: 5),
+                                            //                                 child:
+                                            //                                     SmallText(
+                                            //                                   text: "PM",
+                                            //                                 ),
+                                            //                               )),
+                                            //                           inputFormatters: <
+                                            //                               TextInputFormatter>[
+                                            //                             timeMaskFormatter
+                                            //                             // Not sure if it can be done with RegExp or a custom class here instead
+                                            //                           ],
+                                            //                         ),
+                                            //                       ),
+                                            //                     ],
+                                            //                   )
+                                            //                 ],
+                                            //               )
+                                            //             : SizedBox(),
+                                            heightspace,
+                                            heightspace,
+                                            SmallText(
+                                              text: MyStrings.reason,
+                                              color: textGreyColor,
+                                              size: 16,
+                                            ),
+                                            const SizedBox(
+                                              height: 5,
+                                            ),
+                                            Expanded(
+                                              child: TextField(
+                                                maxLines: 3,
+                                                keyboardType:
+                                                    TextInputType.multiline,
+                                                decoration: InputDecoration(
+                                                  border:
+                                                      const OutlineInputBorder(),
+                                                  focusedBorder:
+                                                      OutlineInputBorder(
+                                                    borderSide: BorderSide(
+                                                        width: 1,
+                                                        color: borderColor),
+                                                  ),
+                                                ),
                                               ),
                                             ),
+                                            heightspace,
+                                            heightspace,
+                                            Center(
+                                                child: Button(
+                                              text: MyStrings.request,
+                                            ))
                                           ],
-                                        )
-                                      ],
-                                    )
-                                  : SizedBox(),
-                      heightspace,
-                      heightspace,
-                      SmallText(
-                        text: MyStrings.reason,
-                        color: textGreyColor,
-                        size: 16,
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      Expanded(
-                        child: TextField(
-                          maxLines: 3,
-                          keyboardType: TextInputType.multiline,
-                          decoration: InputDecoration(
-                            border: const OutlineInputBorder(),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(width: 1, color: borderColor),
-                            ),
-                          ),
-                        ),
-                      ),
-                      heightspace,
-                      heightspace,
-                      Center(
-                          child: Button(
-                        text: MyStrings.request,
-                      ))
-                    ],
-                  ),
-                ),
-              ),
-            );
-          });
-        });
-  }
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                : _selectedApply == MyStrings.shiftChange
+                                    ? Padding(
+                                        padding: const EdgeInsets.all(12.0),
+                                        child: Container(
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height /
+                                              1.7,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                const BorderRadius.only(
+                                              topLeft: Radius.circular(15),
+                                              topRight: Radius.circular(15),
+                                            ),
+                                            color: whiteColor,
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.fromLTRB(
+                                                18, 25, 18, 25),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Center(
+                                                    child: SmallText(
+                                                  text: MyStrings
+                                                      .requestShiftChange,
+                                                  size: 18,
+                                                  fontWeight: FontWeight.w600,
+                                                )),
+                                                heightspace,
+                                                heightspace,
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    SmallText(
+                                                      text: "Today's Date",
+                                                      color: textGreyColor,
+                                                      size: 16,
+                                                    ),
+                                                    SmallText(
+                                                      text: DateFormat(
+                                                              "dd/MM/yyyy")
+                                                          .format(
+                                                              DateTime.now()),
+                                                      size: 14,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                    )
+                                                  ],
+                                                ),
+                                                heightspace,
+                                                heightspace,
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    SmallText(
+                                                      text: MyStrings.date,
+                                                      color: textGreyColor,
+                                                      size: 16,
+                                                    ),
+                                                    heightspace,
+                                                    GestureDetector(
+                                                      onTap: () {
+                                                        selectSwipeDate(
+                                                            context);
+                                                      },
+                                                      child: Form(
+                                                        key: swipeKey,
+                                                        child: AbsorbPointer(
+                                                          child: SizedBox(
+                                                            width: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width /
+                                                                2.5,
+                                                            height: 35.0,
+                                                            child:
+                                                            TextFormField(
+                                                              // textAlignVertical:
+                                                              //     TextAlignVertical
+                                                              //         .center,
+                                                              // textAlign:
+                                                              //     TextAlign
+                                                              //         .left,
+                                                              style: font15,
 
-  void _applyCompoff() {
-    showModalBottomSheet(
-        context: context,
-        isScrollControlled: true,
-        backgroundColor: Colors.transparent,
-        builder: (BuildContext bc) {
-          return Container(
-            height: MediaQuery.of(context).size.height / 1.7,
-            decoration: BoxDecoration(
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(15),
-                topRight: Radius.circular(15),
-              ),
-              color: whiteColor,
-            ),
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(18, 18, 18, 18),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Center(
-                      child: SmallText(
-                    text: MyStrings.compOff,
-                    size: 18,
-                    fontWeight: FontWeight.w600,
-                  )),
-                  heightspace,
-                  heightspace,
-                  StatefulBuilder(
-                      builder: (context, StateSetter setModalState) {
-                    return Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              Radio(
-                                  fillColor: MaterialStateColor.resolveWith(
-                                      (states) => primaryColor),
-                                  value: 1,
-                                  groupValue: id,
-                                  onChanged: (value) {
-                                    // set is changed here
-                                    setModalState(() {
-                                      difficulty = value.toString();
-                                      id = 1;
-                                    });
-                                  }),
-                              SmallText(
-                                text: MyStrings.fullDay,
-                                size: 15,
-                              )
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              Radio(
-                                  fillColor: MaterialStateColor.resolveWith(
-                                      (states) => primaryColor),
-                                  value: 2,
-                                  groupValue: id,
-                                  onChanged: (value) {
-                                    // set is changed here
-                                    setModalState(() {
-                                      difficulty = value.toString();
-                                      id = 2;
-                                    });
-                                  }),
-                              SmallText(
-                                text: MyStrings.firstHalf,
-                                size: 15,
-                              )
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              Radio(
-                                  fillColor: MaterialStateColor.resolveWith(
-                                      (states) => primaryColor),
-                                  value: 3,
-                                  groupValue: id,
-                                  onChanged: (value) {
-                                    // set is changed here
-                                    setModalState(() {
-                                      difficulty = value.toString();
-                                      id = 3;
-                                    });
-                                  }),
-                              SmallText(
-                                text: MyStrings.secondHalf,
-                                size: 15,
-                              )
-                            ],
-                          )
-                        ]);
-                  }),
-                  heightspace,
-                  const DropDownBox(),
-                  heightspace,
-                  heightspace,
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SmallText(
-                            text: MyStrings.fromDate,
-                            color: textGreyColor,
-                            size: 16,
-                          ),
-                          heightspace,
-                          startDate(),
-                        ],
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SmallText(
-                            text: MyStrings.toDate,
-                            color: textGreyColor,
-                            size: 16,
-                          ),
-                          heightspace,
-                          finishDate(),
-                        ],
-                      ),
-                    ],
-                  ),
-                  heightspace,
-                  heightspace,
-                  SmallText(
-                    text: MyStrings.reason,
-                    color: textGreyColor,
-                    size: 16,
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  TextField(
-                    maxLines: 3,
-                    decoration: InputDecoration(
-                      border: const OutlineInputBorder(),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(width: 1, color: borderColor),
-                      ),
-                    ),
-                  ),
-                  heightspace,
-                  heightspace,
-                  Center(
-                      child: Button(
-                    text: MyStrings.applyLeave,
-                  ))
-                ],
-              ),
-            ),
-          );
-        });
-  }
+                                                              controller: swipedate,
+                                                              readOnly: true,
+                                                              decoration:
+                                                                  InputDecoration(
+                                                                border:
+                                                                    const OutlineInputBorder(),
+                                                                suffixIcon: Padding(
+                                                                  padding: const EdgeInsets.only(top: 4.0),  child: IconButton(
+                                                                    icon:
+                                                                        const Icon(
+                                                                      Icons
+                                                                          .calendar_today_sharp,
+                                                                      size: 15,
+                                                                    ),
+                                                                    onPressed: () =>
+                                                                        selectSwipeDate(
+                                                                            context),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                                heightspace,
+                                                heightspace,
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    SmallText(
+                                                      text: "Existing Shift",
+                                                      color: textGreyColor,
+                                                      size: 16,
+                                                    ),
+                                                    heightspace,
+                                                    Container(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              2.5,
+                                                      height: 35.0,
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              0.0),
+                                                      decoration:
+                                                          ShapeDecoration(
+                                                        shape:
+                                                            RoundedRectangleBorder(
+                                                          side: BorderSide(
+                                                              width: 1.0,
+                                                              color:
+                                                                  borderColor),
+                                                          borderRadius:
+                                                              const BorderRadius
+                                                                      .all(
+                                                                  Radius
+                                                                      .circular(
+                                                                          5.0)),
+                                                        ),
+                                                      ),
+                                                      child:
+                                                          DropdownButtonHideUnderline(
+                                                        child: Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  left: 8.0,
+                                                                  right: 8),
+                                                          child: DropdownButton(
+                                                            value: exshift,
+                                                            hint: const Text(
+                                                                "Select Shift"),
+                                                            items: <String>[
+                                                              MyStrings.morning,
+                                                              MyStrings.noon,
+                                                              MyStrings.night,
+                                                            ].map<
+                                                                DropdownMenuItem<
+                                                                    String>>((String
+                                                                value) {
+                                                              return DropdownMenuItem<
+                                                                  String>(
+                                                                value: value,
+                                                                child: SmallText(
+                                                                    text:
+                                                                        value),
+                                                              );
+                                                            }).toList(),
+                                                            onChanged:
+                                                                (newType) {
+                                                              setState(() {
+                                                                exshift = newType
+                                                                    as String?;
+                                                              });
+                                                            },
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                                heightspace,
+                                                heightspace,
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    SmallText(
+                                                      text: "New Shift",
+                                                      color: textGreyColor,
+                                                      size: 16,
+                                                    ),
+                                                    heightspace,
+                                                    Container(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              2.5,
+                                                      height: 35.0,
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              0.0),
+                                                      decoration:
+                                                          ShapeDecoration(
+                                                        shape:
+                                                            RoundedRectangleBorder(
+                                                          side: BorderSide(
+                                                              width: 1.0,
+                                                              color:
+                                                                  borderColor),
+                                                          borderRadius:
+                                                              const BorderRadius
+                                                                      .all(
+                                                                  Radius
+                                                                      .circular(
+                                                                          5.0)),
+                                                        ),
+                                                      ),
+                                                      child:
+                                                          DropdownButtonHideUnderline(
+                                                        child: Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  left: 8.0,
+                                                                  right: 8),
+                                                          child: DropdownButton(
+                                                            value: newshift,
+                                                            hint: const Text(
+                                                                "Change Shift"),
+                                                            items: <String>[
+                                                              MyStrings.morning,
+                                                              MyStrings.noon,
+                                                              MyStrings.night,
+                                                            ].map<
+                                                                DropdownMenuItem<
+                                                                    String>>((String
+                                                                value) {
+                                                              return DropdownMenuItem<
+                                                                  String>(
+                                                                value: value,
+                                                                child: SmallText(
+                                                                    text:
+                                                                        value),
+                                                              );
+                                                            }).toList(),
+                                                            onChanged:
+                                                                (newType) {
+                                                              setState(() {
+                                                                newshift = newType
+                                                                    as String?;
+                                                              });
+                                                            },
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                                heightspace,
+                                                heightspace,
+                                                SmallText(
+                                                  text: MyStrings.reason,
+                                                  color: textGreyColor,
+                                                  size: 16,
+                                                ),
+                                                const SizedBox(
+                                                  height: 5,
+                                                ),
+                                                Expanded(
+                                                  child: TextField(
+                                                    maxLines: 3,
+                                                    keyboardType:
+                                                        TextInputType.multiline,
+                                                    decoration: InputDecoration(
+                                                      border:
+                                                          const OutlineInputBorder(),
+                                                      focusedBorder:
+                                                          OutlineInputBorder(
+                                                        borderSide: BorderSide(
+                                                            width: 1,
+                                                            color: borderColor),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                heightspace,
+                                                heightspace,
+                                                Center(
+                                                    child: Button(
+                                                  text: MyStrings.request,
+                                                ))
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                    : DataTable(
+                                        //border: TableBorder.all(width: 0.3, color:prescriptionDivideColor),
+                                        headingRowColor:
+                                            MaterialStateColor.resolveWith(
+                                                (states) => Color(0xffd6edee)),
+                                        headingRowHeight: 50,
+                                        showBottomBorder: true,
+                                        columnSpacing: 35,
+                                        horizontalMargin: 10,
+                                        dataRowHeight: 50,
+                                        columns: [
+                                          DataColumn(
+                                              label: Center(
+                                                  child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 20.0),
+                                            child: SmallText(
+                                              text: "Type",
+                                              color: blueGreyColor,
+                                              size: 14,
+                                              textAlign: TextAlign.center,
+                                            ),
+                                          ))),
+                                          DataColumn(
+                                              label: SmallText(
+                                            text: "OB+",
+                                            color: blueGreyColor,
+                                            size: 14,
+                                            textAlign: TextAlign.center,
+                                          )),
+                                          DataColumn(
+                                              label: SmallText(
+                                            text: "Paid",
+                                            color: blueGreyColor,
+                                            size: 14,
+                                            textAlign: TextAlign.center,
+                                          )),
+                                          DataColumn(
+                                              label: SmallText(
+                                            text: "Avail",
+                                            color: blueGreyColor,
+                                            size: 14,
+                                            textAlign: TextAlign.center,
+                                          )),
+                                          DataColumn(
+                                              label: SmallText(
+                                            text: "Balance",
+                                            color: blueGreyColor,
+                                            size: 15,
+                                            textAlign: TextAlign.center,
+                                          )),
+                                        ],
+                                        rows: [
+                                          DataRow(
+                                            cells: <DataCell>[
+                                              DataCell(
+                                                SmallText(
+                                                  text: MyStrings.casualLeave,
+                                                  size: 14,
+                                                  color: drawerTextColor,
+                                                ),
+                                              ),
+                                              DataCell(Center(
+                                                  child: SmallText(
+                                                text: '12',
+                                                size: 14,
+                                                color: drawerTextColor,
+                                              ))),
+                                              DataCell(Center(
+                                                  child: SmallText(
+                                                text: '12',
+                                                size: 14,
+                                                color: drawerTextColor,
+                                              ))),
+                                              DataCell(Center(
+                                                  child: SmallText(
+                                                text: '3.5',
+                                                size: 14,
+                                                color: drawerTextColor,
+                                              ))),
+                                              DataCell(Center(
+                                                  child: SmallText(
+                                                text: '3.5',
+                                                size: 14,
+                                                color: drawerTextColor,
+                                              ))),
+                                            ],
+                                          ),
+                                          DataRow(
+                                            cells: <DataCell>[
+                                              DataCell(SmallText(
+                                                text: MyStrings.sickLeave,
+                                                size: 14,
+                                                color: drawerTextColor,
+                                              )),
+                                              DataCell(Center(
+                                                  child: SmallText(
+                                                text: '12',
+                                                size: 14,
+                                                color: drawerTextColor,
+                                              ))),
+                                              DataCell(Center(
+                                                  child: SmallText(
+                                                text: '12',
+                                                size: 14,
+                                                color: drawerTextColor,
+                                              ))),
+                                              DataCell(Center(
+                                                  child: SmallText(
+                                                text: '5',
+                                                size: 14,
+                                                color: drawerTextColor,
+                                              ))),
+                                              DataCell(Center(
+                                                  child: SmallText(
+                                                text: '2',
+                                                size: 14,
+                                                color: drawerTextColor,
+                                              ))),
+                                            ],
+                                          ),
+                                          DataRow(
+                                            cells: <DataCell>[
+                                              DataCell(SmallText(
+                                                text: MyStrings.compOff,
+                                                size: 14,
+                                                color: drawerTextColor,
+                                              )),
+                                              DataCell(Center(
+                                                  child: SmallText(
+                                                text: '0',
+                                                size: 14,
+                                                color: drawerTextColor,
+                                              ))),
+                                              DataCell(Center(
+                                                  child: SmallText(
+                                                text: '0',
+                                                size: 14,
+                                                color: drawerTextColor,
+                                              ))),
+                                              DataCell(Center(
+                                                  child: SmallText(
+                                                text: '0',
+                                                size: 14,
+                                                color: drawerTextColor,
+                                              ))),
+                                              DataCell(Center(
+                                                  child: SmallText(
+                                                text: '1',
+                                                size: 14,
+                                                color: drawerTextColor,
+                                              ))),
+                                            ],
+                                          ),
+                                          DataRow(
+                                            cells: <DataCell>[
+                                              DataCell(SmallText(
+                                                text: MyStrings.marriageLeave,
+                                                size: 14,
+                                                color: drawerTextColor,
+                                              )),
+                                              DataCell(Center(
+                                                  child: SmallText(
+                                                text: '0',
+                                                size: 14,
+                                                color: drawerTextColor,
+                                              ))),
+                                              DataCell(Center(
+                                                  child: SmallText(
+                                                text: '0',
+                                                size: 14,
+                                                color: drawerTextColor,
+                                              ))),
+                                              DataCell(Center(
+                                                  child: SmallText(
+                                                text: '20',
+                                                size: 14,
+                                                color: drawerTextColor,
+                                              ))),
+                                              DataCell(Center(
+                                                  child: SmallText(
+                                                text: '0',
+                                                size: 14,
+                                                color: drawerTextColor,
+                                              ))),
+                                            ],
+                                          ),
+                                          DataRow(
+                                            cells: <DataCell>[
+                                              DataCell(SmallText(
+                                                text: MyStrings.maternityLeave,
+                                                size: 14,
+                                                color: drawerTextColor,
+                                              )),
+                                              DataCell(Center(
+                                                  child: SmallText(
+                                                text: '0',
+                                                size: 14,
+                                                color: drawerTextColor,
+                                              ))),
+                                              DataCell(Center(
+                                                  child: SmallText(
+                                                text: '0',
+                                                size: 14,
+                                                color: drawerTextColor,
+                                              ))),
+                                              DataCell(Center(
+                                                  child: SmallText(
+                                                text: '20',
+                                                size: 14,
+                                                color: drawerTextColor,
+                                              ))),
+                                              DataCell(Center(
+                                                  child: SmallText(
+                                                text: '0',
+                                                size: 14,
+                                                color: drawerTextColor,
+                                              ))),
+                                            ],
+                                          ),
+                                          DataRow(
+                                            cells: <DataCell>[
+                                              DataCell(SmallText(
+                                                text: MyStrings.paternityLeave,
+                                                size: 14,
+                                                color: drawerTextColor,
+                                              )),
+                                              DataCell(Center(
+                                                  child: SmallText(
+                                                text: '0',
+                                                size: 14,
+                                                color: drawerTextColor,
+                                              ))),
+                                              DataCell(Center(
+                                                  child: SmallText(
+                                                text: '0',
+                                                size: 14,
+                                                color: drawerTextColor,
+                                              ))),
+                                              DataCell(Center(
+                                                  child: SmallText(
+                                                text: '130',
+                                                size: 14,
+                                                color: drawerTextColor,
+                                              ))),
+                                              DataCell(Center(
+                                                  child: SmallText(
+                                                text: '52',
+                                                size: 14,
+                                                color: drawerTextColor,
+                                              ))),
+                                            ],
+                                          ),
+                                          DataRow(
+                                            cells: <DataCell>[
+                                              DataCell(SmallText(
+                                                text: MyStrings.medicalLeave,
+                                                size: 14,
+                                                color: drawerTextColor,
+                                              )),
+                                              DataCell(Center(
+                                                  child: SmallText(
+                                                text: '0',
+                                                size: 14,
+                                                color: drawerTextColor,
+                                              ))),
+                                              DataCell(Center(
+                                                  child: SmallText(
+                                                text: '0',
+                                                size: 14,
+                                                color: drawerTextColor,
+                                              ))),
+                                              DataCell(Center(
+                                                  child: SmallText(
+                                                text: '2',
+                                                size: 14,
+                                                color: drawerTextColor,
+                                              ))),
+                                              DataCell(Center(
+                                                  child: SmallText(
+                                                text: '1',
+                                                size: 14,
+                                                color: drawerTextColor,
+                                              ))),
+                                            ],
+                                          ),
+                                          DataRow(
+                                            cells: <DataCell>[
+                                              DataCell(SmallText(
+                                                text:
+                                                    MyStrings.bereavementLeave,
+                                                size: 14,
+                                                color: drawerTextColor,
+                                              )),
+                                              DataCell(Center(
+                                                  child: SmallText(
+                                                text: '0',
+                                                size: 14,
+                                                color: drawerTextColor,
+                                              ))),
+                                              DataCell(Center(
+                                                  child: SmallText(
+                                                text: '0',
+                                                size: 14,
+                                                color: drawerTextColor,
+                                              ))),
+                                              DataCell(Center(
+                                                  child: SmallText(
+                                                text: '0',
+                                                size: 14,
+                                                color: drawerTextColor,
+                                              ))),
+                                              DataCell(Center(
+                                                  child: SmallText(
+                                                text: '0',
+                                                size: 14,
+                                                color: drawerTextColor,
+                                              ))),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
 
-  createBox(BuildContext context, StateSetter state) {
-    return SingleChildScrollView(
-        child: Container(
-            width: MediaQuery.of(context).size.width / 2.5,
-            height: 40.0,
-            padding: const EdgeInsets.only(left: 10.0),
-            decoration: ShapeDecoration(
-              shape: RoundedRectangleBorder(
-                side: BorderSide(width: 1.0, color: borderColor),
-                borderRadius: const BorderRadius.all(Radius.circular(5.0)),
-              ),
-            ),
-            child: buildMainDropdown(state)));
-  }
-
-  buildMainDropdown(StateSetter setState) {
-    return DropdownButtonHideUnderline(
-      child: DropdownButton(
-        value: type,
-        hint: Text("Select a type"),
-        items: <String>[
-          MyStrings.inTime,
-          MyStrings.out,
-          MyStrings.both,
-        ].map<DropdownMenuItem<String>>((String value) {
-          return DropdownMenuItem<String>(
-            value: value,
-            child: SmallText(text: value),
-          );
-        }).toList(),
-        onChanged: (newType) {
-          setState(() {
-            type = newType as String?;
-          });
-        },
+          ],
+        ),
       ),
     );
   }
-}
 
-@immutable
-class Uploadfile extends StatefulWidget {
-  const Uploadfile({Key? key}) : super(key: key);
+  DateTime selectedSwipeDate = DateTime.now();
+  DateTime time = DateTime.now();
+  TextEditingController? swipedate;
+  final swipeKey = GlobalKey<FormState>();
 
-  @override
-  State<Uploadfile> createState() => _UploadfileState();
-}
+  Future<void> selectSwipeDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: selectedSwipeDate,
+      firstDate: DateTime(2010, 1),
+      lastDate: DateTime(2070, 1),
+      builder: (context, child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme: ColorScheme.light(
+              primary: primaryColor, // <-- SEE HERE
+              onPrimary: whiteColor, // <-- SEE HERE
+              onSurface: blackColor, // <-- SEE HERE
+            ),
+            textButtonTheme: TextButtonThemeData(
+              style: TextButton.styleFrom(
+                primary: primaryColor, // button text color
+              ),
+            ),
+          ),
+          child: child!,
+        );
+      },
+    );
+    if (picked != null) {
+      setState(() {
+        selectedSwipeDate = picked;
 
-class _UploadfileState extends State<Uploadfile> {
-  List<dynamic> imageList = [];
+        var formatter = new DateFormat('dd/MM/yyyy');
+        String formatted = formatter.format(selectedSwipeDate);
+        swipedate?.value = TextEditingValue(text: formatted.toString());
+      });
+    }
+  }
+
+  //From date
+  DateTime selectedDate = new DateTime.now();
+  late DateTime selectedfromDate;
+  TextEditingController? fromdate;
+  final formKey = GlobalKey<FormState>();
+
+  Future<void> selectDate1(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: selectedDate,
+      firstDate: DateTime(2010, 1),
+      lastDate: DateTime(2070, 1),
+      builder: (context, child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme: ColorScheme.light(
+              primary: primaryColor, // <-- SEE HERE
+              onPrimary: whiteColor, // <-- SEE HERE
+              onSurface: blackColor, // <-- SEE HERE
+            ),
+            textButtonTheme: TextButtonThemeData(
+              style: TextButton.styleFrom(
+                primary: primaryColor, // button text color
+              ),
+            ),
+          ),
+          child: child!,
+        );
+      },
+    );
+    if (picked != null) {
+      setState(() {
+        selectedDate = picked;
+        selectedfromDate = picked;
+        var formatter = DateFormat('dd/MM/yyyy');
+        String formatted = formatter.format(selectedDate);
+        fromdate?.value = TextEditingValue(text: formatted.toString());
+      });
+    }
+  }
+
+  // end date
+  DateTime selectedendDate = DateTime.now();
+  late DateTime selectedendleaveDate;
+  TextEditingController? enddate;
+  final formKey1 = GlobalKey<FormState>();
+
+  Future<void> selectendDate1(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: selectedDate,
+      firstDate: selectedDate,
+      lastDate: DateTime(2070, 1),
+      builder: (context, child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme: ColorScheme.light(
+              primary: primaryColor, // <-- SEE HERE
+              onPrimary: whiteColor, // <-- SEE HERE
+              onSurface: blackColor, // <-- SEE HERE
+            ),
+            textButtonTheme: TextButtonThemeData(
+              style: TextButton.styleFrom(
+                primary: primaryColor, // button text color
+              ),
+            ),
+          ),
+          child: child!,
+        );
+      },
+    );
+    if (picked != null) {
+      setState(() {
+        selectedendDate = picked;
+        selectedendleaveDate = picked;
+        var formatter = new DateFormat('dd/MM/yyyy');
+        String formatted = formatter.format(selectedendDate);
+        enddate?.value = TextEditingValue(text: formatted.toString());
+      });
+    }
+  }
+
+  Widget showBottomModal() {
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: const [
+                Text(
+                  'Filters',
+                  style: TextStyle(fontFamily: 'medium', fontSize: 16),
+                ),
+                Text(
+                  'Clear Filter',
+                  style: TextStyle(color: Colors.grey, fontSize: 12),
+                )
+              ],
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+            Wrap(
+              children: [
+                filterContainer('2022'),
+                filterContainer('2021'),
+                filterContainer('2020'),
+                filterContainer('2019'),
+                filterContainer('2018'),
+                filterContainer('Older'),
+              ],
+            ),
+          ],
+        ),
+      ),
+      bottomNavigationBar: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 15),
+        decoration: BoxDecoration(
+            border: Border(top: BorderSide(color: Colors.grey.shade400))),
+        child: Row(
+          children: [
+            Expanded(
+              child: InkWell(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: Container(
+                  height: 45,
+                  decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey.shade400)),
+                  child: const Center(
+                    child: Text(
+                      'Cancel',
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(
+              width: 20,
+            ),
+            Expanded(
+              child: InkWell(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: Container(
+                  height: 45,
+                  decoration: BoxDecoration(color: primaryColor),
+                  child: const Center(
+                    child: Text(
+                      'Apply',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontFamily: 'medium',
+                          fontSize: 16),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget filterContainer(text) {
+    return Container(
+      margin: const EdgeInsets.only(right: 10, bottom: 10),
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.grey),
+        borderRadius: BorderRadius.circular(20),
+      ),
+      padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 18),
+      child: Text(text),
+    );
+  }
+
+  // upload file
+
   final picker = ImagePicker();
   File? _image;
-
-  @override
-  Widget build(BuildContext context) {
-    return GridView.builder(
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            childAspectRatio: 2 / 2,
-            crossAxisCount: 4,
-            crossAxisSpacing: 15,
-            mainAxisSpacing: 15),
-        itemCount: imageList.length + 1,
-        primary: false,
-        // physics: NeverScrollableScrollPhysFics(),
-        // controller: ScrollController(keepScrollOffset: false),
-        shrinkWrap: true,
-        itemBuilder: (BuildContext ctx, index) {
-          final item =
-              index + 1 == imageList.length + 1 ? null : imageList[index];
-          return index + 1 == imageList.length + 1
-              ? (imageList.length > 2)
-                  ? Container()
-                  : InkWell(
-                      onTap: _uploadImageModalBottomSheet,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: containerGreyColor,
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Icon(Icons.add),
-                            const SizedBox(
-                              height: 5,
-                            ),
-                            SmallText(
-                              text: MyStrings.uploadFile,
-                              size: 12,
-                            )
-                          ],
-                        ),
-                      ),
-                    )
-              : Stack(
-                  children: [
-                    Container(
-                      width: 200.0,
-                      height: 200.0,
-                      decoration: BoxDecoration(
-                          border: Border.all(
-                        color: primaryColor,
-                        width: 2,
-                      )),
-                      child: Image.file(
-                        item,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    Positioned(
-                      child: GestureDetector(
-                        onTap: () {
-                          deleteImageDialogue(index);
-                        },
-                        child: const Align(
-                          alignment: Alignment.topRight,
-                          child: CircleAvatar(
-                            radius: 10.0,
-                            backgroundColor: Colors.teal,
-                            child: Icon(
-                              Icons.close,
-                              color: Colors.white,
-                              size: 15.0,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                );
-        });
-  }
 
   void _uploadImageModalBottomSheet() {
     showModalBottomSheet(
@@ -3349,6 +4089,79 @@ class _UploadfileState extends State<Uploadfile> {
         });
   }
 
+  Future getCameraImage() async {
+    final pickedFile =
+        await picker.pickImage(source: ImageSource.camera, imageQuality: 50);
+    if (pickedFile != null) {
+      _image = File(pickedFile.path);
+      var getFileSize = getFileSizeString(bytes: _image!.lengthSync());
+      if ((getFileSize.contains('kb'))) {
+      } else if (getFileSize.contains('mb')) {
+        if (getFileSize.length >= 2) {
+          getFileSize = getFileSize.substring(0, getFileSize.length - 2);
+        }
+        int fileSize = int.parse(getFileSize);
+        if (fileSize > 2) {
+          // Fluttertoast.showToast(msg: MyStrings.FILE_SIZE_VALIDATE_TXT);
+          return;
+        }
+      } else {
+        return;
+      }
+      setState(() {
+        imageList.add(_image);
+        if (imageList.length > 0) {
+          // submitBtnText = "Upload & Continue";
+        }
+        // uploadPrescriptionImageDialogue();
+      });
+    } else {
+      setState(() {
+        _image = null;
+        if (imageList.length > 0) {
+          // submitBtnText = "Upload & Continue";
+        }
+      });
+    }
+  }
+
+  Future getGalleryImage() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles();
+    if (result != null) {
+      _image = File(result.files.single.path!);
+      var getFileSize = getFileSizeString(bytes: _image!.lengthSync());
+      if ((getFileSize.contains('kb'))) {
+      } else if (getFileSize.contains('mb')) {
+        if (getFileSize.length >= 2) {
+          getFileSize = getFileSize.substring(0, getFileSize.length - 2);
+        }
+        int fileSize = int.parse(getFileSize);
+        if (fileSize > 2) {
+          // Fluttertoast.showToast(msg: MyStrings.FILE_SIZE_VALIDATE_TXT);
+          return;
+        }
+      } else {
+        return;
+      }
+      setState(() {
+        imageList.add(_image);
+        if (imageList.length > 0) {
+          // submitBtnText = "Upload & Continue";
+        }
+        // uploadPrescriptionImageDialogue();
+      });
+    } else {
+      // User canceled the picker
+    }
+  }
+
+  // Format File Size
+  static String getFileSizeString({required int bytes, int decimals = 0}) {
+    const suffixes = ["b", "kb", "mb", "gb", "tb"];
+    var i = (log(bytes) / log(1024)).floor();
+    return ((bytes / pow(1024, i)).toStringAsFixed(decimals)) + suffixes[i];
+  }
+
   deleteImageDialogue(index) {
     showDialog(
       context: context,
@@ -3424,584 +4237,5 @@ class _UploadfileState extends State<Uploadfile> {
       },
     );
   }
-
-  Future getCameraImage() async {
-    final pickedFile =
-        await picker.pickImage(source: ImageSource.camera, imageQuality: 50);
-    if (pickedFile != null) {
-      _image = File(pickedFile.path);
-      var getFileSize = getFileSizeString(bytes: _image!.lengthSync());
-      if ((getFileSize.contains('kb'))) {
-      } else if (getFileSize.contains('mb')) {
-        if (getFileSize.length >= 2) {
-          getFileSize = getFileSize.substring(0, getFileSize.length - 2);
-        }
-        int fileSize = int.parse(getFileSize);
-        if (fileSize > 2) {
-          // Fluttertoast.showToast(msg: MyStrings.FILE_SIZE_VALIDATE_TXT);
-          return;
-        }
-      } else {
-        return;
-      }
-      setState(() {
-        imageList.add(_image);
-        if (imageList.length > 0) {
-          // submitBtnText = "Upload & Continue";
-        }
-        // uploadPrescriptionImageDialogue();
-      });
-    } else {
-      setState(() {
-        _image = null;
-        if (imageList.length > 0) {
-          // submitBtnText = "Upload & Continue";
-        }
-      });
-    }
-  }
-
-  Future getGalleryImage() async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles();
-    if (result != null) {
-      _image = File(result.files.single.path!);
-      var getFileSize = getFileSizeString(bytes: _image!.lengthSync());
-      if ((getFileSize.contains('kb'))) {
-      } else if (getFileSize.contains('mb')) {
-        if (getFileSize.length >= 2) {
-          getFileSize = getFileSize.substring(0, getFileSize.length - 2);
-        }
-        int fileSize = int.parse(getFileSize);
-        if (fileSize > 2) {
-          // Fluttertoast.showToast(msg: MyStrings.FILE_SIZE_VALIDATE_TXT);
-          return;
-        }
-      } else {
-        return;
-      }
-      setState(() {
-        imageList.add(_image);
-        if (imageList.length > 0) {
-          // submitBtnText = "Upload & Continue";
-        }
-        // uploadPrescriptionImageDialogue();
-      });
-    } else {
-      // User canceled the picker
-    }
-  }
-
-  // Format File Size
-  static String getFileSizeString({required int bytes, int decimals = 0}) {
-    const suffixes = ["b", "kb", "mb", "gb", "tb"];
-    var i = (log(bytes) / log(1024)).floor();
-    return ((bytes / pow(1024, i)).toStringAsFixed(decimals)) + suffixes[i];
-  }
 }
 
-@immutable
-class startDate extends StatefulWidget {
-  const startDate({Key? key}) : super(key: key);
-
-  @override
-  State<startDate> createState() => _startDateState();
-}
-
-class _startDateState extends State<startDate> {
-  DateTime selectedDate = new DateTime.now();
-  DateTime time = new DateTime.now();
-  late DateTime selectedfromDate;
-  TextEditingController? fromdate;
-  final formKey = GlobalKey<FormState>();
-
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    initUser();
-    var formatter = new DateFormat('dd/MM/yyyy');
-    String formatted = formatter.format(selectedDate);
-    fromdate?.value = TextEditingValue(text: formatted.toString());
-  }
-
-  void initUser() {
-    fromdate = TextEditingController();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        selectDate1(context);
-      },
-      child: Form(
-        key: formKey,
-        child: AbsorbPointer(
-          child: Container(
-            height: 45,
-            width: MediaQuery.of(context).size.width / 2.5,
-            child: TextFormField(
-              textAlignVertical: TextAlignVertical.center,
-              textAlign: TextAlign.left,
-              style: font15,
-              controller: fromdate,
-              readOnly: true,
-              decoration: InputDecoration(
-                border: const OutlineInputBorder(),
-                suffixIcon: IconButton(
-                  icon: const Icon(
-                    Icons.calendar_today_sharp,
-                    size: 18,
-                  ),
-                  onPressed: () => selectDate1(context),
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Future<void> selectDate1(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: selectedDate,
-      firstDate: DateTime(2010, 1),
-      lastDate: DateTime(2070, 1),
-      builder: (context, child) {
-        return Theme(
-          data: Theme.of(context).copyWith(
-            colorScheme: ColorScheme.light(
-              primary: primaryColor, // <-- SEE HERE
-              onPrimary: whiteColor, // <-- SEE HERE
-              onSurface: blackColor, // <-- SEE HERE
-            ),
-            textButtonTheme: TextButtonThemeData(
-              style: TextButton.styleFrom(
-                primary: primaryColor, // button text color
-              ),
-            ),
-          ),
-          child: child!,
-        );
-      },
-    );
-    if (picked != null) {
-      setState(() {
-        selectedDate = picked;
-        selectedfromDate = picked;
-        var formatter = DateFormat('dd/MM/yyyy');
-        String formatted = formatter.format(selectedDate);
-        fromdate?.value = TextEditingValue(text: formatted.toString());
-      });
-    }
-  }
-}
-
-@immutable
-class RequestDate extends StatefulWidget {
-  const RequestDate({Key? key}) : super(key: key);
-
-  @override
-  State<RequestDate> createState() => _RequestDateState();
-}
-
-class _RequestDateState extends State<RequestDate> {
-  DateTime selectedDate = DateTime.now();
-  DateTime time = DateTime.now();
-  late DateTime selectedfromDate;
-  TextEditingController? fromdate;
-  final formKey = GlobalKey<FormState>();
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    initUser();
-    var formatter = DateFormat('dd/MM/yyyy');
-    String formatted = formatter.format(selectedDate);
-    fromdate?.value = TextEditingValue(text: formatted.toString());
-  }
-
-  void initUser() {
-    fromdate = TextEditingController();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        selectDate1(context);
-      },
-      child: Form(
-        key: formKey,
-        child: AbsorbPointer(
-          child: Container(
-            height: 45,
-            width: MediaQuery.of(context).size.width / 2.5,
-            child: TextFormField(
-              textAlignVertical: TextAlignVertical.center,
-              textAlign: TextAlign.left,
-              style: font15,
-              controller: fromdate,
-              readOnly: true,
-              decoration: InputDecoration(
-                border: const OutlineInputBorder(),
-                suffixIcon: IconButton(
-                  icon: const Icon(
-                    Icons.calendar_today_sharp,
-                    size: 18,
-                  ),
-                  onPressed: () => selectDate1(context),
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Future<void> selectDate1(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: selectedDate,
-      firstDate: DateTime(2010, 1),
-      lastDate: DateTime(2070, 1),
-      builder: (context, child) {
-        return Theme(
-          data: Theme.of(context).copyWith(
-            colorScheme: ColorScheme.light(
-              primary: primaryColor, // <-- SEE HERE
-              onPrimary: whiteColor, // <-- SEE HERE
-              onSurface: blackColor, // <-- SEE HERE
-            ),
-            textButtonTheme: TextButtonThemeData(
-              style: TextButton.styleFrom(
-                primary: primaryColor, // button text color
-              ),
-            ),
-          ),
-          child: child!,
-        );
-      },
-    );
-    if (picked != null)
-      setState(() {
-        selectedDate = picked;
-        selectedfromDate = picked;
-        var formatter = new DateFormat('dd/MM/yyyy');
-        String formatted = formatter.format(selectedDate);
-        fromdate?.value = TextEditingValue(text: formatted.toString());
-      });
-  }
-}
-
-@immutable
-class finishDate extends StatefulWidget {
-  const finishDate({Key? key}) : super(key: key);
-
-  @override
-  State<finishDate> createState() => _finishDateState();
-}
-
-class _finishDateState extends State<finishDate> {
-  DateTime selectedendDate = DateTime.now();
-  DateTime time = DateTime.now();
-  late DateTime selectedendleaveDate;
-  TextEditingController? enddate;
-  final formKey1 = GlobalKey<FormState>();
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    initUser();
-    var formatter = DateFormat('dd/MM/yyyy');
-    String formatted = formatter.format(selectedendDate);
-    enddate?.value = TextEditingValue(text: formatted.toString());
-  }
-
-  void initUser() {
-    enddate = TextEditingController();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        selectendDate1(context);
-      },
-      child: Form(
-        key: formKey1,
-        child: AbsorbPointer(
-          child: SizedBox(
-            height: 45,
-            width: MediaQuery.of(context).size.width / 2.1,
-            child: TextFormField(
-              textAlignVertical: TextAlignVertical.center,
-              textAlign: TextAlign.left,
-              style: font15,
-              controller: enddate,
-              readOnly: true,
-              decoration: InputDecoration(
-                border: const OutlineInputBorder(),
-                suffixIcon: IconButton(
-                  icon: const Icon(
-                    Icons.calendar_today_sharp,
-                    size: 18,
-                  ),
-                  onPressed: () => selectendDate1(context),
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Future<void> selectendDate1(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: selectedendDate,
-      firstDate: DateTime(2010, 1),
-      lastDate: DateTime(2070, 1),
-      builder: (context, child) {
-        return Theme(
-          data: Theme.of(context).copyWith(
-            colorScheme: ColorScheme.light(
-              primary: primaryColor, // <-- SEE HERE
-              onPrimary: whiteColor, // <-- SEE HERE
-              onSurface: blackColor, // <-- SEE HERE
-            ),
-            textButtonTheme: TextButtonThemeData(
-              style: TextButton.styleFrom(
-                primary: primaryColor, // button text color
-              ),
-            ),
-          ),
-          child: child!,
-        );
-      },
-    );
-    if (picked != null) {
-      setState(() {
-        selectedendDate = picked;
-        selectedendleaveDate = picked;
-        var formatter = new DateFormat('dd/MM/yyyy');
-        String formatted = formatter.format(selectedendDate);
-        enddate?.value = TextEditingValue(text: formatted.toString());
-      });
-    }
-  }
-}
-
-@immutable
-class ExpandableFab extends StatefulWidget {
-  const ExpandableFab({
-    this.initialOpen,
-    this.distance,
-    this.children,
-    key,
-  });
-
-  final bool? initialOpen;
-  final double? distance;
-  final List<Widget>? children;
-
-  @override
-  State<ExpandableFab> createState() => _ExpandableFabState();
-}
-
-class _ExpandableFabState extends State<ExpandableFab>
-    with SingleTickerProviderStateMixin {
-  AnimationController? _controller;
-  Animation<double>? _expandAnimation;
-  bool _open = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _open = widget.initialOpen ?? false;
-    _controller = AnimationController(
-      value: _open ? 1.0 : 0.0,
-      duration: const Duration(milliseconds: 250),
-      vsync: this,
-    );
-    _expandAnimation = CurvedAnimation(
-      curve: Curves.fastOutSlowIn,
-      reverseCurve: Curves.easeOutQuad,
-      parent: _controller!,
-    );
-  }
-
-  @override
-  void dispose() {
-    _controller!.dispose();
-    super.dispose();
-  }
-
-  void _toggle() {
-    setState(() {
-      _open = !_open;
-      if (_open) {
-        _controller!.forward();
-      } else {
-        _controller!.reverse();
-      }
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox.expand(
-      child: Stack(
-        alignment: Alignment.bottomRight,
-        clipBehavior: Clip.none,
-        children: [
-          _buildTapToCloseFab(),
-          ..._buildExpandingActionButtons(),
-          _buildTapToOpenFab(),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildTapToCloseFab() {
-    return SizedBox(
-      width: 56.0,
-      height: 56.0,
-      child: Center(
-        child: Material(
-          shape: const CircleBorder(),
-          clipBehavior: Clip.antiAlias,
-          elevation: 4.0,
-          child: InkWell(
-            onTap: _toggle,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Icon(
-                Icons.close,
-                color: Theme.of(context).primaryColor,
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  List<Widget> _buildExpandingActionButtons() {
-    final children = <Widget>[];
-    final count = widget.children!.length;
-    final step = 90.0 / (count - 1);
-    for (var i = 0, angleInDegrees = 0.0;
-        i < count;
-        i++, angleInDegrees += step) {
-      children.add(
-        _ExpandingActionButton(
-          directionInDegrees: angleInDegrees,
-          maxDistance: widget.distance,
-          progress: _expandAnimation,
-          child: widget.children![i],
-        ),
-      );
-    }
-    return children;
-  }
-
-  Widget _buildTapToOpenFab() {
-    return IgnorePointer(
-      ignoring: _open,
-      child: AnimatedContainer(
-        transformAlignment: Alignment.center,
-        transform: Matrix4.diagonal3Values(
-          _open ? 0.7 : 0.8,
-          _open ? 0.7 : 0.8,
-          1.0,
-        ),
-        duration: const Duration(milliseconds: 250),
-        curve: const Interval(0.0, 0.5, curve: Curves.easeOut),
-        child: AnimatedOpacity(
-          opacity: _open ? 0.0 : 1.0,
-          curve: const Interval(0.25, 1.0, curve: Curves.easeInOut),
-          duration: const Duration(milliseconds: 250),
-          child: FloatingActionButton(
-            onPressed: _toggle,
-            backgroundColor: primaryColor,
-            child: const Icon(
-              Icons.add,
-              size: 35,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-@immutable
-class _ExpandingActionButton extends StatelessWidget {
-  const _ExpandingActionButton({
-    this.directionInDegrees,
-    this.maxDistance,
-    this.progress,
-    this.child,
-  });
-
-  final double? directionInDegrees;
-  final double? maxDistance;
-  final Animation<double>? progress;
-  final Widget? child;
-
-  @override
-  Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: progress!,
-      builder: (context, child) {
-        final offset = Offset.fromDirection(
-          directionInDegrees! * (math.pi / 180.0),
-          progress!.value * maxDistance!,
-        );
-        return Positioned(
-          right: 4.0 + offset.dx,
-          bottom: 4.0 + offset.dy,
-          child: Transform.rotate(
-            angle: (1.0 - progress!.value) * math.pi / 2,
-            child: child,
-          ),
-        );
-      },
-      child: FadeTransition(
-        opacity: progress!,
-        child: child,
-      ),
-    );
-  }
-}
-
-@immutable
-class ActionButton extends StatelessWidget {
-  const ActionButton({
-    this.onPressed,
-    this.icon,
-  });
-
-  final VoidCallback? onPressed;
-  final Widget? icon;
-
-  @override
-  Widget build(BuildContext context) {
-    return Material(
-      shape: const CircleBorder(),
-      clipBehavior: Clip.antiAlias,
-      color: whiteColor,
-      elevation: 4.0,
-      child: IconButton(
-        onPressed: onPressed,
-        icon: icon!,
-      ),
-    );
-  }
-}

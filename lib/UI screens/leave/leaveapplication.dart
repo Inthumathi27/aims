@@ -144,7 +144,7 @@ class _LeaveApplicationState extends State<LeaveApplication> {
                             color: whiteColor,
                             borderRadius: BorderRadius.circular(5),
                             border:
-                                Border.all(color: borderColor.withOpacity(0.5)),
+                            Border.all(color: borderColor.withOpacity(0.5)),
                           ),
                           child: Padding(
                             padding: const EdgeInsets.all(12.0),
@@ -153,33 +153,21 @@ class _LeaveApplicationState extends State<LeaveApplication> {
                               children: [
                                 Row(
                                   mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  MainAxisAlignment.spaceBetween,
                                   children: [
-                                    SmallText(
-                                      text: leaveApplicationHistory[index].leaveType,
-                                      color: leaveApplicationHistory[index]
-                                          .leaveType ==
-                                          "OD"
-                                          ? const Color(0xffd39c06)
-                                          : leaveApplicationHistory[index].leaveType ==
-                                          "CL"
-                                          ? const Color(0xff33b5ce)
-                                          : leaveApplicationHistory[index]
-                                          .leaveType ==
-                                          "SL"
-                                          ? const Color(0xffc988ad)
-                                          : leaveApplicationHistory[index]
-                                          .leaveType ==
-                                          "PM"
-                                          ? const Color(0xff3cc68f)
-                                          :leaveApplicationHistory[index]
-                                          .leaveType ==
-                                          "Com Off"
-                                          ? const Color (0xffff8659)
-                                          : bluegreyColor,
-                                      fontStyle: FontStyle.italic,
-                                      size: 15,
-                                      fontWeight: FontWeight.w600,
+                                    Row(
+                                      children: [
+                                        SmallText(
+                                          text:leaveApplicationHistory[index].name,
+                                          size: 15,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                        widthspace,
+                                        SmallText(
+                                          text:leaveApplicationHistory[index].empId,
+                                          size: 12,
+                                        ),
+                                      ],
                                     ),
                                     // Image.asset(
                                     //     'assets/leavemanagment/timer.png',
@@ -221,21 +209,34 @@ class _LeaveApplicationState extends State<LeaveApplication> {
                                 heightspace,
                                 Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Row(
-                                      children: [
-                                        SmallText(
-                                          text:leaveApplicationHistory[index].name,
-                                          size: 15,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                        widthspace,
-                                        SmallText(
-                                          text:leaveApplicationHistory[index].empId,
-                                          size: 12,
-                                        ),
-                                      ],
+                                    SmallText(
+                                      text: leaveApplicationHistory[index].leaveType,
+                                      color: leaveApplicationHistory[index]
+                                          .leaveType ==
+                                          "OD"
+                                          ? const Color(0xffd39c06)
+                                          : leaveApplicationHistory[index].leaveType ==
+                                          "CL"
+                                          ? const Color(0xff33b5ce)
+                                          : leaveApplicationHistory[index]
+                                          .leaveType ==
+                                          "SL"
+                                          ? const Color(0xffc988ad)
+                                          : leaveApplicationHistory[index]
+                                          .leaveType ==
+                                          "PM"
+                                          ? const Color(0xff3cc68f)
+                                          :leaveApplicationHistory[index]
+                                          .leaveType ==
+                                          "Com Off"
+                                          ? const Color (0xffff8659)
+                                          : blueGreyColor,
+                                      fontStyle: FontStyle.italic,
+                                      size: 15,
+                                      fontWeight: FontWeight.w600,
                                     ),
-                                    SmallText(text: leaveApplicationHistory[index].designation,size: 14,color: bluegreyColor,)
+
+                                    SmallText(text: leaveApplicationHistory[index].designation,size: 14,color: blueGreyColor,)
 
                                   ],
                                 ),
@@ -254,35 +255,94 @@ class _LeaveApplicationState extends State<LeaveApplication> {
                                       size: 14,
                                     ),
 
-                                    ],
+                                  ],
                                 ),
                                 SizedBox(height: 5,),
                                 Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Container(
-                                      decoration:  BoxDecoration(
-                                          color: Colors.red,
-                                        borderRadius: BorderRadius.circular(5),
-                                      ),
-                                      child: Padding(
-                                          padding: const EdgeInsets.all(5.0),
-                                          child: Icon(Icons.close,color: whiteColor,size: 20,)
-                                        // SmallText(text: MyStrings.rejected,color: whiteColor,size: 14,),
-                                      )),
-                                  Container(
+                                  children: [
+                                    InkWell(
+                                      onTap: (){
+                                        showDialog<String>(
+                                          context: context,
+                                          builder: (BuildContext context) => AlertDialog(
+                                            title: Center(child: SmallText(text: "Are you sure, you want reject",size: 15,)),
+                                            content:Container(
+                                              height:155,
+                                              child: Column(
+                                                children: [
+                                                  TextField(
+                                                    maxLines: 3,
+                                                    decoration: InputDecoration(
+                                                      border: const OutlineInputBorder(),
+                                                      hintText: "Reason",
+                                                      hintStyle: TextStyle(fontSize: 14),
+                                                      focusedBorder: OutlineInputBorder(
+                                                        borderSide: BorderSide(
+                                                            width: 1, color: borderColor),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  heightspace,
+                                                  heightspace,
+                                                  Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                    children: [
+                                                      InkWell(
+                                                        onTap:()=>Navigator.pop(context),
+                                                        child: Container(
+                                                          decoration: BoxDecoration(
+                                                            borderRadius: BorderRadius.circular(5),
+                                                            color: textGreyColor,
+                                                          ),
+                                                          width: 100,
+                                                          height: 30,
+                                                          child: Center(child: SmallText(text: "Cancel",color: whiteColor,)),
+                                                        ),
+                                                      ),
+                                                      InkWell(
+                                                        // onTap:()=>Navigator.pop(context),
+                                                        child: Container(
+                                                          decoration: BoxDecoration(
+                                                            borderRadius: BorderRadius.circular(5),
+                                                            color: primaryColor,
+                                                          ),
+                                                          width: 100,
+                                                          height: 30,
+                                                          child: Center(child: SmallText(text: "Rejected",color: whiteColor,)),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                      child: Container(
+                                          decoration:  BoxDecoration(
+                                            color: Colors.red.withOpacity(0.8),
+                                            borderRadius: BorderRadius.circular(5),
+                                          ),
+                                          child: Padding(
+                                              padding: const EdgeInsets.all(5.0),
+                                              child: Icon(Icons.close,color: whiteColor,size: 20,)
+                                            // SmallText(text: MyStrings.rejected,color: whiteColor,size: 14,),
+                                          )),
+                                    ),
+                                    Container(
                                         decoration:  BoxDecoration(
                                           color: primaryColor,
                                           borderRadius: BorderRadius.circular(5),
                                         ),
-                                      child:Padding(
-                                        padding: const EdgeInsets.all(5.0),
-                                        child:Icon(Icons.check,color: whiteColor,size: 20,)
-                                        // SmallText(text: MyStrings.approved,color: whiteColor,size: 14),
-                                      )
-                                     ),
-
-                                ],
+                                        child:Padding(
+                                            padding: const EdgeInsets.all(5.0),
+                                            child:Icon(Icons.check,color: whiteColor,size: 20,)
+                                          // SmallText(text: MyStrings.approved,color: whiteColor,size: 14),
+                                        )
                                     ),
+
+                                  ],
+                                ),
 
                               ],
                             ),
@@ -346,7 +406,7 @@ class _LeaveApplicationState extends State<LeaveApplication> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 SmallText(
-                  text: MyStrings.employeeName,
+                  text: MyStrings.employeeId,
                   color: textGreyColor,
                   size: 14,
                 ),
@@ -413,6 +473,7 @@ class _LeaveApplicationState extends State<LeaveApplication> {
       ),
     );
   }
+
 }
 
 class DropDown extends StatefulWidget {
@@ -449,7 +510,8 @@ class _DropDownState extends State<DropDown> {
             items: <String>[
               "Confirmation Request",
               "Leave Application",
-              "Swipe Request"
+              "Approved Application",
+              "Swipe Request",
             ].map<DropdownMenuItem<String>>((String value) {
               return DropdownMenuItem<String>(
                 value: value,
@@ -461,7 +523,7 @@ class _DropDownState extends State<DropDown> {
             }).toList(),
             hint: SmallText(
               text: "Select Module Type",
-              color: drawertextColor,
+              color: drawerTextColor,
               size: 15,
               fontWeight: FontWeight.w400,
             ),
@@ -524,7 +586,7 @@ class _ApplicationDropDownState extends State<ApplicationDropDown> {
             }).toList(),
             hint: SmallText(
               text: "Select Approver",
-              color: drawertextColor,
+              color: drawerTextColor,
               size: 15,
               fontWeight: FontWeight.w400,
             ),

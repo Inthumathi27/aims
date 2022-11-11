@@ -90,7 +90,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 text:"Developer",
                 // loginResponse!.value!.userInfo!.designation.toString(),
                 size: 16,
-                color: profiletextColor,
+                color: profileTextColor,
                 fontStyle: FontStyle.italic,
               ),
               heightspace,
@@ -115,7 +115,7 @@ class _ProfilePageState extends State<ProfilePage> {
               heightspace,
               Padding(
                 padding: const EdgeInsets.only(left: 20.0,right: 20),
-                child: Container(color:profiletextColor.withOpacity(0.1),width: MediaQuery.of(context).size.width,height: 1,),
+                child: Container(color:profileTextColor.withOpacity(0.1),width: MediaQuery.of(context).size.width,height: 1,),
               ),
             ],
           ),

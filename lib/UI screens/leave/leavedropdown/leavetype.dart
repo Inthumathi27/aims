@@ -55,7 +55,7 @@ class _DropDownBoxState extends State<DropDownBox> {
             }).toList(),
             hint: SmallText(
               text: MyStrings.leaveType,
-              color: drawertextColor,
+              color: drawerTextColor,
               size: 16,
               fontWeight: FontWeight.w400,
             ),
