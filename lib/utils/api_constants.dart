@@ -5,5 +5,6 @@ class ApiConstants {
   static const String loginURL =base_Url+base_Url_Rm+'login_authentication?';
   static const String awardURL =base_Url+base_Url_Rm+'people_award?';
   static const String imageUrl =base_Url+'storage/user_profile/';
+  static const String holidayListUrl =base_Url+base_Url_Rm+'holiday_list';
 
 }

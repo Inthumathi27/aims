@@ -108,9 +108,114 @@ class _LeaveApplicationState extends State<LeaveApplication> {
                         context: context,
                         isScrollControlled: true,
                         builder: (BuildContext context) {
-                          return FractionallySizedBox(
-                            heightFactor: 0.4,
-                            child: showBottomModal(),
+                          return SingleChildScrollView(
+                            padding:
+                            EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom,right: 16,left: 16,top: 16),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Center(
+                                    child: SmallText(
+                                      text: MyStrings.updateApplication,
+                                      size: 17,
+                                      fontWeight: FontWeight.w500,
+                                    )),
+                                heightspace,
+                                heightspace,
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    SmallText(
+                                      text: MyStrings.module,
+                                      color: textGreyColor,
+                                      size: 14,
+                                    ),
+                                    const DropDown(),
+                                  ],
+                                ),
+                                heightspace,
+                                heightspace,
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    SmallText(
+                                      text: MyStrings.approver,
+                                      color: textGreyColor,
+                                      size: 14,
+                                    ),
+                                    const ApplicationDropDown(),
+                                  ],
+                                ),
+                                heightspace,
+                                heightspace,
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    SmallText(
+                                      text: MyStrings.employeeId,
+                                      color: textGreyColor,
+                                      size: 14,
+                                    ),
+                                    Container(
+                                      width: MediaQuery.of(context).size.width / 1.9,
+                                      height: 40,
+                                      child: TextFormField(
+                                        cursorColor: primaryColor,
+                                        decoration: InputDecoration(
+                                          contentPadding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                                          // control your hints text size
+                                          border: const OutlineInputBorder(
+                                            borderRadius: BorderRadius.all(Radius.circular(5)),
+                                          ),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderRadius: BorderRadius.circular(8),
+                                            borderSide: BorderSide(
+                                              color: borderColor,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                heightspace,
+                                heightspace,
+                                heightspace,
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Container(
+                                      width: MediaQuery.of(context).size.width / 4,
+                                      child: RaisedButton(
+                                        elevation: 0,
+                                        child: SmallText(
+                                          text: MyStrings.view,
+                                        ),
+                                        onPressed: () {},
+                                        color: primaryColor,
+                                        textColor: whiteColor,
+                                        padding: EdgeInsets.fromLTRB(9, 9, 9, 9),
+                                        splashColor: Colors.grey,
+                                      ),
+                                    ),
+                                    Container(
+                                      width: MediaQuery.of(context).size.width / 4,
+                                      child: RaisedButton(
+                                        elevation: 0,
+                                        child: SmallText(
+                                          text: MyStrings.cancel,
+                                        ),
+                                        onPressed: () {},
+                                        color: primaryColor,
+                                        textColor: whiteColor,
+                                        padding: EdgeInsets.fromLTRB(9, 9, 9, 9),
+                                        splashColor: Colors.grey,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
                           );
                         },
                       );

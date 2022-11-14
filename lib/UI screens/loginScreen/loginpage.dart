@@ -351,9 +351,7 @@ class _LoginScreenState extends State<LoginScreen>
    // networkStatus().then((isReachable) {
      // if (isReachable!) {
         // showLoaderDialog(context);
-        Webservice()
-            .callLoginWithPasswordService(
-             password: password, emp_id: emp_id)
+        Webservice().callLoginWithPasswordService(password: password, emp_id: emp_id)
             .then((onResponse) async {
           // if (onResponse![SUCCESS] == TRUE) {
             print(onResponse);

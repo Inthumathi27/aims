@@ -1,6 +1,9 @@
+import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
 
+import 'package:aims/model/leave/holidaylsit.dart';
+import 'package:aims/service/webservice.dart';
 import 'package:aims/utils/constant.dart';
 import 'package:aims/utils/strings.dart';
 import 'package:aims/widgets/button.dart';
@@ -12,12 +15,12 @@ import 'package:flutter/services.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:marquee/marquee.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
-import 'leaveapplication.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import 'leaveapplication.dart';
 
 class Leavedata {
   String? month;
@@ -35,9 +38,7 @@ class Leavedata {
   });
 }
 
-
 enum leaveItem { itemOne, itemTwo }
-
 
 class LeaveSummary extends StatefulWidget {
   const LeaveSummary({Key? key}) : super(key: key);
@@ -119,6 +120,10 @@ class _LeaveSummaryState extends State<LeaveSummary> {
   final MaskTextInputFormatter timeMaskFormatter =
       MaskTextInputFormatter(mask: '##:##', filter: {"#": RegExp(r'[0-9]')});
 
+  HolidayListData? holidayListData;
+  bool isloading = false;
+  String? holidayData = "";
+
   void initState() {
     super.initState();
     initUser();
@@ -130,6 +135,8 @@ class _LeaveSummaryState extends State<LeaveSummary> {
     swipedate?.value = TextEditingValue(text: formatted.toString());
     fromdate?.value = TextEditingValue(text: formatted.toString());
     enddate?.value = TextEditingValue(text: formatted.toString());
+    getholidaydata();
+    print(getholidaydata());
   }
 
   void initUser() {
@@ -138,7 +145,22 @@ class _LeaveSummaryState extends State<LeaveSummary> {
     swipedate = TextEditingController();
   }
 
+  getholidaydata() async {
+    setState(() {
+      isloading = true;
+    });
+    Webservice().fetchHolidayService().then((onResponse) async {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      holidayData = prefs.getString("holidayListData").toString();
+      holidayListData = HolidayListData.fromJson(jsonDecode(holidayData!));
+      setState(() {
+        isloading = false;
+      });
+    });
+  }
+
   leaveItem? selectedMenu;
+
   @override
   Widget build(BuildContext context) {
     var different = selectedendDate.difference(selectedDate).inDays + 1;
@@ -506,179 +528,31 @@ class _LeaveSummaryState extends State<LeaveSummary> {
                         ),
                       )),
                     ],
-                    rows: [
-                      DataRow(
-                        cells: <DataCell>[
-                          DataCell(SmallText(
-                            text: "01-Jan",
-                            size: 14,
-                            color: drawerTextColor,
-                          )),
-                          DataCell(SmallText(
-                            text: 'Saturday',
-                            size: 14,
-                            color: drawerTextColor,
-                          )),
-                          DataCell(SmallText(
-                            text: 'New Year',
-                            size: 14,
-                            color: drawerTextColor,
-                          )),
-                        ],
-                      ),
-                      DataRow(
-                        cells: <DataCell>[
-                          DataCell(SmallText(
-                            text: "14-Jan",
-                            size: 14,
-                            color: drawerTextColor,
-                          )),
-                          DataCell(SmallText(
-                            text: 'Friday',
-                            size: 14,
-                            color: drawerTextColor,
-                          )),
-                          DataCell(SmallText(
-                            text: 'Pongal',
-                            size: 14,
-                            color: drawerTextColor,
-                          )),
-                        ],
-                      ),
-                      DataRow(
-                        cells: <DataCell>[
-                          DataCell(SmallText(
-                            text: "26-Jan",
-                            size: 14,
-                            color: drawerTextColor,
-                          )),
-                          DataCell(SmallText(
-                            text: 'Wednesday',
-                            size: 14,
-                            color: drawerTextColor,
-                          )),
-                          DataCell(SmallText(
-                            text: 'Republic Day',
-                            size: 14,
-                            color: drawerTextColor,
-                          )),
-                        ],
-                      ),
-                      DataRow(
-                        cells: <DataCell>[
-                          DataCell(SmallText(
-                            text: "14-Apr",
-                            size: 14,
-                            color: drawerTextColor,
-                          )),
-                          DataCell(SmallText(
-                            text: 'Thursday',
-                            size: 14,
-                            color: drawerTextColor,
-                          )),
-                          DataCell(SmallText(
-                            text: 'Tamil New Year',
-                            size: 14,
-                            color: drawerTextColor,
-                          )),
-                        ],
-                      ),
-                      DataRow(
-                        cells: <DataCell>[
-                          DataCell(SmallText(
-                            text: "15-Aug",
-                            size: 14,
-                            color: drawerTextColor,
-                          )),
-                          DataCell(SmallText(
-                            text: 'Monday',
-                            size: 14,
-                            color: drawerTextColor,
-                          )),
-                          DataCell(SmallText(
-                            text: 'Independence Day',
-                            size: 14,
-                            color: drawerTextColor,
-                          )),
-                        ],
-                      ),
-                      DataRow(
-                        cells: <DataCell>[
-                          DataCell(SmallText(
-                            text: "31-Aug",
-                            size: 14,
-                            color: drawerTextColor,
-                          )),
-                          DataCell(SmallText(
-                            text: 'Wednesday',
-                            size: 14,
-                            color: drawerTextColor,
-                          )),
-                          DataCell(SmallText(
-                            text: 'Vinayakar Chathurthi',
-                            size: 14,
-                            color: drawerTextColor,
-                          )),
-                        ],
-                      ),
-                      DataRow(
-                        cells: <DataCell>[
-                          DataCell(SmallText(
-                            text: "04-Oct",
-                            size: 14,
-                            color: drawerTextColor,
-                          )),
-                          DataCell(SmallText(
-                            text: 'Tuesday',
-                            size: 14,
-                            color: drawerTextColor,
-                          )),
-                          DataCell(SmallText(
-                            text: 'Vijayadhasami',
-                            size: 14,
-                            color: drawerTextColor,
-                          )),
-                        ],
-                      ),
-                      DataRow(
-                        cells: <DataCell>[
-                          DataCell(SmallText(
-                            text: "24-Oct",
-                            size: 14,
-                            color: drawerTextColor,
-                          )),
-                          DataCell(SmallText(
-                            text: 'Monday',
-                            size: 14,
-                            color: drawerTextColor,
-                          )),
-                          DataCell(SmallText(
-                            text: 'Deepavali',
-                            size: 14,
-                            color: drawerTextColor,
-                          )),
-                        ],
-                      ),
-                      DataRow(
-                        cells: <DataCell>[
-                          DataCell(SmallText(
-                            text: "25-Nov",
-                            size: 14,
-                            color: drawerTextColor,
-                          )),
-                          DataCell(SmallText(
-                            text: 'Friday',
-                            size: 14,
-                            color: drawerTextColor,
-                          )),
-                          DataCell(SmallText(
-                            text: 'Thanks Giving',
-                            size: 14,
-                            color: drawerTextColor,
-                          )),
-                        ],
-                      ),
-                    ],
+                    rows:holidayListData!.value!.holidayList!.map((e) =>  DataRow(
+                      selected: false,
+                      cells: <DataCell>[
+                        DataCell(SmallText(
+                          text: holidayListData!
+                              .value!.holidayList![0].holidayDate.toString(),
+                          size: 14,
+                          color: drawerTextColor,
+                        )),
+                        DataCell(SmallText(
+                          text: holidayListData!
+                              .value!.holidayList![0].createdAt
+                              .toString(),
+                          size: 14,
+                          color: drawerTextColor,
+                        )),
+                        DataCell(SmallText(
+                          text: holidayListData!
+                              .value!.holidayList![0].holidayName
+                              .toString(),
+                          size: 14,
+                          color: drawerTextColor,
+                        )),
+                      ],
+                    )).toList(),
                   )
                 : _selectedMenu == MyStrings.history
                     ? Padding(
@@ -935,33 +809,53 @@ class _LeaveSummaryState extends State<LeaveSummary> {
                                                     ],
                                                   ),
                                                   PopupMenuButton<leaveItem>(
-                                                    icon: Icon(Icons.more_horiz),
+                                                    icon:
+                                                        Icon(Icons.more_horiz),
                                                     iconSize: 18,
                                                     initialValue: selectedMenu,
                                                     // Callback that sets the selected popup menu item.
-                                                    onSelected: (leaveItem item) {
+                                                    onSelected:
+                                                        (leaveItem item) {
                                                       setState(() {
                                                         selectedMenu = item;
                                                       });
                                                     },
-                                                    itemBuilder: (BuildContext context) => <PopupMenuEntry<leaveItem>>[
+                                                    itemBuilder: (BuildContext
+                                                            context) =>
+                                                        <
+                                                            PopupMenuEntry<
+                                                                leaveItem>>[
                                                       PopupMenuItem<leaveItem>(
-                                                        value: leaveItem.itemOne,
+                                                        value:
+                                                            leaveItem.itemOne,
                                                         child: Row(
                                                           children: [
-                                                            Icon(Icons.edit,color: blueGreyColor,),
+                                                            Icon(
+                                                              Icons.edit,
+                                                              color:
+                                                                  blueGreyColor,
+                                                            ),
                                                             widthspace,
-                                                            SmallText(text:MyStrings.edit),
+                                                            SmallText(
+                                                                text: MyStrings
+                                                                    .edit),
                                                           ],
                                                         ),
                                                       ),
                                                       PopupMenuItem<leaveItem>(
-                                                        value: leaveItem.itemOne,
+                                                        value:
+                                                            leaveItem.itemOne,
                                                         child: Row(
                                                           children: [
-                                                            Icon(Icons.delete,color: blueGreyColor,),
+                                                            Icon(
+                                                              Icons.delete,
+                                                              color:
+                                                                  blueGreyColor,
+                                                            ),
                                                             widthspace,
-                                                            SmallText(text:MyStrings.delete),
+                                                            SmallText(
+                                                                text: MyStrings
+                                                                    .delete),
                                                           ],
                                                         ),
                                                       ),
@@ -1872,18 +1766,24 @@ class _LeaveSummaryState extends State<LeaveSummary> {
                                                                       const OutlineInputBorder(),
                                                                   suffixIcon:
                                                                       Padding(
-                                                                        padding: const EdgeInsets.only(top: 4.0),      child: IconButton(
-                                                                    icon:
+                                                                    padding: const EdgeInsets
+                                                                            .only(
+                                                                        top:
+                                                                            4.0),
+                                                                    child:
+                                                                        IconButton(
+                                                                      icon:
                                                                           const Icon(
                                                                         Icons
                                                                             .calendar_today_sharp,
-                                                                        size: 15,
-                                                                    ),
-                                                                    onPressed: () =>
-                                                                          selectDate1(
-                                                                              context),
-                                                                  ),
+                                                                        size:
+                                                                            15,
                                                                       ),
+                                                                      onPressed:
+                                                                          () =>
+                                                                              selectDate1(context),
+                                                                    ),
+                                                                  ),
                                                                 ),
                                                               ),
                                                             ),
@@ -1938,18 +1838,24 @@ class _LeaveSummaryState extends State<LeaveSummary> {
                                                                       const OutlineInputBorder(),
                                                                   suffixIcon:
                                                                       Padding(
-                                                                        padding: const EdgeInsets.only(top: 4.0),     child: IconButton(
-                                                                    icon:
+                                                                    padding: const EdgeInsets
+                                                                            .only(
+                                                                        top:
+                                                                            4.0),
+                                                                    child:
+                                                                        IconButton(
+                                                                      icon:
                                                                           const Icon(
                                                                         Icons
                                                                             .calendar_today_sharp,
-                                                                        size: 15,
-                                                                    ),
-                                                                    onPressed: () =>
-                                                                          selectendDate1(
-                                                                              context),
-                                                                  ),
+                                                                        size:
+                                                                            15,
                                                                       ),
+                                                                      onPressed:
+                                                                          () =>
+                                                                              selectendDate1(context),
+                                                                    ),
+                                                                  ),
                                                                 ),
                                                               ),
                                                             ),
@@ -2008,18 +1914,24 @@ class _LeaveSummaryState extends State<LeaveSummary> {
                                                                   const OutlineInputBorder(),
                                                               suffixIcon:
                                                                   Padding(
-                                                                    padding: const EdgeInsets.only(top: 4.0),       child: IconButton(
-                                                                icon:
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                            .only(
+                                                                        top:
+                                                                            4.0),
+                                                                child:
+                                                                    IconButton(
+                                                                  icon:
                                                                       const Icon(
                                                                     Icons
                                                                         .calendar_today_sharp,
                                                                     size: 14,
-                                                                ),
-                                                                onPressed: () =>
+                                                                  ),
+                                                                  onPressed: () =>
                                                                       selectDate1(
                                                                           context),
+                                                                ),
                                                               ),
-                                                                  ),
                                                             ),
                                                           ),
                                                         ),
@@ -2365,8 +2277,8 @@ class _LeaveSummaryState extends State<LeaveSummary> {
                                                           ],
                                                         );
                                                 }),
-                                      heightspace,
-                                      heightspace,
+                                        heightspace,
+                                        heightspace,
                                         Center(
                                             child: Button(
                                           text: MyStrings.applyLeave,
@@ -2529,7 +2441,11 @@ class _LeaveSummaryState extends State<LeaveSummary> {
                                                     key: swipeKey,
                                                     child: AbsorbPointer(
                                                       child: SizedBox(
-                                                        width: MediaQuery.of(context).size.width / 2.5,
+                                                        width: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width /
+                                                            2.5,
                                                         height: 35.0,
                                                         child: TextFormField(
                                                           // textAlignVertical: TextAlignVertical.center,
@@ -2541,16 +2457,21 @@ class _LeaveSummaryState extends State<LeaveSummary> {
                                                               InputDecoration(
                                                             border:
                                                                 const OutlineInputBorder(),
-                                                            suffixIcon:
-                                                            Padding(
-                                                              padding: const EdgeInsets.only(top: 4.0),
+                                                            suffixIcon: Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                          .only(
+                                                                      top: 4.0),
                                                               child: IconButton(
-                                                                icon: const Icon(
+                                                                icon:
+                                                                    const Icon(
                                                                   Icons
                                                                       .calendar_today_sharp,
                                                                   size: 15,
                                                                 ),
-                                                                onPressed: () => selectSwipeDate(context),
+                                                                onPressed: () =>
+                                                                    selectSwipeDate(
+                                                                        context),
                                                               ),
                                                             ),
                                                           ),
@@ -3134,7 +3055,7 @@ class _LeaveSummaryState extends State<LeaveSummary> {
                                                                 2.5,
                                                             height: 35.0,
                                                             child:
-                                                            TextFormField(
+                                                                TextFormField(
                                                               // textAlignVertical:
                                                               //     TextAlignVertical
                                                               //         .center,
@@ -3143,14 +3064,20 @@ class _LeaveSummaryState extends State<LeaveSummary> {
                                                               //         .left,
                                                               style: font15,
 
-                                                              controller: swipedate,
+                                                              controller:
+                                                                  swipedate,
                                                               readOnly: true,
                                                               decoration:
                                                                   InputDecoration(
                                                                 border:
                                                                     const OutlineInputBorder(),
-                                                                suffixIcon: Padding(
-                                                                  padding: const EdgeInsets.only(top: 4.0),  child: IconButton(
+                                                                suffixIcon:
+                                                                    Padding(
+                                                                  padding: const EdgeInsets
+                                                                          .only(
+                                                                      top: 4.0),
+                                                                  child:
+                                                                      IconButton(
                                                                     icon:
                                                                         const Icon(
                                                                       Icons
@@ -3690,7 +3617,6 @@ class _LeaveSummaryState extends State<LeaveSummary> {
                                           ),
                                         ],
                                       ),
-
           ],
         ),
       ),
@@ -4238,4 +4164,3 @@ class _LeaveSummaryState extends State<LeaveSummary> {
     );
   }
 }
-

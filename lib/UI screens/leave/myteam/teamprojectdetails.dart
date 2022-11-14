@@ -142,9 +142,69 @@ class _TeamProjectDetailsState extends State<TeamProjectDetails> {
                             mainAxisAlignment:
                             MainAxisAlignment.spaceBetween,
                             children: [
-                            Image.asset(
-                              'assets/profile/bubblechat.png',
-                              width: 25,height: 25,
+                            InkWell(
+                              onTap: (){
+                                showDialog<String>(
+                                  context: context,
+                                  builder: (BuildContext context) => AlertDialog(
+                                    title: Center(child: SmallText(text: "Are you sure, you want reject",size: 15,)),
+                                    content:Container(
+                                      height:155,
+                                      child: Column(
+                                        children: [
+                                          TextField(
+                                            maxLines: 3,
+                                            decoration: InputDecoration(
+                                              border: const OutlineInputBorder(),
+                                              hintText: "Reason",
+                                              hintStyle: TextStyle(fontSize: 14),
+                                              focusedBorder: OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                    width: 1, color: borderColor),
+                                              ),
+                                            ),
+                                          ),
+                                          heightspace,
+                                          heightspace,
+                                          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              InkWell(
+                                                onTap:()=>Navigator.pop(context),
+                                                child: Container(
+                                                  decoration: BoxDecoration(
+                                                    borderRadius: BorderRadius.circular(5),
+                                                    color: textGreyColor,
+                                                  ),
+                                                  width: 100,
+                                                  height: 30,
+                                                  child: Center(child: SmallText(text: "Cancel",color: whiteColor,)),
+                                                ),
+                                              ),
+                                              InkWell(
+                                                // onTap:()=>Navigator.pop(context),
+                                                child: Container(
+                                                  decoration: BoxDecoration(
+                                                    borderRadius: BorderRadius.circular(5),
+                                                    color: primaryColor,
+                                                  ),
+                                                  width: 100,
+                                                  height: 30,
+                                                  child: Center(child: SmallText(text: "Rejected",color: whiteColor,)),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                );
+
+                              },
+                              child: Image.asset(
+                                'assets/profile/bubblechat.png',
+                                width: 25,height: 25,
+                              ),
                             ),
                               Row(
                                 children: [
