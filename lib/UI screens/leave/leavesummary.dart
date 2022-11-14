@@ -162,7 +162,9 @@ class _LeaveSummaryState extends State<LeaveSummary> {
   leaveItem? selectedMenu;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(
+    BuildContext context,
+  ) {
     var different = selectedendDate.difference(selectedDate).inDays + 1;
     return Scaffold(
       backgroundColor: bgColor,
@@ -427,7 +429,7 @@ class _LeaveSummaryState extends State<LeaveSummary> {
                     _selectedApply == MyStrings.leave ||
                     _selectedApply == MyStrings.applySwipe ||
                     _selectedApply == MyStrings.shiftChange
-                ? SizedBox(
+                ? const SizedBox(
                     height: 8,
                   )
                 : Padding(
@@ -486,74 +488,113 @@ class _LeaveSummaryState extends State<LeaveSummary> {
                     ),
                   ),
             _selectedMenu == MyStrings.holidayList
-                ? DataTable(
-                    //border: TableBorder.all(width: 0.3, color:prescriptionDivideColor),
-                    headingRowColor: MaterialStateColor.resolveWith(
-                        (states) => textFieldBgColor),
-                    headingRowHeight: 50,
-                    showBottomBorder: true,
-                    // columnSpacing: 65,
-                    horizontalMargin: 10,
-                    dataRowHeight: 50,
-                    columns: [
-                      DataColumn(
-                          label: Center(
-                              child: Padding(
-                        padding: const EdgeInsets.only(left: 20.0),
-                        child: SmallText(
-                          text: "Date",
-                          color: blueGreyColor,
-                          size: 14,
-                          textAlign: TextAlign.center,
+                ? Column(
+                  children: [
+                    Container(
+                      color: textFieldBgColor,
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(20,15,10,15),
+                        child: Row(
+                          children: [
+                            Expanded(
+                                flex:2,
+                                child: SmallText(text: "Name",size: 15,color: blueGreyColor,)),
+                            Expanded(
+                                flex:2,
+                                child: SmallText(text: "OB+",size: 15,color: blueGreyColor,)),
+                            Expanded(
+                               flex: 2,
+                                child: SmallText(text: "Avail",size: 15,color: blueGreyColor,)),
+                          ],
                         ),
-                      ))),
-                      DataColumn(
-                          label: Padding(
-                        padding: const EdgeInsets.only(left: 20.0),
-                        child: SmallText(
-                          text: "Day",
-                          color: blueGreyColor,
-                          size: 14,
-                          textAlign: TextAlign.center,
-                        ),
-                      )),
-                      DataColumn(
-                          label: Padding(
-                        padding: const EdgeInsets.only(left: 20.0),
-                        child: SmallText(
-                          text: "Remarks",
-                          color: blueGreyColor,
-                          size: 14,
-                          textAlign: TextAlign.center,
-                        ),
-                      )),
-                    ],
-                    rows:holidayListData!.value!.holidayList!.map((e) =>  DataRow(
-                      selected: false,
-                      cells: <DataCell>[
-                        DataCell(SmallText(
-                          text: holidayListData!
-                              .value!.holidayList![0].holidayDate.toString(),
-                          size: 14,
-                          color: drawerTextColor,
-                        )),
-                        DataCell(SmallText(
-                          text: holidayListData!
-                              .value!.holidayList![0].createdAt
-                              .toString(),
-                          size: 14,
-                          color: drawerTextColor,
-                        )),
-                        DataCell(SmallText(
-                          text: holidayListData!
-                              .value!.holidayList![0].holidayName
-                              .toString(),
-                          size: 14,
-                          color: drawerTextColor,
-                        )),
-                      ],
-                    )).toList(),
-                  )
+                      ),
+                    ),
+                    ListView.builder(
+                        physics: const BouncingScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: holidayListData!.value!.holidayList!.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: Row(
+                              children: [
+                                SmallText(text: holidayListData!.value!.holidayList![index].holidayDate.toString()),
+                              ],
+                            ),
+                          );
+                        },
+                      ),
+                  ],
+                )
+                // DataTable(
+                //         //border: TableBorder.all(width: 0.3, color:prescriptionDivideColor),
+                //         headingRowColor: MaterialStateColor.resolveWith(
+                //             (states) => textFieldBgColor),
+                //         headingRowHeight: 50,
+                //         showBottomBorder: true,
+                //         // columnSpacing: 65,
+                //         horizontalMargin: 10,
+                //         dataRowHeight: 50,
+                //         columns: [
+                //          DataColumn(
+                //           label: Center(
+                //            child: Padding(
+                //             padding: const EdgeInsets.only(left: 20.0),
+                //             child: SmallText(
+                //               text: "Date",
+                //               color: blueGreyColor,
+                //               size: 14,
+                //               textAlign: TextAlign.center,
+                //             ),
+                //           ))),
+                //          DataColumn(
+                //          label: Padding(
+                //             padding: const EdgeInsets.only(left: 20.0),
+                //             child: SmallText(
+                //               text: "Day",
+                //               color: blueGreyColor,
+                //               size: 14,
+                //               textAlign: TextAlign.center,
+                //             ),
+                //           )),
+                //          DataColumn(
+                //            label: Padding(
+                //             padding: const EdgeInsets.only(left: 20.0),
+                //             child: SmallText(
+                //               text: "Remarks",
+                //               color: blueGreyColor,
+                //               size: 14,
+                //               textAlign: TextAlign.center,
+                //             ),
+                //           )),
+                //         ],
+                //         rows:holidayListData!.value!.holidayList!.map((e) {
+                //           return DataRow(
+                //           selected: false,
+                //           cells: <DataCell>[
+                //             DataCell(
+                //                 SmallText(
+                //               text: holidayListData!.value!.holidayList![1].holidayDate.toString(),
+                //               size: 14,
+                //               color: drawerTextColor,
+                //             )),
+                //             DataCell(SmallText(
+                //               text: holidayListData!.value!.holidayList![0].createdAt
+                //                   .toString(),
+                //               size: 14,
+                //               color: drawerTextColor,
+                //             )),
+                //             DataCell(SmallText(
+                //               text: holidayListData!
+                //                   .value!.holidayList![0].holidayName
+                //                   .toString(),
+                //               size: 14,
+                //               color: drawerTextColor,
+                //             )),
+                //           ],
+                //         );
+                //         }).toList(),
+                //       )
                 : _selectedMenu == MyStrings.history
                     ? Padding(
                         padding: const EdgeInsets.all(12.0),
