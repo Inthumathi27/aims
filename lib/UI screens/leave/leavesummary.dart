@@ -107,7 +107,7 @@ class _LeaveSummaryState extends State<LeaveSummary> {
   String? _chosenday;
   List<dynamic> imageList = [];
   String radioButtonItem = 'One day';
-  // int id = 1;
+  int id = 1;
   List<bool>? isSelected;
   List<bool>? isSelected1;
   String? difficulty;
@@ -162,7 +162,9 @@ class _LeaveSummaryState extends State<LeaveSummary> {
   leaveItem? selectedMenu;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(
+    BuildContext context,
+  ) {
     var different = selectedendDate.difference(selectedDate).inDays + 1;
     return Scaffold(
       backgroundColor: bgColor,
@@ -176,16 +178,16 @@ class _LeaveSummaryState extends State<LeaveSummary> {
           color: primaryColor,
         ),
         actions: [
-          InkWell(
-            onTap: () {
-              Navigator.push(
-                  context,
-                  PageTransition(
-                      type: PageTransitionType.rightToLeft,
-                      child: LeaveApplication()));
-            },
-            child: Padding(
-              padding: const EdgeInsets.only(top: 12.0, right: 10),
+          Padding(
+            padding: const EdgeInsets.only(top: 12.0, right: 10),
+            child: InkWell(
+              onTap: (){
+                Navigator.push(
+                    context,
+                    PageTransition(
+                        type: PageTransitionType.rightToLeft,
+                        child: LeaveApplication()));
+              },
               child: Stack(
                 children: [
                   Icon(
@@ -422,12 +424,13 @@ class _LeaveSummaryState extends State<LeaveSummary> {
               ),
             ),
             heightspace,
+            heightspace,
             _selectedMenu == MyStrings.history ||
                     _selectedMenu == MyStrings.policy ||
                     _selectedApply == MyStrings.leave ||
                     _selectedApply == MyStrings.applySwipe ||
                     _selectedApply == MyStrings.shiftChange
-                ? SizedBox(
+                ? const SizedBox(
                     height: 8,
                   )
                 : Padding(
@@ -437,13 +440,16 @@ class _LeaveSummaryState extends State<LeaveSummary> {
                       children: [
                         Row(
                           children: [
-                            SmallText(
-                              text: _selectedMenu == MyStrings.holidayList
-                                  ? MyStrings.holidayList
-                                  : MyStrings.leaveSummary,
-                              fontWeight: FontWeight.w400,
-                              size: 15,
-                              color: profileTextColor,
+                            Padding(
+                              padding: const EdgeInsets.only(left: 8.0),
+                              child: SmallText(
+                                text: _selectedMenu == MyStrings.holidayList
+                                    ? MyStrings.holidayList
+                                    : MyStrings.leaveSummary,
+                                fontWeight: FontWeight.w400,
+                                size: 15,
+                                color: profileTextColor,
+                              ),
                             ),
                             SizedBox(
                               width: 5,
@@ -451,9 +457,11 @@ class _LeaveSummaryState extends State<LeaveSummary> {
                             _selectedMenu == MyStrings.policy
                                 ? SizedBox()
                                 : SmallText(
-                                    text: "(2022)",
-                                    size: 16,
-                                    fontWeight: FontWeight.w600),
+                              text: DateFormat("(yyyy)")
+                                  .format(DateTime.now()),
+                              size: 15,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ],
                         ),
                         _selectedMenu == MyStrings.holidayList ||
@@ -486,79 +494,167 @@ class _LeaveSummaryState extends State<LeaveSummary> {
                     ),
                   ),
             _selectedMenu == MyStrings.holidayList
-                ? DataTable(
-                    //border: TableBorder.all(width: 0.3, color:prescriptionDivideColor),
-                    headingRowColor: MaterialStateColor.resolveWith(
-                        (states) => textFieldBgColor),
-                    headingRowHeight: 50,
-                    showBottomBorder: true,
-                    // columnSpacing: 65,
-                    horizontalMargin: 10,
-                    dataRowHeight: 50,
-                    columns: [
-                      DataColumn(
-                          label: Center(
-                              child: Padding(
-                        padding: const EdgeInsets.only(left: 20.0),
-                        child: SmallText(
-                          text: "Date",
-                          color: blueGreyColor,
-                          size: 14,
-                          textAlign: TextAlign.center,
+                ? Column(
+                    children: [
+                      Container(
+                        color: textFieldBgColor,
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(20, 15, 10, 15),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                  flex: 2,
+                                  child: SmallText(
+                                    text: "Date",
+                                    size: 15,
+                                    color: blueGreyColor,
+                                    fontWeight: FontWeight.w500,
+                                  )),
+                              Expanded(
+                                  flex: 2,
+                                  child: SmallText(
+                                    text: "Day",
+                                    size: 15,
+                                    color: blueGreyColor,
+                                    fontWeight: FontWeight.w500,
+                                  )),
+                              Expanded(
+                                  flex: 2,
+                                  child: SmallText(
+                                    text: "Remarks",
+                                    size: 15,
+                                    color: blueGreyColor,
+                                    fontWeight: FontWeight.w500,
+                                  )),
+                            ],
+                          ),
                         ),
-                      ))),
-                      DataColumn(
-                          label: Padding(
-                        padding: const EdgeInsets.only(left: 20.0),
-                        child: SmallText(
-                          text: "Day",
-                          color: blueGreyColor,
-                          size: 14,
-                          textAlign: TextAlign.center,
-                        ),
-                      )),
-                      DataColumn(
-                          label: Padding(
-                        padding: const EdgeInsets.only(left: 20.0),
-                        child: SmallText(
-                          text: "Remarks",
-                          color: blueGreyColor,
-                          size: 14,
-                          textAlign: TextAlign.center,
-                        ),
-                      )),
+                      ),
+                      ListView.builder(
+                        physics: const BouncingScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: holidayListData!.value!.holidayList!.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Column(
+                            children: [
+                              heightspace,
+                              SizedBox(height: 7,),
+                              Padding(
+                                padding: const EdgeInsets.only(right: 8.0,left: 8),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                        flex: 2,
+                                        child: SmallText(
+                                            text: holidayListData!.value!
+                                                .holidayList![index].holidayDate
+                                                .toString(),
+                                          size: 14,
+                                          color: drawerTextColor,
+                                        ),),
+                                    Expanded(
+                                        flex: 2,
+                                        child: SmallText(
+                                            text: holidayListData!.value!
+                                                .holidayList![index].holidayDate
+                                                .toString(),
+                                          size: 14,
+                                          color: drawerTextColor,
+                                        ),),
+                                    Expanded(
+                                        flex: 2,
+                                        child: SmallText(
+                                            text: holidayListData!.value!
+                                                .holidayList![index].holidayName
+                                                .toString(),
+                                          size: 14,
+                                          color: drawerTextColor,
+                                        ),),
+                                  ],
+                                ),
+                              ),
+                              heightspace,
+                              SizedBox(height: 7,),
+                              Container(
+                                color: borderColor.withOpacity(0.5),
+                                width: MediaQuery.of(context).size.width,
+                                height: 1,
+                              ),
+                            ],
+                          );
+                        },
+                      ),
                     ],
-                    rows:holidayListData!.value!.holidayList!.map((e) {
-                      var listHoliday = '';
-                      for (var i =0; i < holidayListData!.value!.holidayList!.length;i++){
-                      }
-                      return DataRow(
-                      selected: false,
-                      cells: <DataCell>[
-                        DataCell(SmallText(
-                          text: holidayListData!
-                              .value!.holidayList![0].holidayDate.toString(),
-                          size: 14,
-                          color: drawerTextColor,
-                        )),
-                        DataCell(SmallText(
-                          text: holidayListData!
-                              .value!.holidayList![0].createdAt
-                              .toString(),
-                          size: 14,
-                          color: drawerTextColor,
-                        )),
-                        DataCell(SmallText(
-                          text: holidayListData!
-                              .value!.holidayList![0].holidayName
-                              .toString(),
-                          size: 14,
-                          color: drawerTextColor,
-                        )),
-                      ],
-                    );
-                    }).toList(),
                   )
+                // DataTable(
+                //         //border: TableBorder.all(width: 0.3, color:prescriptionDivideColor),
+                //         headingRowColor: MaterialStateColor.resolveWith(
+                //             (states) => textFieldBgColor),
+                //         headingRowHeight: 50,
+                //         showBottomBorder: true,
+                //         // columnSpacing: 65,
+                //         horizontalMargin: 10,
+                //         dataRowHeight: 50,
+                //         columns: [
+                //          DataColumn(
+                //           label: Center(
+                //            child: Padding(
+                //             padding: const EdgeInsets.only(left: 20.0),
+                //             child: SmallText(
+                //               text: "Date",
+                //               color: blueGreyColor,
+                //               size: 14,
+                //               textAlign: TextAlign.center,
+                //             ),
+                //           ))),
+                //          DataColumn(
+                //          label: Padding(
+                //             padding: const EdgeInsets.only(left: 20.0),
+                //             child: SmallText(
+                //               text: "Day",
+                //               color: blueGreyColor,
+                //               size: 14,
+                //               textAlign: TextAlign.center,
+                //             ),
+                //           )),
+                //          DataColumn(
+                //            label: Padding(
+                //             padding: const EdgeInsets.only(left: 20.0),
+                //             child: SmallText(
+                //               text: "Remarks",
+                //               color: blueGreyColor,
+                //               size: 14,
+                //               textAlign: TextAlign.center,
+                //             ),
+                //           )),
+                //         ],
+                //         rows:holidayListData!.value!.holidayList!.map((e) {
+                //           return DataRow(
+                //           selected: false,
+                //           cells: <DataCell>[
+                //             DataCell(
+                //                 SmallText(
+                //               text: holidayListData!.value!.holidayList![1].holidayDate.toString(),
+                //               size: 14,
+                //               color: drawerTextColor,
+                //             )),
+                //             DataCell(SmallText(
+                //               text: holidayListData!.value!.holidayList![0].createdAt
+                //                   .toString(),
+                //               size: 14,
+                //               color: drawerTextColor,
+                //             )),
+                //             DataCell(SmallText(
+                //               text: holidayListData!
+                //                   .value!.holidayList![0].holidayName
+                //                   .toString(),
+                //               size: 14,
+                //               color: drawerTextColor,
+                //             )),
+                //           ],
+                //         );
+                //         }).toList(),
+                //       )
                 : _selectedMenu == MyStrings.history
                     ? Padding(
                         padding: const EdgeInsets.all(12.0),
@@ -4168,5 +4264,4 @@ class _LeaveSummaryState extends State<LeaveSummary> {
       },
     );
   }
-
 }
