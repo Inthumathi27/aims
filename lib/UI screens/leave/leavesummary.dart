@@ -107,7 +107,7 @@ class _LeaveSummaryState extends State<LeaveSummary> {
   String? _chosenday;
   List<dynamic> imageList = [];
   String radioButtonItem = 'One day';
-  int id = 1;
+  // int id = 1;
   List<bool>? isSelected;
   List<bool>? isSelected1;
   String? difficulty;
@@ -528,7 +528,11 @@ class _LeaveSummaryState extends State<LeaveSummary> {
                         ),
                       )),
                     ],
-                    rows:holidayListData!.value!.holidayList!.map((e) =>  DataRow(
+                    rows:holidayListData!.value!.holidayList!.map((e) {
+                      var listHoliday = '';
+                      for (var i =0; i < holidayListData!.value!.holidayList!.length;i++){
+                      }
+                      return DataRow(
                       selected: false,
                       cells: <DataCell>[
                         DataCell(SmallText(
@@ -552,7 +556,8 @@ class _LeaveSummaryState extends State<LeaveSummary> {
                           color: drawerTextColor,
                         )),
                       ],
-                    )).toList(),
+                    );
+                    }).toList(),
                   )
                 : _selectedMenu == MyStrings.history
                     ? Padding(
@@ -4163,4 +4168,5 @@ class _LeaveSummaryState extends State<LeaveSummary> {
       },
     );
   }
+
 }
