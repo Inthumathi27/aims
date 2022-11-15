@@ -75,8 +75,10 @@ class Webservice {
     }
   }
 
-  Future<AwardBanner> fetchawarddata() async {
-    var url = Uri.parse(ApiConstants.awardURL);
+
+  Future<AwardBanner> fetchAwardData() async {
+    var url = Uri.parse(ApiConstants.awardURL,);
+    print(url);
     Map data = {
       'token':"1a32e71a46317b9cc6feb7388238c95d",
     };
@@ -85,8 +87,9 @@ class Webservice {
     Map<String, String> headers = {
       'Content-type': 'application/json',
       'Accept': 'application/json',
+      // 'Authorization':"Bearer 1a32e71a46317b9cc6feb7388238c95d",
     };
-    final response = await http.post(url, headers: headers, body: body).timeout(
+    final response = await http.post(url, headers: headers,body:body ).timeout(
       Duration(seconds: TIME_DURATION),
       onTimeout: () {
         // Time has run out, do what you wanted to do.
@@ -95,9 +98,30 @@ class Webservice {
     );
     print(response.statusCode);
     print(response.body);
+
+    // if (response.statusCode == 200) {
+    //   final res = json.decode(response.body);
+    //   // final Map<String, dynamic>? loginWithPasswordResultMap = json.decode(res);
+    //   return LoginResponse.fromJson(res);
+    // }
+    // else if (response.statusCode == 500) {
+    //   Map<String, dynamic> timeoutResult = {
+    //     'statusCode': response.statusCode,
+    //     'success': 'false',
+    //     'errormsg': TIME_OUT_MSG
+    //   };
+    //   return timeoutResult;
+    // } else {
+    //   Map<String, dynamic> errorResult = {
+    //     'statusCode': response.statusCode,
+    //     'success': 'false',
+    //     'errormsg': 'Error'
+    //   };
+    //   return errorResult;
+    // }
     if (response.statusCode == 200) {
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      prefs.setString("awardBanner",response.body.toString());
+      prefs.setString("awardBannerData",response.body.toString());
       // If the server did return a 200 OK response,
       // then parse the JSON.
       return AwardBanner.fromJson(jsonDecode(response.body));

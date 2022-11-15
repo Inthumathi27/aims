@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:aims/widgets/loader.dart';
 import 'package:aims/UI%20screens/homepage/homescreen.dart';
 import 'package:aims/UI%20screens/loginScreen/forgotpassword.dart';
 import 'package:aims/model/login/awardbanner.dart';
@@ -33,10 +34,24 @@ class _LoginScreenState extends State<LoginScreen>
   TextEditingController employeeId = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   late LoginResponse loginResponse;
-  // AwardBanner? awardBanner;
-  bool isloading = false;
-  String awarddata = "";
 
+  bool isloading = false;
+  String? awardData = "";
+  AwardBanner? awardBannerData;
+
+  getAwardData() async {
+    setState(() {
+      isloading = true;
+    });
+    Webservice().fetchAwardData().then((onResponse) async {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      awardData = prefs.getString("awardBannerData").toString();
+      awardBannerData = AwardBanner.fromJson(jsonDecode(awardData!));
+      setState(() {
+        isloading = false;
+      });
+    });
+  }
 
   @override
   void initState() {
@@ -50,9 +65,7 @@ class _LoginScreenState extends State<LoginScreen>
     _controller!.addListener(() {
       setState(() {});
     });
-     // awardBanner =AwardBanner.fromJson(jsonDecode(awarddata));
-    // awardBanner=[] as AwardBanner?;
-    // getawarddata();
+    getAwardData();
   }
 
   @override
@@ -90,86 +103,87 @@ class _LoginScreenState extends State<LoginScreen>
     _scale = 1 - _controller!.value;
     int _currentIndex = 0;
     List cardList = [
-    ListView.builder(
-        itemCount: 5,
-        itemBuilder: (BuildContext context, int index) {
-          return Center(
-            child: Container(
-              width: MediaQuery.of(context).size.width / 1.1,
-              height: MediaQuery.of(context).size.height / 4.5,
+      ListView.builder(
+          itemCount: awardBannerData!.value!.awards!.length,
+          itemBuilder: (BuildContext context, int index) {
+            return  Center(
+              child: Container(
+                width: MediaQuery.of(context).size.width / 1.1,
+                height: MediaQuery.of(context).size.height / 4.5,
 // padding: EdgeInsets.only(
 //     left: 0, top: 40 + 20, right: 0, bottom: 20),
-              margin: EdgeInsets.only(top: 90),
-              decoration: BoxDecoration(
-                shape: BoxShape.rectangle,
-                color: whiteColor.withOpacity(0.9),
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.only(left: 12.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SmallText(
-                              text: "AM034",
-                              size: 15,
-                            ),
-                            heightspace,
-                            SizedBox(
-                              height: 5,
-                            ),
-                            GradientText(
-                              "Mytest test",
-                              // awardBanner!.value!.first.awards!.first.userData!.userName.toString(),
-                              style: font18.copyWith(fontWeight: FontWeight.w600),
-                              gradient: LinearGradient(colors: [
-                                buttonColor,
-                                primaryColor,
-                              ]),
-                            ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            SmallText(
-                              text: MyStrings.department,
-                              size: 14,
-                              color: blueGreyColor,
-                              fontStyle: FontStyle.italic,
-                            ),
-                          ],
-                        ),
-                        Image.asset(
-                          'assets/login/EM-01.png',
-                          width: 130,
-                          height: 130,
-                        ),
-                      ],
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 12.0),
-                      child: SmallText(
-                        text: "Best Starter of the Month",
-                        size: 20,
-                        textAlign: TextAlign.center,
-                        fontWeight: FontWeight.w600,
+                margin: EdgeInsets.only(top: 90),
+                decoration: BoxDecoration(
+                  shape: BoxShape.rectangle,
+                  color: whiteColor.withOpacity(0.9),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 12.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SmallText(
+                                text: "AM034",
+                                size: 15,
+                              ),
+                              heightspace,
+                              SizedBox(
+                                height: 5,
+                              ),
+                              GradientText(
+                                "Mytest test",
+                                // awardBanner!.value!.first.awards!.first.userData!.userName.toString(),
+                                style: font18.copyWith(fontWeight: FontWeight.w600),
+                                gradient: LinearGradient(colors: [
+                                  buttonColor,
+                                  primaryColor,
+                                ]),
+                              ),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              SmallText(
+                                text: MyStrings.department,
+                                size: 14,
+                                color: blueGreyColor,
+                                fontStyle: FontStyle.italic,
+                              ),
+                            ],
+                          ),
+                          Image.asset(
+                            'assets/login/EM-01.png',
+                            width: 130,
+                            height: 130,
+                          ),
+                        ],
                       ),
-                    ),
-                  ],
+                      Padding(
+                        padding: const EdgeInsets.only(right: 12.0),
+                        child: SmallText(
+                          text:awardBannerData!.value!.awards![index].awardType.toString(),
+                          size: 20,
+                          textAlign: TextAlign.center,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          );
-        }),
+            );
+          }),
       // Item2(),
       // Item3(),
     ];
+    final CarouselController _controller1 = CarouselController();
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
@@ -183,13 +197,15 @@ class _LoginScreenState extends State<LoginScreen>
                     color: loginColor,
                     height: MediaQuery.of(context).size.height / 2.5,
                     width: MediaQuery.of(context).size.width,
-                    child: CarouselSlider(
+                    child:    CarouselSlider(
+                      carouselController:  _controller1,
                       options: CarouselOptions(
                         height: MediaQuery.of(context).size.height / 2.5,
                         disableCenter: false,
                         viewportFraction: 1,
                         enlargeCenterPage: false,
                         autoPlay: true,
+                        scrollDirection: Axis.horizontal,
                         autoPlayInterval: Duration(seconds: 10),
                         autoPlayAnimationDuration: Duration(milliseconds: 1000),
                         autoPlayCurve: Curves.fastOutSlowIn,
@@ -304,7 +320,7 @@ class _LoginScreenState extends State<LoginScreen>
                               //     PageTransition(
                               //         type: PageTransitionType.rightToLeft,
                               //         child: const HomeScreen()));
-                             _loginWithPassword(employeeId.text,passwordController.text);
+                              _loginWithPassword(employeeId.text,passwordController.text);
                             },
                             child: Listener(
                               onPointerDown: (PointerDownEvent event) {
@@ -348,39 +364,39 @@ class _LoginScreenState extends State<LoginScreen>
 
   _loginWithPassword(String emp_id, String password) async {
     // LoaderScreen();
-   // networkStatus().then((isReachable) {
-     // if (isReachable!) {
-        // showLoaderDialog(context);
-        Webservice().callLoginWithPasswordService(password: password, emp_id: emp_id)
-            .then((onResponse) async {
-          // if (onResponse![SUCCESS] == TRUE) {
-            print(onResponse);
-            loginResponse = onResponse;
-            print(loginResponse.message);
-            if(loginResponse.message=="success"){
-              SharedPreferences prefs = await SharedPreferences.getInstance();
-              // var log = jsonEncode(loginResponse.toJson());
-              // print(loginResponse.value!.userInfo!.userName.toString());
-              // prefs.setString("username",loginResponse.value!.userInfo!.userName.toString());
-              // prefs.setString("empID",loginResponse.value!.userInfo!.empId.toString());
-              Navigator.push(
-                  context,
-                  PageTransition(
-                      type: PageTransitionType.rightToLeft,
-                      child: HomeScreen()));
-            }
-            else if(loginResponse.message=="Bad Request")
-              {
-                // _showMyDialog();
-                Fluttertoast.showToast(
-                    msg: MyStrings.validId);
-              print(loginResponse.message);
-              }
-            else{
-              print("500 error");
-            }
-        });
+    // networkStatus().then((isReachable) {
+    // if (isReachable!) {
+    // showLoaderDialog(context);
+    Webservice().callLoginWithPasswordService(password: password, emp_id: emp_id)
+        .then((onResponse) async {
+      // if (onResponse![SUCCESS] == TRUE) {
+      print(onResponse);
+      loginResponse = onResponse;
+      print(loginResponse.message);
+      if(loginResponse.message=="success"){
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        // var log = jsonEncode(loginResponse.toJson());
+        // print(loginResponse.value!.userInfo!.userName.toString());
+        // prefs.setString("username",loginResponse.value!.userInfo!.userName.toString());
+        // prefs.setString("empID",loginResponse.value!.userInfo!.empId.toString());
+        Navigator.push(
+            context,
+            PageTransition(
+                type: PageTransitionType.rightToLeft,
+                child: HomeScreen()));
       }
+      else if(loginResponse.message=="Bad Request")
+      {
+        // _showMyDialog();
+        Fluttertoast.showToast(
+            msg: MyStrings.validId);
+        print(loginResponse.message);
+      }
+      else{
+        print("500 error");
+      }
+    });
+  }
 
 }
 
