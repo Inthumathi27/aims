@@ -66,29 +66,30 @@ class _ProfilePageState extends State<ProfilePage> {
               CircleAvatar(
                 backgroundColor: primaryColor,
                 minRadius: 44.0,
-                child: CircleAvatar(
+                child:  CircleAvatar(
                   backgroundColor: Color(0xfffafafa),
                   minRadius: 42.0,
                   child: CircleAvatar(
                     radius: 40.0,
                     backgroundColor: Colors.transparent,
-                    backgroundImage: NetworkImage(
+                    backgroundImage:
+                    loginResponse!.value!.userPersonalInfo!.profileImgUrl == null ? const AssetImage(
+                      'assets/dummyimage/image1.png',
+                    )as ImageProvider :NetworkImage(
                         '${ApiConstants.imageUrl}${loginResponse!.value!.userPersonalInfo!.userId}/${loginResponse!.value!.userPersonalInfo!.profileImgUrl}'),
                   ),
                 ),
               ),
               heightspace,
               SmallText(
-                text:"John Williams",
-                    // '${loginResponse!.value!.userPersonalInfo!.firstName.toString()} ${loginResponse!.value!.userPersonalInfo!.lastName.toString()}  ${loginResponse!.value!.userPersonalInfo!.initial.toString()}',
+                text: '${loginResponse!.value!.userPersonalInfo!.firstName.toString()} ${loginResponse!.value!.userPersonalInfo!.lastName.toString()}  ${loginResponse!.value!.userPersonalInfo!.initial.toString()}',
                 color: primaryColor,
                 size: 24,
                 fontWeight: FontWeight.w600,
               ),
               SizedBox(height: 5,),
               SmallText(
-                text:"Developer",
-                // loginResponse!.value!.userInfo!.designation.toString(),
+                text: loginResponse!.value!.userInfo!.designation!.designation.toString(),
                 size: 16,
                 color: profileTextColor,
                 fontStyle: FontStyle.italic,
@@ -126,7 +127,6 @@ class _ProfilePageState extends State<ProfilePage> {
           child: Column(crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               heightspace,
-
               // Row(
               //   children: [
               //     Image.asset(
@@ -173,7 +173,6 @@ class _ProfilePageState extends State<ProfilePage> {
                         ],
                       ),
                       heightspace,
-
                       Row(
                         children: [
                           SmallText(
@@ -193,7 +192,23 @@ class _ProfilePageState extends State<ProfilePage> {
                         ],
                       ),
                       heightspace,
-
+                      Row(
+                        children: [
+                          SmallText(
+                            text: MyStrings.dateOfJoining ,
+                            size: 15,
+                            color: textGreyColor,
+                          ),
+                          const SizedBox(
+                            width: 65,
+                          ),
+                          SmallText(
+                            text: loginResponse!.value!.userInfo!.doj.toString(),
+                            size: 15,
+                          ),
+                        ],
+                      ),
+                      heightspace,
                       Row(
                         children: [
                           SmallText(
@@ -221,7 +236,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             color: textGreyColor,
                           ),
                           const SizedBox(
-                            width: 120,
+                            width: 118,
                           ),
                           SmallText(
                             text: loginResponse!.value!.userInfo!.email
@@ -302,7 +317,8 @@ class _ProfilePageState extends State<ProfilePage> {
                             height: 5,
                           ),
                           SmallText(
-                            text:"No 28, Sarathy nagar, velachery, chennai, TamilNadu, 600073",
+                            text:'${loginResponse!.value!.userPersonalInfo!.addressLine1} ${loginResponse!.value!.userPersonalInfo!.addressLine2}, ${loginResponse!.value!.userPersonalInfo!.permanentState}, ${loginResponse!.value!.userPersonalInfo!.permanentCity}, ${loginResponse!.value!.userPersonalInfo!.permanentPincode}'
+                                .toString(),
                                 // '${loginResponse!.value!.userPersonalInfo!.commAddress1.toString()}${loginResponse!.value!.userPersonalInfo!.commCity}, ${loginResponse!.value!.userPersonalInfo!.commState}, ${loginResponse!.value!.userPersonalInfo!.commPincode}',
                             size: 15,
                             height: 1.4,

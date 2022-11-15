@@ -31,6 +31,7 @@ class MyStrings{
   static const firstName ="First Name";
   static const initial ="Initial";
   static const dateOfBirth ="Date of Birth";
+  static const dateOfJoining ="Date of Joining";
   static const gender ="Gender";
   static const mobile ="Mobile No";
   static const fatherName ="Father's Name";
