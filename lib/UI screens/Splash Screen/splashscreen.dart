@@ -19,7 +19,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   void navigationPage() {
     Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (context) => const LoginScreen()),
+        MaterialPageRoute(builder: (context) =>  LoginScreen()),
             (Route<dynamic> route) => false);
 
   }

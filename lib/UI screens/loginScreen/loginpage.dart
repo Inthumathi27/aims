@@ -36,19 +36,23 @@ class _LoginScreenState extends State<LoginScreen>
   late LoginResponse loginResponse;
 
   bool isloading = false;
-  String? awardData = "";
+  String awardData = "";
   AwardBanner? awardBannerData;
+  late bool _loading = true;
 
   getAwardData() async {
-    setState(() {
-      isloading = true;
-    });
-    Webservice().fetchAwardData().then((onResponse) async {
+    // setState(() {
+    //   isloading = true;
+    // });
+    await Webservice().fetchAwardData().then((onResponse) async {
+
       SharedPreferences prefs = await SharedPreferences.getInstance();
       awardData = prefs.getString("awardBannerData").toString();
-      awardBannerData = AwardBanner.fromJson(jsonDecode(awardData!));
+      awardBannerData = AwardBanner.fromJson(jsonDecode(awardData));
+      a.addAll(awardBannerData!.value!.awards!);
       setState(() {
         isloading = false;
+        _loading = false;
       });
     });
   }
@@ -97,14 +101,14 @@ class _LoginScreenState extends State<LoginScreen>
   //   });
   // }
 
-
+  List  <Awards> a = [];
   @override
   Widget build(BuildContext context) {
     _scale = 1 - _controller!.value;
     int _currentIndex = 0;
     List cardList = [
       ListView.builder(
-          itemCount: awardBannerData!.value!.awards!.length,
+          itemCount: a.length,
           itemBuilder: (BuildContext context, int index) {
             return  Center(
               child: Container(
@@ -165,10 +169,10 @@ class _LoginScreenState extends State<LoginScreen>
                           ),
                         ],
                       ),
-                      Padding(
+                    _loading ?CircularProgressIndicator():    Padding(
                         padding: const EdgeInsets.only(right: 12.0),
                         child: SmallText(
-                          text:awardBannerData!.value!.awards![index].awardType.toString(),
+                          text: awardBannerData!.value!.awards![index].awardType.toString() ,
                           size: 20,
                           textAlign: TextAlign.center,
                           fontWeight: FontWeight.w600,
@@ -193,7 +197,7 @@ class _LoginScreenState extends State<LoginScreen>
               Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Container(
+              _loading ? CircularProgressIndicator():    Container(
                     color: loginColor,
                     height: MediaQuery.of(context).size.height / 2.5,
                     width: MediaQuery.of(context).size.width,
