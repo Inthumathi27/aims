@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:aims/widgets/loader.dart';
 import 'package:aims/UI%20screens/homepage/homescreen.dart';
 import 'package:aims/UI%20screens/loginScreen/forgotpassword.dart';
 import 'package:aims/model/login/awardbanner.dart';
@@ -45,11 +44,10 @@ class _LoginScreenState extends State<LoginScreen>
     //   isloading = true;
     // });
     await Webservice().fetchAwardData().then((onResponse) async {
-
       SharedPreferences prefs = await SharedPreferences.getInstance();
       awardData = prefs.getString("awardBannerData").toString();
       awardBannerData = AwardBanner.fromJson(jsonDecode(awardData));
-      a.addAll(awardBannerData!.value!.awards!);
+      awardList.addAll(awardBannerData!.value!.awards!);
       setState(() {
         isloading = false;
         _loading = false;
@@ -77,6 +75,7 @@ class _LoginScreenState extends State<LoginScreen>
     super.dispose();
     _controller!.dispose();
   }
+
   // getawarddata() async {
   //   setState(() {
   //     isloading = true;
@@ -101,16 +100,17 @@ class _LoginScreenState extends State<LoginScreen>
   //   });
   // }
 
-  List  <Awards> a = [];
+  List<Awards> awardList = [];
+
   @override
   Widget build(BuildContext context) {
     _scale = 1 - _controller!.value;
     int _currentIndex = 0;
     List cardList = [
       ListView.builder(
-          itemCount: a.length,
+          itemCount: awardList.length,
           itemBuilder: (BuildContext context, int index) {
-            return  Center(
+            return Center(
               child: Container(
                 width: MediaQuery.of(context).size.width / 1.1,
                 height: MediaQuery.of(context).size.height / 4.5,
@@ -123,7 +123,7 @@ class _LoginScreenState extends State<LoginScreen>
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 12.0),
+                  padding: const EdgeInsets.only(left: 12.0,right: 12),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -135,49 +135,109 @@ class _LoginScreenState extends State<LoginScreen>
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               SmallText(
-                                text: "AM034",
+                                text: "Congratulation!!!",
                                 size: 15,
+                                color: Color(0xffa26d27),
                               ),
                               heightspace,
-                              SizedBox(
-                                height: 5,
-                              ),
-                              GradientText(
-                                "Mytest test",
-                                // awardBanner!.value!.first.awards!.first.userData!.userName.toString(),
-                                style: font18.copyWith(fontWeight: FontWeight.w600),
-                                gradient: LinearGradient(colors: [
-                                  buttonColor,
-                                  primaryColor,
-                                ]),
-                              ),
-                              SizedBox(
-                                height: 5,
-                              ),
+                              awardBannerData!.value!.awards![index].awardType == "star_team_award"
+                                  ? SizedBox()
+                                  : SmallText(
+                                      text: "AM034",
+                                      size: 15,
+                                    ),
+                              awardBannerData!.value!.awards![index].awardType =="star_team_award"
+                                  ? Container(
+                                      width:
+                                          MediaQuery.of(context).size.width / 2,
+                                      child: SmallText(
+                                        text:
+                                            'Individually, we are one drop. Together, we are an ocean.',
+                                        size: 14,
+                                        textAlign: TextAlign.justify,
+                                        color: blueGreyColor,
+                                        fontStyle: FontStyle.italic,
+                                      ))
+                                  : heightspace,
+                              awardBannerData!.value!.awards![index].awardType =="star_team_award"
+                                  ? SizedBox()
+                                  : SizedBox(
+                                      height: 5,
+                                    ),
+                              awardBannerData!.value!.awards![index].awardType == "star_team_award"
+                                  ? SizedBox()
+                                  : GradientText(
+                                      "Mytest test",
+                                      // awardBanner!.value!.first.awards!.first.userData!.userName.toString(),
+                                      style: font18.copyWith(
+                                          fontWeight: FontWeight.w600),
+                                      gradient: LinearGradient(colors: [
+                                        buttonColor,
+                                        primaryColor,
+                                      ]),
+                                    ),
+                              awardBannerData! .value!.awards![index].awardType =="star_team_award"
+                                  ? heightspace
+                                  : SizedBox(
+                                      height: 5,
+                                    ),
                               SmallText(
-                                text: MyStrings.department,
-                                size: 14,
-                                color: blueGreyColor,
-                                fontStyle: FontStyle.italic,
+                                text: awardBannerData!
+                                    .value!.awards![index].teamName
+                                    .toString(),
+                                size: awardBannerData!
+                                            .value!.awards![index].awardType ==
+                                        "star_team_award"
+                                    ? 18
+                                    : 14,
+                                color: awardBannerData!
+                                            .value!.awards![index].awardType ==
+                                        "star_team_award"
+                                    ? blackColor
+                                    : blueGreyColor,
+                                fontStyle: awardBannerData!
+                                            .value!.awards![index].awardType ==
+                                        "star_team_award"
+                                    ? FontStyle.normal
+                                    : FontStyle.italic,
+                                fontWeight: awardBannerData!
+                                            .value!.awards![index].awardType ==
+                                        "star_team_award"
+                                    ? FontWeight.w600
+                                    : FontWeight.normal,
                               ),
                             ],
                           ),
-                          Image.asset(
-                            'assets/login/EM-01.png',
-                            width: 130,
-                            height: 130,
-                          ),
+                      awardBannerData!.value!.awards![index].awardType ==
+                                  "star_team_award"
+                              ? CircleAvatar(
+                                radius: 50,
+                                child: Image.asset(
+                                    'assets/login/team.png',
+                                    width: 130,
+                                    height: 130,
+                                  ),
+                              )
+                              : Image.asset(
+                                  'assets/login/EM-01.png',
+                                  width: 130,
+                                  height: 130,
+                                ),
                         ],
                       ),
-                    _loading ?CircularProgressIndicator():    Padding(
-                        padding: const EdgeInsets.only(right: 12.0),
-                        child: SmallText(
-                          text: awardBannerData!.value!.awards![index].awardType.toString() ,
-                          size: 20,
-                          textAlign: TextAlign.center,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
+                      heightspace,
+                     Padding(
+                              padding: const EdgeInsets.only(right: 12.0),
+                              child: SmallText(
+                                text: awardBannerData!
+                                    .value!.awards![index].awardType
+                                    .toString(),
+                                size: 20,
+                                color: primaryColor,
+                                textAlign: TextAlign.center,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
                     ],
                   ),
                 ),
@@ -192,175 +252,193 @@ class _LoginScreenState extends State<LoginScreen>
       body: SingleChildScrollView(
         child: Container(
           height: MediaQuery.of(context).size.height,
-          child: Stack(
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-              _loading ? CircularProgressIndicator():    Container(
-                    color: loginColor,
-                    height: MediaQuery.of(context).size.height / 2.5,
-                    width: MediaQuery.of(context).size.width,
-                    child:    CarouselSlider(
-                      carouselController:  _controller1,
-                      options: CarouselOptions(
-                        height: MediaQuery.of(context).size.height / 2.5,
-                        disableCenter: false,
-                        viewportFraction: 1,
-                        enlargeCenterPage: false,
-                        autoPlay: true,
-                        scrollDirection: Axis.horizontal,
-                        autoPlayInterval: Duration(seconds: 10),
-                        autoPlayAnimationDuration: Duration(milliseconds: 1000),
-                        autoPlayCurve: Curves.fastOutSlowIn,
-                        pauseAutoPlayOnTouch: true,
-                        aspectRatio: 3.0,
-                        onPageChanged: (index, reason) {
-                          setState(() {
-                            _currentIndex = index;
-                          });
-                        },
-                      ),
-                      items: cardList.map((card) {
-                        return Builder(builder: (BuildContext context) {
-                          return card;
-                        });
-                      }).toList(),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 40, right: 40),
-                    child: Container(
-                      height: MediaQuery.of(context).size.height / 1.7,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            MyStrings.login,
-                            style: font30.copyWith(
-                                color: primaryColor,
-                                fontWeight: FontWeight.w600),
-                          ),
-                          const SizedBox(
-                            height: 45,
-                          ),
-                          // TextField(
-                          //   controller:employeeId,
-                          //   decoration: InputDecoration(
-                          //     filled: true,
-                          //     fillColor: TextFieldBgColor,
-                          //     border: OutlineInputBorder(
-                          //       borderRadius: BorderRadius.circular(10),
-                          //       borderSide: BorderSide.none,
-                          //     ),
-                          //     hintText:MyStrings.employeeId,
-                          //     suffixIcon:Icon(
-                          //       Icons.person,
-                          //       color: primaryColor,
-                          //     ),
-                          //   ),
-                          // ),
-                          InputTextfield(
-                            text: MyStrings.employeeId,
-                            controller: employeeId,
-                            fillColor: textFieldBgColor,
-                            icon: Icon(
-                              Icons.person,
-                              color: primaryColor,
-                            ),
-                          ),
-                          heightspace,
-                          heightspace,
-                          TextField(
-                            obscureText: isPasswordVisible,
-                            controller: passwordController,
-                            decoration: InputDecoration(
-                              filled: true,
-                              fillColor: textFieldBgColor,
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                borderSide: BorderSide.none,
-                              ),
-                              hintText: "Password",
-                              suffixIcon: IconButton(
-                                icon: Icon(
-                                  isPasswordVisible
-                                      ? Icons.visibility_off
-                                      : Icons.visibility,
-                                  color: primaryColor,
-                                  size: 25,
-                                ),
-                                onPressed: () {
-                                  setState(() {
-                                    isPasswordVisible = !isPasswordVisible;
-                                  });
-                                },
-                              ),
-                            ),
-                          ),
-                          heightspace,
-                          heightspace,
-                          InkWell(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  PageTransition(
-                                      type: PageTransitionType.rightToLeft,
-                                      child: ForgotPassword()));
-                            },
-                            child: Align(
-                                alignment: Alignment.centerRight,
-                                child: SmallText(
-                                  text: MyStrings.forgot,
-                                )),
-                          ),
-                          SizedBox(
-                            height: 50,
-                          ),
-                          InkWell(
-                            onTap: () {
-                              // Navigator.push(
-                              //     context,
-                              //     PageTransition(
-                              //         type: PageTransitionType.rightToLeft,
-                              //         child: const HomeScreen()));
-                              _loginWithPassword(employeeId.text,passwordController.text);
-                            },
-                            child: Listener(
-                              onPointerDown: (PointerDownEvent event) {
-                                _controller!.forward();
-                              },
-                              onPointerUp: (PointerUpEvent event) {
-                                _controller!.reverse();
-                              },
-                              child: Transform.scale(
-                                scale: _scale!,
-                                child: Button(
-                                  text: MyStrings.login,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              Positioned(
-                top: MediaQuery.of(context).size.height / 2.51,
-                left: 15,
-                child: ClipPath(
+          child: _loading
+              ? Center(
                   child: Container(
-                    width: MediaQuery.of(context).size.width / 8,
-                    height: 25,
-                    color: loginColor,
+                    width: 100,
+                    height: 100,
+                    child: Image(
+                      image: AssetImage(
+                        'assets/loader.gif',
+                      ),
+                      width: 75,
+                      height: 75,
+                    ),
                   ),
-                  clipper: CustomClipPath(),
+                )
+              : Stack(
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                          color: loginColor,
+                          height: MediaQuery.of(context).size.height / 2.5,
+                          width: MediaQuery.of(context).size.width,
+                          child: CarouselSlider(
+                            carouselController: _controller1,
+                            options: CarouselOptions(
+                              height: MediaQuery.of(context).size.height / 2.5,
+                              disableCenter: false,
+                              viewportFraction: 1,
+                              enlargeCenterPage: false,
+                              autoPlay: true,
+                              scrollDirection: Axis.horizontal,
+                              autoPlayInterval: Duration(seconds: 10),
+                              autoPlayAnimationDuration:
+                                  Duration(milliseconds: 1000),
+                              autoPlayCurve: Curves.fastOutSlowIn,
+                              pauseAutoPlayOnTouch: true,
+                              aspectRatio: 3.0,
+                              onPageChanged: (index, reason) {
+                                setState(() {
+                                  _currentIndex = index;
+                                });
+                              },
+                            ),
+                            items: cardList.map((card) {
+                              return Builder(builder: (BuildContext context) {
+                                return card;
+                              });
+                            }).toList(),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 40, right: 40),
+                          child: Container(
+                            height: MediaQuery.of(context).size.height / 1.7,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  MyStrings.login,
+                                  style: font30.copyWith(
+                                      color: primaryColor,
+                                      fontWeight: FontWeight.w600),
+                                ),
+                                const SizedBox(
+                                  height: 45,
+                                ),
+                                // TextField(
+                                //   controller:employeeId,
+                                //   decoration: InputDecoration(
+                                //     filled: true,
+                                //     fillColor: TextFieldBgColor,
+                                //     border: OutlineInputBorder(
+                                //       borderRadius: BorderRadius.circular(10),
+                                //       borderSide: BorderSide.none,
+                                //     ),
+                                //     hintText:MyStrings.employeeId,
+                                //     suffixIcon:Icon(
+                                //       Icons.person,
+                                //       color: primaryColor,
+                                //     ),
+                                //   ),
+                                // ),
+                                InputTextfield(
+                                  text: MyStrings.employeeId,
+                                  controller: employeeId,
+                                  fillColor: textFieldBgColor,
+                                  icon: Icon(
+                                    Icons.person,
+                                    color: primaryColor,
+                                  ),
+                                ),
+                                heightspace,
+                                heightspace,
+                                TextField(
+                                  obscureText: isPasswordVisible,
+                                  controller: passwordController,
+                                  decoration: InputDecoration(
+                                    filled: true,
+                                    fillColor: textFieldBgColor,
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: BorderSide.none,
+                                    ),
+                                    hintText: "Password",
+                                    suffixIcon: IconButton(
+                                      icon: Icon(
+                                        isPasswordVisible
+                                            ? Icons.visibility_off
+                                            : Icons.visibility,
+                                        color: primaryColor,
+                                        size: 25,
+                                      ),
+                                      onPressed: () {
+                                        setState(() {
+                                          isPasswordVisible =
+                                              !isPasswordVisible;
+                                        });
+                                      },
+                                    ),
+                                  ),
+                                ),
+                                heightspace,
+                                heightspace,
+                                InkWell(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        PageTransition(
+                                            type:
+                                                PageTransitionType.rightToLeft,
+                                            child: ForgotPassword()));
+                                  },
+                                  child: Align(
+                                      alignment: Alignment.centerRight,
+                                      child: SmallText(
+                                        text: MyStrings.forgot,
+                                      )),
+                                ),
+                                SizedBox(
+                                  height: 50,
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    // Navigator.push(
+                                    //     context,
+                                    //     PageTransition(
+                                    //         type: PageTransitionType.rightToLeft,
+                                    //         child: const HomeScreen()));
+                                    _loginWithPassword(employeeId.text,
+                                        passwordController.text);
+                                  },
+                                  child: Listener(
+                                    onPointerDown: (PointerDownEvent event) {
+                                      _controller!.forward();
+                                    },
+                                    onPointerUp: (PointerUpEvent event) {
+                                      _controller!.reverse();
+                                    },
+                                    child: Transform.scale(
+                                      scale: _scale!,
+                                      child: Button(
+                                        text: MyStrings.login,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Positioned(
+                      top: MediaQuery.of(context).size.height / 2.51,
+                      left: 15,
+                      child: ClipPath(
+                        child: Container(
+                          width: MediaQuery.of(context).size.width / 8,
+                          height: 25,
+                          color: loginColor,
+                        ),
+                        clipper: CustomClipPath(),
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-            ],
-          ),
         ),
       ),
     );
@@ -371,13 +449,14 @@ class _LoginScreenState extends State<LoginScreen>
     // networkStatus().then((isReachable) {
     // if (isReachable!) {
     // showLoaderDialog(context);
-    Webservice().callLoginWithPasswordService(password: password, emp_id: emp_id)
+    Webservice()
+        .callLoginWithPasswordService(password: password, emp_id: emp_id)
         .then((onResponse) async {
       // if (onResponse![SUCCESS] == TRUE) {
       print(onResponse);
       loginResponse = onResponse;
       print(loginResponse.message);
-      if(loginResponse.message=="success"){
+      if (loginResponse.message == "success") {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         // var log = jsonEncode(loginResponse.toJson());
         // print(loginResponse.value!.userInfo!.userName.toString());
@@ -386,22 +465,16 @@ class _LoginScreenState extends State<LoginScreen>
         Navigator.push(
             context,
             PageTransition(
-                type: PageTransitionType.rightToLeft,
-                child: HomeScreen()));
-      }
-      else if(loginResponse.message=="Bad Request")
-      {
+                type: PageTransitionType.rightToLeft, child: HomeScreen()));
+      } else if (loginResponse.message == "Bad Request") {
         // _showMyDialog();
-        Fluttertoast.showToast(
-            msg: MyStrings.validId);
+        Fluttertoast.showToast(msg: MyStrings.validId);
         print(loginResponse.message);
-      }
-      else{
+      } else {
         print("500 error");
       }
     });
   }
-
 }
 
 // class Item1 extends StatelessWidget {

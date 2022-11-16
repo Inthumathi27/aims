@@ -75,8 +75,10 @@ class _ProfilePageState extends State<ProfilePage> {
                     backgroundImage:
                     loginResponse!.value!.userPersonalInfo!.profileImgUrl == null ? const AssetImage(
                       'assets/dummyimage/image1.png',
-                    )as ImageProvider :NetworkImage(
-                        '${ApiConstants.imageUrl}${loginResponse!.value!.userPersonalInfo!.userId}/${loginResponse!.value!.userPersonalInfo!.profileImgUrl}'),
+                    )as ImageProvider :
+                    NetworkImage('${loginResponse!.value!.userPersonalInfo!.profileImgUrl}'
+                        // '${ApiConstants.loginURL}${loginResponse!.value!.userPersonalInfo!.userId}/token=1a32e71a46317b9cc6feb7388238c95d${loginResponse!.value!.userPersonalInfo!.profileImgUrl}'
+                    ),
                   ),
                 ),
               ),
