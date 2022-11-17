@@ -311,7 +311,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       Column(crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           SmallText(
-                            text: MyStrings.temporaryAddress,
+                            text:'Address',
                             color: textGreyColor,
                             size: 15,
                           ),

@@ -1,5 +1,6 @@
 import 'package:aims/UI%20screens/Splash%20Screen/splashscreen.dart';
 import 'package:aims/UI%20screens/leave/applyleave.dart';
+import 'package:aims/utils/config.dart';
 import 'package:aims/utils/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -11,6 +12,11 @@ void main() {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
+   String environment = String.fromEnvironment(
+    'ENVIRONMENT',
+    defaultValue: Environment.DEV,
+  );
+  Environment().initConfig(environment);
   runApp(const MyApp());
 }
 

@@ -275,7 +275,7 @@ class _LoginScreenState extends State<LoginScreen>
                           color: loginColor,
                           height: MediaQuery.of(context).size.height / 2.5,
                           width: MediaQuery.of(context).size.width,
-                          child: CarouselSlider(
+                          child:awardList==[] ?SmallText(text: 'text',color: whiteColor,size: 20,): CarouselSlider(
                             carouselController: _controller1,
                             options: CarouselOptions(
                               height: MediaQuery.of(context).size.height / 2.5,

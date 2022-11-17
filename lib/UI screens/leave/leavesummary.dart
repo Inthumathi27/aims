@@ -330,23 +330,10 @@ class _LeaveSummaryState extends State<LeaveSummary> {
                         });
                       },
                       hint: Center(
-                          child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.add,
+                          child: SmallText(
+                            text: "Apply",
                             color: whiteColor,
-                            size: 20,
-                          ),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          SmallText(
-                            text: "Menu",
-                            color: whiteColor,
-                          ),
-                        ],
-                      )),
+                          )),
                       underline: Container(),
                       isExpanded: true,
                       iconEnabledColor: whiteColor,
@@ -390,7 +377,7 @@ class _LeaveSummaryState extends State<LeaveSummary> {
                       },
                       hint: Center(
                           child: SmallText(
-                        text: MyStrings.menu,
+                        text: "Others",
                         color: whiteColor,
                       )),
                       underline: Container(),
